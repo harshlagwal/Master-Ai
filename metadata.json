@@ -1,0 +1,6 @@
+{
+  "name": "MASTER AI",
+  "description": "A 7-Day Live AI + Career Workshop by Harsh Lagwal. Learn AI practically, build real projects, and discover career opportunities.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

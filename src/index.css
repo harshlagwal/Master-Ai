@@ -1,0 +1,156 @@
+@import "tailwindcss";
+
+:root {
+  --font-heading: 'HelveticaNowDisplay-Medium', 'Helvetica Neue', Arial, sans-serif;
+  --font-body: 'HelveticaNowDisplayW01-Rg', 'Helvetica Neue', Arial, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  margin: 0;
+  padding: 0;
+  background-color: #0A0A0A;
+  color: #0A0A0A;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+.font-heading {
+  font-family: var(--font-heading);
+}
+
+.font-body {
+  font-family: var(--font-body);
+}
+
+/* Subtle architectural grid pattern */
+.luxury-grid {
+  background-size: 32px 32px;
+  background-image: 
+    linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
+}
+
+.luxury-grid-dark {
+  background-size: 32px 32px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+.animate-blink {
+  animation: blink 1s step-end infinite;
+}
+
+/* User Custom Smooth Payment Loader */
+.loader {
+  width: 42px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #514b82;
+  -webkit-mask: radial-gradient(circle closest-side at 50% 40%, #0000 94%, #000);
+  mask: radial-gradient(circle closest-side at 50% 40%, #0000 94%, #000);
+  transform-origin: 50% 40%;
+  animation: l25 1s infinite linear;
+  display: inline-block;
+  will-change: transform;
+}
+
+.loader-sm {
+  width: 22px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: currentColor;
+  -webkit-mask: radial-gradient(circle closest-side at 50% 40%, #0000 94%, #000);
+  mask: radial-gradient(circle closest-side at 50% 40%, #0000 94%, #000);
+  transform-origin: 50% 40%;
+  animation: l25 1s infinite linear;
+  display: inline-block;
+  will-change: transform;
+}
+
+@keyframes l25 {
+  100% {
+    transform: rotate(1turn);
+  }
+}
+
+/* Seamless Continuous Flowing Ticker Animation */
+@keyframes marquee-flow {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.animate-marquee-flow {
+  display: flex;
+  width: max-content;
+  animation: marquee-flow 32s linear infinite;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.animate-marquee-flow:hover,
+.animate-marquee-flow-reverse:hover {
+  animation-play-state: paused;
+}
+
+.animate-marquee-flow-reverse {
+  display: flex;
+  width: max-content;
+  animation: marquee-flow 38s linear infinite reverse;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Smooth rendering without viewport jumps or blank flashing on fast scroll */
+.content-auto {
+  /* content-visibility removed to prevent sudden height recalculations and white/black flashes */
+  will-change: auto;
+}
+
+/* Animated Border Beam */
+@keyframes border-beam {
+  0% {
+    offset-distance: 0%;
+  }
+  100% {
+    offset-distance: 100%;
+  }
+}
+
+/* Subtle Shimmer Effect */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0) 100%);
+  background-size: 200% 100%;
+  animation: shimmer 3s infinite linear;
+}
