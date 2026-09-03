@@ -1,0 +1,6 @@
+# Robots.txt for MASTER AI
+User-agent: *
+Allow: /
+
+# Sitemap URL
+Sitemap: https://master-ai.vercel.app/sitemap.xml
