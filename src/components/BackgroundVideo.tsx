@@ -1,47 +1,166 @@
 import React, { useEffect, useRef } from 'react';
 
+const TOTAL_FRAMES = 97;
+
 export const BackgroundVideo: React.FC = () => {
-  const videoRef = useRef<HTMLVideoElement | null>(null);
-  const targetTimeRef = useRef<number>(0);
-  const currentDisplayTimeRef = useRef<number>(0);
-  const isSeekingRef = useRef<boolean>(false);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const imagesRef = useRef<(HTMLImageElement | null)[]>(new Array(TOTAL_FRAMES).fill(null));
+  const isLoadedRef = useRef<boolean[]>(new Array(TOTAL_FRAMES).fill(false));
+  const targetFrameRef = useRef<number>(48); // Start facing center/slightly forward
+  const currentFrameRef = useRef<number>(48);
+  const lastRenderedIndexRef = useRef<number>(-1);
   const rafIdRef = useRef<number | null>(null);
-  const seekTimeoutRef = useRef<number | null>(null);
 
   useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d', { alpha: false });
+    if (!ctx) return;
 
-    // Continuous 60FPS physics LERP loop for buttery-smooth video scrubbing
+    let isDestroyed = false;
+
+    // Handle high-DPI crisp canvas sizing matching the screen
+    const updateCanvasSize = () => {
+      if (!canvas) return;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      canvas.width = Math.floor(width * dpr);
+      canvas.height = Math.floor(height * dpr);
+      // Force re-render of current frame
+      lastRenderedIndexRef.current = -1;
+      drawCurrent();
+    };
+
+    // Draw frame with object-fit: cover and object-position: 70% center
+    const drawFrame = (img: HTMLImageElement) => {
+      if (!canvas || !ctx) return;
+      const canvasW = canvas.width;
+      const canvasH = canvas.height;
+      const imgW = img.naturalWidth || 1600;
+      const imgH = img.naturalHeight || 904;
+      const imgAspect = imgW / imgH;
+      const canvasAspect = canvasW / canvasH;
+
+      let drawW: number;
+      let drawH: number;
+      let drawX: number;
+      let drawY: number;
+
+      if (canvasAspect > imgAspect) {
+        drawW = canvasW;
+        drawH = canvasW / imgAspect;
+        drawX = 0;
+        drawY = (canvasH - drawH) * 0.5;
+      } else {
+        drawH = canvasH;
+        drawW = canvasH * imgAspect;
+        // 70% horizontal bias so the avatar sits nicely to the right of the text
+        drawX = (canvasW - drawW) * 0.7;
+        drawY = 0;
+      }
+
+      ctx.drawImage(img, drawX, drawY, drawW, drawH);
+    };
+
+    const findNearestLoadedImage = (index: number): HTMLImageElement | null => {
+      if (isLoadedRef.current[index] && imagesRef.current[index]) {
+        return imagesRef.current[index];
+      }
+      // Look outwards for nearest available frame
+      for (let offset = 1; offset < TOTAL_FRAMES; offset++) {
+        const left = index - offset;
+        if (left >= 0 && isLoadedRef.current[left] && imagesRef.current[left]) {
+          return imagesRef.current[left];
+        }
+        const right = index + offset;
+        if (right < TOTAL_FRAMES && isLoadedRef.current[right] && imagesRef.current[right]) {
+          return imagesRef.current[right];
+        }
+      }
+      return null;
+    };
+
+    const drawCurrent = () => {
+      const targetIdx = Math.min(
+        TOTAL_FRAMES - 1,
+        Math.max(0, Math.round(currentFrameRef.current))
+      );
+      const img = findNearestLoadedImage(targetIdx);
+      if (img) {
+        drawFrame(img);
+        lastRenderedIndexRef.current = targetIdx;
+      }
+    };
+
+    updateCanvasSize();
+
+    // 1. Load initial frames immediately (frame 0, 48, 96) for instant render
+    const priorityIndices = [0, 48, 96];
+    priorityIndices.forEach((idx) => {
+      const img = new Image();
+      img.src = `/hero-frames/frame_${String(idx).padStart(3, '0')}.webp`;
+      img.onload = () => {
+        if (isDestroyed) return;
+        imagesRef.current[idx] = img;
+        isLoadedRef.current[idx] = true;
+        if (lastRenderedIndexRef.current === -1) {
+          drawCurrent();
+        }
+      };
+    });
+
+    // 2. Preload remaining frames sequentially in background without choking network
+    let frameToLoad = 0;
+    const preloadNextBatch = () => {
+      if (isDestroyed) return;
+      const batchSize = 6;
+      let scheduled = 0;
+
+      while (frameToLoad < TOTAL_FRAMES && scheduled < batchSize) {
+        const idx = frameToLoad++;
+        if (!imagesRef.current[idx]) {
+          const img = new Image();
+          img.src = `/hero-frames/frame_${String(idx).padStart(3, '0')}.webp`;
+          img.onload = () => {
+            if (isDestroyed) return;
+            imagesRef.current[idx] = img;
+            isLoadedRef.current[idx] = true;
+          };
+          scheduled++;
+        }
+      }
+
+      if (frameToLoad < TOTAL_FRAMES && !isDestroyed) {
+        if ('requestIdleCallback' in window) {
+          (window as any).requestIdleCallback(() => preloadNextBatch(), { timeout: 100 });
+        } else {
+          setTimeout(preloadNextBatch, 16);
+        }
+      }
+    };
+
+    // Start background preload shortly after mount
+    const preloadTimer = setTimeout(preloadNextBatch, 50);
+
+    // 3. Buttery-smooth physics LERP loop for 60/120 FPS scrubbing
     const loop = () => {
-      if (video && video.duration && !isNaN(video.duration)) {
-        // Only run seek calculations if in or near hero viewport
-        if (window.scrollY <= window.innerHeight * 1.15) {
-          const diff = targetTimeRef.current - currentDisplayTimeRef.current;
+      if (window.scrollY <= window.innerHeight * 1.15) {
+        const diff = targetFrameRef.current - currentFrameRef.current;
+        if (Math.abs(diff) > 0.005) {
+          // Smooth spring damping (0.12 factor gives quick, responsive feel with silky inertia)
+          currentFrameRef.current += diff * 0.12;
 
-          // Silky smooth dampening factor
-          if (Math.abs(diff) > 0.002) {
-            currentDisplayTimeRef.current += diff * 0.09;
+          const targetIdx = Math.min(
+            TOTAL_FRAMES - 1,
+            Math.max(0, Math.round(currentFrameRef.current))
+          );
 
-            // Only seek if decoder isn't locked and delta is visually perceivable (> 20ms)
-            if (!isSeekingRef.current && Math.abs(video.currentTime - currentDisplayTimeRef.current) > 0.02) {
-              isSeekingRef.current = true;
-
-              if ('fastSeek' in video && typeof (video as any).fastSeek === 'function') {
-                try {
-                  (video as any).fastSeek(currentDisplayTimeRef.current);
-                } catch {
-                  video.currentTime = currentDisplayTimeRef.current;
-                }
-              } else {
-                video.currentTime = currentDisplayTimeRef.current;
-              }
-
-              // Safety unlock timeout to ensure video never locks if a frame seeked event is dropped
-              if (seekTimeoutRef.current) clearTimeout(seekTimeoutRef.current);
-              seekTimeoutRef.current = window.setTimeout(() => {
-                isSeekingRef.current = false;
-              }, 45);
+          if (targetIdx !== lastRenderedIndexRef.current) {
+            const img = findNearestLoadedImage(targetIdx);
+            if (img) {
+              drawFrame(img);
+              lastRenderedIndexRef.current = targetIdx;
             }
           }
         }
@@ -52,104 +171,65 @@ export const BackgroundVideo: React.FC = () => {
 
     rafIdRef.current = requestAnimationFrame(loop);
 
-    // Direct, drift-free coordinate mapping: left screen = neck left, right screen = neck right
+    // Mouse & Touch coordinate mapping
     const handleMouseMove = (e: MouseEvent) => {
       if (window.scrollY > window.innerHeight * 1.15) return;
-      if (!video || !video.duration || isNaN(video.duration)) return;
-
       const normalizedX = Math.max(0, Math.min(1, e.clientX / window.innerWidth));
-      targetTimeRef.current = normalizedX * video.duration;
+      targetFrameRef.current = normalizedX * (TOTAL_FRAMES - 1);
     };
 
     const handleTouchMove = (e: TouchEvent) => {
-      if (window.scrollY > window.innerHeight * 1.15) return;
-      if (!video || !video.duration || isNaN(video.duration) || e.touches.length === 0) return;
-
+      if (window.scrollY > window.innerHeight * 1.15 || e.touches.length === 0) return;
       const normalizedX = Math.max(0, Math.min(1, e.touches[0].clientX / window.innerWidth));
-      targetTimeRef.current = normalizedX * video.duration;
+      targetFrameRef.current = normalizedX * (TOTAL_FRAMES - 1);
     };
 
-    // Smooth scroll handler: Dissolves video opacity and adds gentle parallax to prevent sudden vanishing on fast scroll
+    // Parallax & Opacity Dissolve on Scroll
     const handleScroll = () => {
-      if (!video) return;
+      if (!canvas) return;
       const scrollY = window.scrollY;
       const vh = window.innerHeight;
 
       if (scrollY <= vh * 1.2) {
         const progress = Math.min(1, Math.max(0, scrollY / (vh * 0.85)));
-        video.style.opacity = `${1 - progress}`;
-        video.style.transform = `translate3d(0, ${scrollY * 0.18}px, 0)`;
+        canvas.style.opacity = `${1 - progress}`;
+        canvas.style.transform = `translate3d(0, ${scrollY * 0.18}px, 0)`;
       } else {
-        video.style.opacity = '0';
+        canvas.style.opacity = '0';
       }
+    };
+
+    const handleResize = () => {
+      updateCanvasSize();
     };
 
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
     window.addEventListener('touchmove', handleTouchMove, { passive: true });
     window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', handleResize, { passive: true });
 
-    // Initial check for scroll
+    // Initial scroll sync
     handleScroll();
 
     return () => {
+      isDestroyed = true;
+      clearTimeout(preloadTimer);
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('touchmove', handleTouchMove);
       window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleResize);
       if (rafIdRef.current !== null) {
         cancelAnimationFrame(rafIdRef.current);
-      }
-      if (seekTimeoutRef.current !== null) {
-        clearTimeout(seekTimeoutRef.current);
       }
     };
   }, []);
 
-  const handleSeeked = () => {
-    isSeekingRef.current = false;
-    if (seekTimeoutRef.current) {
-      clearTimeout(seekTimeoutRef.current);
-      seekTimeoutRef.current = null;
-    }
-
-    const video = videoRef.current;
-    if (!video || !video.duration || isNaN(video.duration)) return;
-
-    // Follow through with any target updates that accumulated while seeking
-    if (Math.abs(video.currentTime - currentDisplayTimeRef.current) > 0.025) {
-      isSeekingRef.current = true;
-      if ('fastSeek' in video && typeof (video as any).fastSeek === 'function') {
-        try {
-          (video as any).fastSeek(currentDisplayTimeRef.current);
-        } catch {
-          video.currentTime = currentDisplayTimeRef.current;
-        }
-      } else {
-        video.currentTime = currentDisplayTimeRef.current;
-      }
-    }
-  };
-
-  const handleLoadedMetadata = () => {
-    const video = videoRef.current;
-    if (!video) return;
-    targetTimeRef.current = 0;
-    currentDisplayTimeRef.current = 0;
-    video.currentTime = 0;
-  };
-
   return (
-    <video
-      ref={videoRef}
-      id="bg-video"
-      src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260530_042513_df96a13b-6155-4f6e-8b93-c9dee66fba08.mp4"
-      muted
-      playsInline
-      preload="auto"
-      onSeeked={handleSeeked}
-      onLoadedMetadata={handleLoadedMetadata}
-      className="fixed inset-0 z-0 w-full h-full object-cover pointer-events-none select-none transition-opacity duration-150"
+    <canvas
+      ref={canvasRef}
+      id="bg-canvas"
+      className="fixed inset-0 z-0 w-full h-full pointer-events-none select-none"
       style={{
-        objectPosition: '70% center',
         transform: 'translate3d(0, 0, 0)',
         backfaceVisibility: 'hidden',
         willChange: 'transform, opacity',
