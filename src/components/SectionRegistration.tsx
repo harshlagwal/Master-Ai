@@ -25,7 +25,7 @@ export const SectionRegistration: React.FC<SectionRegistrationProps> = ({
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
-  const [selectedTrackId, setSelectedTrackId] = useState('non-tech');
+  const [selectedTrackId, setSelectedTrackId] = useState('master-pass');
   const [utrNumber, setUtrNumber] = useState('');
   const [copied, setCopied] = useState(false);
   const [isProceeding, setIsProceeding] = useState(false);
@@ -80,11 +80,11 @@ export const SectionRegistration: React.FC<SectionRegistrationProps> = ({
       `Name: ${name}\n` +
       `Phone: ${phone}\n` +
       `Email: ${email}\n` +
-      `Program: MASTER AI 7-Day Live Masterclass (All 9 Skills)\n` +
+      `Program: ${selectedTrack.name}\n` +
       `Amount: ₹${amountStr} (UPI)\n` +
       `Ticket ID: ${ticketId || 'MAI-REGISTERED'}\n` +
       `UTR / Ref: ${utrNumber || 'Completed via UPI to golulagwal890-2@oksbi'}\n\n` +
-      `Please confirm my seat in today's 20-seat batch!`
+      `Please confirm my registration!`
   );
 
   return (
@@ -108,8 +108,7 @@ export const SectionRegistration: React.FC<SectionRegistrationProps> = ({
 
         {/* Subheading */}
         <p className="text-[17px] sm:text-[22px] text-white/80 font-normal max-w-2xl mx-auto mb-12 leading-relaxed">
-          Full 7-Day Live Masterclass covering all 9 in-demand skills for ₹89.
-          Strictly limited to 20 students per daily batch for live mentoring.
+          Choose your live workshop program and reserve your seat via direct UPI with zero transaction fees.
         </p>
 
         {/* Registration Box */}
@@ -117,23 +116,86 @@ export const SectionRegistration: React.FC<SectionRegistrationProps> = ({
           {/* STEP 1: FORM */}
           {step === 'form' && (
             <form onSubmit={handleDetailsSubmit} className="space-y-4">
+              {/* Select Program Tabs */}
+              {/* Select Program Tabs */}
+              <div className="grid grid-cols-2 gap-2.5 mb-3">
+                <button
+                  type="button"
+                  onClick={() => setSelectedTrackId('master-pass')}
+                  className={`p-3.5 rounded-2xl border-2 text-left transition-all cursor-pointer ${
+                    selectedTrackId === 'master-pass'
+                      ? 'border-white bg-white text-black shadow-md'
+                      : 'border-white/20 bg-white/5 text-white/80 hover:border-white/40'
+                  }`}
+                >
+                  <div className="text-xs sm:text-sm font-bold leading-snug">7-Day Masterclass</div>
+                  <div
+                    className={`text-xs font-bold mt-0.5 ${
+                      selectedTrackId === 'master-pass' ? 'text-emerald-700' : 'text-emerald-400'
+                    }`}
+                  >
+                    ₹89 Total
+                  </div>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setSelectedTrackId('sih-masterclass')}
+                  className={`p-3.5 rounded-2xl border-2 text-left transition-all cursor-pointer ${
+                    selectedTrackId === 'sih-masterclass'
+                      ? 'border-amber-400 bg-gradient-to-r from-amber-400 to-orange-400 text-black shadow-md font-semibold'
+                      : 'border-white/20 bg-white/5 text-white/80 hover:border-amber-400'
+                  }`}
+                >
+                  <div className="text-xs sm:text-sm font-bold leading-snug flex items-center justify-between">
+                    <span>SIH 2-Hr Sprint</span>
+                    <span className="text-[10px] bg-black/20 px-1.5 py-0.5 rounded font-bold uppercase">
+                      Special
+                    </span>
+                  </div>
+                  <div
+                    className={`text-xs font-bold mt-0.5 ${
+                      selectedTrackId === 'sih-masterclass' ? 'text-black' : 'text-amber-400'
+                    }`}
+                  >
+                    ₹199 Team Pass
+                  </div>
+                </button>
+              </div>
+
               {/* Program & Batch Info Card */}
-              <div className="p-3.5 rounded-xl bg-white/5 border border-white/10 flex items-center justify-between mb-2">
+              <div
+                className={`p-4 rounded-2xl border-2 flex items-center justify-between mb-3 ${
+                  selectedTrackId === 'sih-masterclass'
+                    ? 'bg-amber-500/15 border-amber-400/40'
+                    : 'bg-white/5 border-white/20'
+                }`}
+              >
                 <div>
-                  <span className="block text-xs font-semibold text-white">
-                    7-Day Masterclass (All 9 Skills)
+                  <span className="block text-sm font-bold text-white mb-0.5">
+                    {selectedTrackId === 'sih-masterclass'
+                      ? 'Smart India Hackathon (SIH) 2-Hr Masterclass'
+                      : '7-Day Masterclass (All 9 Skills)'}
                   </span>
-                  <span className="text-[11px] text-white/60 font-mono">
-                    Batch Cap: 20 Students / Day • 9 PM IST
+                  <span className="text-xs text-white/80 font-medium">
+                    {selectedTrackId === 'sih-masterclass'
+                      ? 'AI Prototyping + SIH PPT + Jury Pitch Defense'
+                      : 'Batch Cap: 20 Students / Day • 9 PM IST'}
                   </span>
                 </div>
-                <span className="text-xs font-mono font-bold text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded border border-emerald-500/20">
-                  ₹89 Total
+                <span
+                  className={`text-xs font-bold px-3 py-1 rounded-full border ${
+                    selectedTrackId === 'sih-masterclass'
+                      ? 'text-amber-200 bg-amber-400/20 border-amber-400/50'
+                      : 'text-emerald-300 bg-emerald-500/20 border-emerald-500/30'
+                  }`}
+                >
+                  ₹{amountStr} Total
                 </span>
               </div>
 
               <div>
-                <label className="block text-xs font-mono uppercase tracking-widest text-white/60 mb-2">
+                <label className="block text-xs font-bold uppercase tracking-wider text-white/90 mb-2">
                   Full Name
                 </label>
                 <input
@@ -142,12 +204,12 @@ export const SectionRegistration: React.FC<SectionRegistrationProps> = ({
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="e.g. Aryan Sharma"
-                  className="w-full px-4 py-3.5 rounded-xl bg-white/5 border border-white/15 text-white placeholder-white/30 text-[15px] focus:outline-hidden focus:border-white transition-colors"
+                  className="w-full px-4 py-3.5 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/40 text-[15px] font-medium focus:outline-hidden focus:border-white transition-colors"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-mono uppercase tracking-widest text-white/60 mb-2">
+                <label className="block text-xs font-bold uppercase tracking-wider text-white/90 mb-2">
                   Email Address (For Zoom Session Links)
                 </label>
                 <input
@@ -156,7 +218,7 @@ export const SectionRegistration: React.FC<SectionRegistrationProps> = ({
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="e.g. aryan@example.com"
-                  className="w-full px-4 py-3.5 rounded-xl bg-white/5 border border-white/15 text-white placeholder-white/30 text-[15px] focus:outline-hidden focus:border-white transition-colors"
+                  className="w-full px-4 py-3.5 rounded-xl bg-white/10 border border-white/20 text-white placeholder-white/40 text-[15px] font-medium focus:outline-hidden focus:border-white transition-colors"
                 />
               </div>
 

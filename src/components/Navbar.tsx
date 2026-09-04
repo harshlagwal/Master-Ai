@@ -89,6 +89,13 @@ export const Navbar: React.FC<NavbarProps> = ({ onJoinClick }) => {
               7 Days
             </a>
             <a
+              href="#sih"
+              className="px-2.5 py-1 rounded-full text-amber-800 bg-amber-400/20 border border-amber-400/40 hover:bg-amber-400/30 transition-all whitespace-nowrap font-semibold flex items-center gap-1"
+            >
+              <span>SIH Special</span>
+              <span className="text-[10px] font-mono font-bold">₹199</span>
+            </a>
+            <a
               href="#pricing"
               className="px-2.5 py-1 rounded-full hover:text-black hover:bg-black/5 transition-all whitespace-nowrap"
             >
@@ -175,6 +182,17 @@ export const Navbar: React.FC<NavbarProps> = ({ onJoinClick }) => {
           style={{ fontFamily: 'var(--font-heading)' }}
         >
           7 Days
+        </a>
+        <a
+          href="#sih"
+          onClick={closeMenu}
+          className="text-[30px] sm:text-[34px] font-bold text-amber-600 hover:opacity-80 transition-opacity tracking-tight flex items-center justify-between"
+          style={{ fontFamily: 'var(--font-heading)' }}
+        >
+          <span>🏆 SIH 2-Hr Sprint</span>
+          <span className="text-xs font-mono font-bold px-2.5 py-1 rounded-full bg-amber-100 text-amber-800 border border-amber-300">
+            ₹199
+          </span>
         </a>
         <a
           href="#audience"

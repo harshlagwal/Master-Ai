@@ -24,7 +24,7 @@ interface RegistrationModalProps {
 export const RegistrationModal: React.FC<RegistrationModalProps> = ({
   isOpen,
   onClose,
-  initialTrackId = 'non-tech',
+  initialTrackId = 'master-pass',
 }) => {
   const [step, setStep] = useState<'form' | 'payment' | 'success'>('form');
   const [selectedTrackId, setSelectedTrackId] = useState<string>(initialTrackId);
@@ -98,11 +98,11 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
       `👤 Name: ${formData.fullName}\n` +
       `📱 Phone: ${formData.phone}\n` +
       `✉️ Email: ${formData.email}\n` +
-      `🎓 Selected Track: ${selectedTrack.name}\n` +
+      `🎓 Selected Program: ${selectedTrack.name}\n` +
       `💰 Amount: ₹${amountStr} (UPI)\n` +
       `🆔 Ticket ID: ${ticketId || 'MAI-REGISTERED'}\n` +
       `🧾 UTR / Ref: ${utrNumber || 'Completed via UPI to golulagwal890-2@oksbi'}\n\n` +
-      `Please confirm my seat for my chosen domain track live sessions!`
+      `Please confirm my seat!`
   );
 
   return (
@@ -127,37 +127,101 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
         {/* STEP 1: Details Form */}
         {step === 'form' && (
           <div>
-            <div className="text-[11px] font-mono font-medium text-black/40 uppercase tracking-widest mb-1">
+            <div className="text-xs font-bold text-neutral-500 uppercase tracking-widest mb-1">
               REGISTRATION // STEP 01
             </div>
 
             <h3
-              className="text-2xl sm:text-3xl font-medium text-[#0A0A0A] tracking-tight mb-1"
+              className="text-2xl sm:text-3xl font-bold text-neutral-950 tracking-tight mb-1.5"
               style={{ fontFamily: 'var(--font-heading)' }}
             >
-              Enroll in MASTER AI
+              Enroll Now
             </h3>
 
-            <p className="text-xs sm:text-[13px] text-black/60 mb-4 font-normal">
-              7-Day Live Masterclass with Harsh Lagwal • All 9 In-Demand Skills Included.
+            <p className="text-[13px] sm:text-sm text-neutral-700 font-medium mb-3.5 leading-snug">
+              Select your workshop track and enter details for instant Zoom credentials.
             </p>
 
-            {/* Workshop Overview Card (No Passes) */}
-            <div className="mb-4 p-3 rounded-xl bg-black/[0.03] border border-black/10">
-              <div className="flex items-center justify-between mb-1">
-                <span className="text-xs font-semibold text-black">Complete 7-Day Access</span>
-                <span className="text-xs font-mono font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+            {/* Select Workshop Track Pills */}
+            <div className="grid grid-cols-2 gap-2.5 mb-3.5">
+              <button
+                type="button"
+                onClick={() => setSelectedTrackId('master-pass')}
+                className={`p-3 rounded-2xl border-2 text-left transition-all cursor-pointer ${
+                  selectedTrackId === 'master-pass'
+                    ? 'border-neutral-950 bg-neutral-950 text-white shadow-sm'
+                    : 'border-neutral-300 bg-neutral-50 text-neutral-800 hover:border-neutral-400'
+                }`}
+              >
+                <div className="text-[12.5px] font-bold leading-snug">7-Day Masterclass</div>
+                <div
+                  className={`text-[11.5px] font-extrabold mt-0.5 ${
+                    selectedTrackId === 'master-pass' ? 'text-emerald-400' : 'text-emerald-700'
+                  }`}
+                >
                   ₹89 Total
+                </div>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setSelectedTrackId('sih-masterclass')}
+                className={`p-3 rounded-2xl border-2 text-left transition-all cursor-pointer ${
+                  selectedTrackId === 'sih-masterclass'
+                    ? 'border-amber-600 bg-gradient-to-r from-amber-500 to-orange-500 text-neutral-950 shadow-sm'
+                    : 'border-neutral-300 bg-neutral-50 text-neutral-800 hover:border-amber-400'
+                }`}
+              >
+                <div className="text-[12.5px] font-bold leading-snug flex items-center justify-between">
+                  <span>SIH 2-Hr Sprint</span>
+                  <span className="text-[9.5px] font-extrabold bg-black/20 px-1.5 py-0.5 rounded text-neutral-950 uppercase tracking-wide">
+                    Special
+                  </span>
+                </div>
+                <div
+                  className={`text-[11.5px] font-extrabold mt-0.5 ${
+                    selectedTrackId === 'sih-masterclass' ? 'text-neutral-950' : 'text-amber-700'
+                  }`}
+                >
+                  ₹199 Team Pass
+                </div>
+              </button>
+            </div>
+
+            {/* Workshop Overview Card for Selected Track */}
+            <div
+              className={`mb-4 p-3.5 rounded-2xl border-2 ${
+                selectedTrackId === 'sih-masterclass'
+                  ? 'bg-amber-50/90 border-amber-300'
+                  : 'bg-neutral-100/90 border-neutral-300'
+              }`}
+            >
+              <div className="flex items-center justify-between mb-1.5">
+                <span className="text-sm font-bold text-neutral-950">
+                  {selectedTrackId === 'sih-masterclass'
+                    ? 'SIH 2-Hour Intensive Masterclass'
+                    : 'Complete 7-Day Access'}
+                </span>
+                <span
+                  className={`text-xs font-bold px-2.5 py-0.5 rounded-full border ${
+                    selectedTrackId === 'sih-masterclass'
+                      ? 'text-amber-950 bg-amber-200 border-amber-400'
+                      : 'text-emerald-950 bg-emerald-100 border-emerald-300'
+                  }`}
+                >
+                  ₹{amountStr} Total
                 </span>
               </div>
-              <p className="text-[11px] text-black/65 leading-relaxed">
-                Covers all 9 skills (Coding, Productivity, Design, Freelancing, Hackathons & Automations). Daily batch strictly capped at 20 seats.
+              <p className="text-xs sm:text-[12.5px] text-neutral-800 font-medium leading-relaxed">
+                {selectedTrackId === 'sih-masterclass'
+                  ? 'Covers detailing, AI prototype build, winning PPT deck & jury pitching. 1 ticket covers your whole 6-member team!'
+                  : 'Covers all 9 skills (Coding, Productivity, Design, Freelancing, Hackathons & Automations). Batch capped at 20 seats.'}
               </p>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-3">
+            <form onSubmit={handleSubmit} className="space-y-3.5">
               <div>
-                <label className="block text-[11px] font-mono uppercase tracking-wider text-black/60 mb-1">
+                <label className="block text-xs font-bold uppercase tracking-wider text-neutral-800 mb-1.5">
                   Full Name
                 </label>
                 <input
@@ -166,12 +230,12 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
                   placeholder="e.g. Aryan Sharma"
                   value={formData.fullName}
                   onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-black/[0.03] border border-black/10 focus:border-[#0A0A0A] focus:bg-white text-sm outline-hidden transition-colors"
+                  className="w-full px-4 py-3 rounded-xl bg-neutral-50 border border-neutral-300 focus:border-neutral-950 focus:bg-white text-neutral-900 placeholder:text-neutral-400 text-sm font-medium outline-hidden transition-colors"
                 />
               </div>
 
               <div>
-                <label className="block text-[11px] font-mono uppercase tracking-wider text-black/60 mb-1">
+                <label className="block text-xs font-bold uppercase tracking-wider text-neutral-800 mb-1.5">
                   Email Address (For Zoom Links & Notes)
                 </label>
                 <input
@@ -180,12 +244,12 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
                   placeholder="name@example.com"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-black/[0.03] border border-black/10 focus:border-[#0A0A0A] focus:bg-white text-sm outline-hidden transition-colors"
+                  className="w-full px-4 py-3 rounded-xl bg-neutral-50 border border-neutral-300 focus:border-neutral-950 focus:bg-white text-neutral-900 placeholder:text-neutral-400 text-sm font-medium outline-hidden transition-colors"
                 />
               </div>
 
               <div>
-                <label className="block text-[11px] font-mono uppercase tracking-wider text-black/60 mb-1">
+                <label className="block text-xs font-bold uppercase tracking-wider text-neutral-800 mb-1.5">
                   WhatsApp Number (For Evening Updates)
                 </label>
                 <input
@@ -194,7 +258,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
                   placeholder="+91 98765 43210"
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-black/[0.03] border border-black/10 focus:border-[#0A0A0A] focus:bg-white text-sm outline-hidden transition-colors"
+                  className="w-full px-4 py-3 rounded-xl bg-neutral-50 border border-neutral-300 focus:border-neutral-950 focus:bg-white text-neutral-900 placeholder:text-neutral-400 text-sm font-medium outline-hidden transition-colors"
                 />
               </div>
 
@@ -202,11 +266,11 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
                 <button
                   type="submit"
                   disabled={isProceeding}
-                  className="w-full py-3.5 rounded-full bg-[#0A0A0A] hover:bg-neutral-800 text-white font-medium text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-md transition-all cursor-pointer active:scale-95 disabled:opacity-80"
+                  className="w-full py-4 rounded-full bg-neutral-950 hover:bg-neutral-800 text-white font-bold text-sm uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg transition-all cursor-pointer active:scale-95 disabled:opacity-80"
                 >
                   {isProceeding ? (
                     <div className="flex items-center gap-2.5">
-                      <div className="loader-sm text-purple-400" />
+                      <div className="loader-sm text-amber-400" />
                       <span>Generating UPI Link...</span>
                     </div>
                   ) : (
@@ -218,8 +282,8 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
                 </button>
               </div>
 
-              <div className="flex items-center justify-center gap-1.5 text-[11px] text-black/50 font-normal">
-                <ShieldCheck className="w-3.5 h-3.5 text-black/60" />
+              <div className="flex items-center justify-center gap-1.5 text-xs text-neutral-700 font-semibold pt-1">
+                <ShieldCheck className="w-4 h-4 text-emerald-600" />
                 <span>Zero-Commission Direct UPI • 100% Secure</span>
               </div>
             </form>
@@ -230,82 +294,82 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
         {step === 'payment' && (
           <div>
             <div className="flex items-center justify-between mb-2">
-              <span className="text-[11px] font-mono font-medium text-black/40 uppercase tracking-widest">
+              <span className="text-xs font-bold text-neutral-500 uppercase tracking-widest">
                 DIRECT UPI // STEP 02
               </span>
-              <span className="text-[11px] font-mono font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
+              <span className="text-xs font-bold text-emerald-900 bg-emerald-100 px-3 py-1 rounded-full border border-emerald-300">
                 {selectedTrack.shortName}: ₹{amountStr}
               </span>
             </div>
 
             <h3
-              className="text-2xl font-medium text-black mb-1"
+              className="text-2xl sm:text-3xl font-bold text-neutral-950 mb-1"
               style={{ fontFamily: 'var(--font-heading)' }}
             >
               Scan & Pay ₹{amountStr}
             </h3>
-            <p className="text-xs text-black/60 mb-3">
+            <p className="text-xs sm:text-sm text-neutral-700 font-medium mb-3.5">
               Pay via any UPI App (GPay, PhonePe, Paytm, BHIM, Cred)
             </p>
 
             {/* UPI QR Display Card */}
-            <div className="p-4 rounded-2xl bg-neutral-50 border border-black/10 mb-4 flex flex-col items-center text-center">
-              <div className="relative p-2.5 bg-white rounded-xl shadow-xs border border-black/10 mb-2">
+            <div className="p-4 rounded-2xl bg-neutral-50 border border-neutral-300 mb-4 flex flex-col items-center text-center">
+              <div className="relative p-2.5 bg-white rounded-xl shadow-sm border border-neutral-300 mb-2">
                 <img
                   src={qrCodeUrl}
                   alt={`UPI QR Code for ₹${amountStr}`}
                   className="w-44 h-44 object-contain rounded-lg"
                 />
-                <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-black text-white text-[10px] font-mono px-2.5 py-0.5 rounded-full whitespace-nowrap shadow-sm">
+                <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-neutral-950 text-white text-[11px] font-bold px-3 py-0.5 rounded-full whitespace-nowrap shadow-sm">
                   Amount: ₹{amountStr}
                 </div>
               </div>
 
               {/* Payee Info */}
-              <div className="text-[11px] font-mono text-black/70 mt-1 mb-0.5">
-                Payee: <strong className="text-black">{UPI_CONFIG.payeeName}</strong>
+              <div className="text-xs text-neutral-800 font-semibold mt-1 mb-0.5">
+                Payee: <strong className="text-neutral-950">{UPI_CONFIG.payeeName}</strong>
               </div>
-              <div className="text-[10px] font-mono text-emerald-700 mb-2">
-                Track: {selectedTrack.name}
+              <div className="text-xs font-bold text-emerald-800 mb-2">
+                Program: {selectedTrack.name}
               </div>
 
               {/* Copyable UPI ID Pill */}
-              <div className="w-full flex items-center justify-between gap-2 px-3 py-2 rounded-xl bg-white border border-black/10 text-xs font-mono">
-                <span className="text-black/80 truncate">{UPI_CONFIG.upiId}</span>
+              <div className="w-full flex items-center justify-between gap-2 px-3.5 py-2.5 rounded-xl bg-white border border-neutral-300 text-xs font-bold">
+                <span className="text-neutral-900 truncate">{UPI_CONFIG.upiId}</span>
                 <button
                   type="button"
                   onClick={handleCopyUpi}
-                  className="shrink-0 flex items-center gap-1 text-[11px] text-black font-semibold bg-black/5 hover:bg-black/10 px-2 py-1 rounded-md transition-colors cursor-pointer"
+                  className="shrink-0 flex items-center gap-1 text-xs text-neutral-950 font-bold bg-neutral-100 hover:bg-neutral-200 px-2.5 py-1 rounded-md transition-colors cursor-pointer"
                 >
                   {copied ? (
                     <>
-                      <Check className="w-3 h-3 text-emerald-600" />
-                      <span className="text-emerald-600">Copied</span>
+                      <Check className="w-3.5 h-3.5 text-emerald-600" />
+                      <span className="text-emerald-700">Copied</span>
                     </>
                   ) : (
                     <>
-                      <Copy className="w-3 h-3" />
+                      <Copy className="w-3.5 h-3.5" />
                       <span>Copy</span>
                     </>
                   )}
                 </button>
               </div>
 
-              {/* Mobile 1-Click UPI App Launch (Visible on touch/mobile) */}
+              {/* Mobile 1-Click UPI App Launch */}
               <button
                 type="button"
                 onClick={handleMobilePay}
-                className="w-full mt-3 py-2.5 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-medium flex items-center justify-center gap-1.5 transition-colors cursor-pointer shadow-xs"
+                className="w-full mt-3 py-3 px-4 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition-colors cursor-pointer shadow-sm"
               >
-                <Smartphone className="w-3.5 h-3.5" />
-                <span>Open GPay / PhonePe / Paytm App (₹{amountStr})</span>
+                <Smartphone className="w-4 h-4" />
+                <span>Open GPay / PhonePe / Paytm (₹{amountStr})</span>
               </button>
             </div>
 
             {/* Step 2 Form: Enter UTR / Confirm Payment */}
             <form onSubmit={handleConfirmPayment} className="space-y-3">
               <div>
-                <label className="block text-[11px] font-mono uppercase tracking-wider text-black/70 mb-1">
+                <label className="block text-xs font-bold uppercase tracking-wider text-neutral-800 mb-1.5">
                   Enter 12-Digit UTR / UPI Ref No. (Optional)
                 </label>
                 <input
@@ -313,9 +377,9 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
                   placeholder="e.g. 423589123456 or Transaction ID"
                   value={utrNumber}
                   onChange={(e) => setUtrNumber(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-black/[0.03] border border-black/10 focus:border-[#0A0A0A] focus:bg-white text-xs font-mono outline-hidden transition-colors"
+                  className="w-full px-4 py-3 rounded-xl bg-neutral-50 border border-neutral-300 focus:border-neutral-950 focus:bg-white text-sm font-semibold outline-hidden transition-colors"
                 />
-                <span className="block text-[10px] text-black/50 mt-1">
+                <span className="block text-xs text-neutral-600 font-medium mt-1">
                   You can find this in your UPI app's payment receipt screen.
                 </span>
               </div>
@@ -323,7 +387,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
               <button
                 type="submit"
                 disabled={isProcessing}
-                className="w-full py-3.5 rounded-full bg-black hover:bg-neutral-800 text-white font-medium text-xs uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg transition-all cursor-pointer disabled:opacity-80"
+                className="w-full py-4 rounded-full bg-neutral-950 hover:bg-neutral-800 text-white font-bold text-sm uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg transition-all cursor-pointer disabled:opacity-80"
               >
                 {isProcessing ? (
                   <div className="flex items-center justify-center gap-2.5">

@@ -12,6 +12,7 @@ import { SectionAudience } from './components/SectionAudience';
 import { SectionMentor } from './components/SectionMentor';
 import { SectionWhy } from './components/SectionWhy';
 import { SectionPricing } from './components/SectionPricing';
+import { SectionSIHSpecial } from './components/SectionSIHSpecial';
 import { SectionDetails } from './components/SectionDetails';
 import { SectionRegistration } from './components/SectionRegistration';
 import { SectionFAQ } from './components/SectionFAQ';
@@ -72,6 +73,13 @@ export default function App() {
         {/* 04 // What You Will Build (Horizontal / Asymmetric Deliverables Showcase) */}
         <div className="content-auto">
           <SectionWhatYouWillBuild />
+        </div>
+
+        {/* SPECIAL // Smart India Hackathon (SIH) 2-Hour Intensive Masterclass */}
+        <div className="content-auto">
+          <SectionSIHSpecial
+            onJoinClick={(trackId) => openRegistration(trackId || 'sih-masterclass')}
+          />
         </div>
 
         {/* 05 // AI Toolkit (THINK, RESEARCH, CREATE, BUILD, AUTOMATE) */}

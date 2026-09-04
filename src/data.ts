@@ -120,12 +120,12 @@ export const WORKSHOP_TOPICS: WorkshopTopic[] = [
   },
 ];
 
-// Single Unified Master Track (No Separate Passes)
+// Domain Tracks: 7-Day Live Masterclass and SIH 2-Hour Intensive Masterclass
 export const DOMAIN_TRACKS: DomainTrack[] = [
   {
     id: "master-pass",
     name: "Complete 7-Day Live Masterclass (All 9 Skills)",
-    shortName: "All 9 Skills Included",
+    shortName: "7-Day All 9 Skills (₹89)",
     badge: "Strictly 20 Students / Daily Batch",
     price: "₹89",
     amountNum: 89,
@@ -138,7 +138,123 @@ export const DOMAIN_TRACKS: DomainTrack[] = [
       "ATS Resume, Freelance Client Playbook & Templates",
     ],
   },
+  {
+    id: "sih-masterclass",
+    name: "Smart India Hackathon (SIH) 2-Hour Project Sprint",
+    shortName: "SIH 2-Hr Masterclass (₹199)",
+    badge: "Special 2-Hour Live Masterclass",
+    price: "₹199",
+    amountNum: 199,
+    sessions: "2-Hour Live Intensive Masterclass on Zoom + Q&A",
+    idealFor: "SIH Teams, First-time Hackathon Builders, Tech & Non-Tech College Students",
+    highlights: [
+      "SIH Problem Statement Selection & Detailing Blueprint",
+      "Live Working MVP Prototype Building using Modern AI Tools",
+      "SIH-Approved Winning PPT Pitch Deck Template (.pptx)",
+      "Jury Pitch Mastery: How to Speak, Present & Defend Questions",
+    ],
+  },
 ];
+
+// Smart India Hackathon (SIH) Masterclass Complete Data
+export const SIH_WORKSHOP_DATA = {
+  id: "sih",
+  badge: "SPECIAL INTENSIVE EDITION • 2-HOUR LIVE SPRINT",
+  headline: "Smart India Hackathon (SIH): From Idea to Winning Project",
+  subheadline:
+    "Want to know how to build a winning SIH project? In this 2-hour live masterclass, master comprehensive detailing, AI-powered prototype building, winning presentation architecture, and confident jury defense.",
+  price: "₹199",
+  originalPrice: "₹1,999",
+  duration: "2 Hours Live Intensive Session",
+  format: "Live on Zoom + Instant Doubt Resolution",
+  pillars: [
+    {
+      number: "01",
+      title: "Comprehensive Detailing & PS Selection",
+      tagline: "Problem Statement Decoding & Feasibility",
+      description:
+        "Learn how to dissect official SIH problem statements to 10x your selection probability. Master category selection, evaluate technical constraints, and follow the exact blueprint to clear your college's internal screening round.",
+      keyPoints: [
+        "Software vs. Hardware PS: Which one to pick and why",
+        "Jury evaluation rubrics and scoring weightage breakdown",
+        "Feasibility & novelty matrix (what judges look for immediately)",
+        "Step-by-step checklist to clear the college internal hackathon round",
+      ],
+      icon: "Target",
+    },
+    {
+      number: "02",
+      title: "AI-Powered Project Build (Live MVP)",
+      tagline: "Zero to Working Prototype with Modern AI",
+      description:
+        "No prior coding barriers! Build a working, full-stack prototype in under 2 hours using Cursor, Bolt.new, v0, and modern AI tools — complete with responsive UI, integrated database, and functional core logic.",
+      keyPoints: [
+        "Convert plain English prompts into functional web apps and dashboards",
+        "Rapid, bug-free development with modern AI coding IDEs (Cursor & Bolt)",
+        "Integrate Supabase backend and authentication in under 15 minutes",
+        "Deploy live working prototypes on Vercel with a shareable public URL",
+      ],
+      icon: "Code2",
+    },
+    {
+      number: "03",
+      title: "SIH-Approved Winning Presentation",
+      tagline: "High-Impact Pitch Deck Architecture",
+      description:
+        "Structure a high-converting presentation deck that stands out to evaluators. Master the exact slide-by-slide sequence, AI-generated architecture diagrams, novelty differentiation, and commercial viability highlights.",
+      keyPoints: [
+        "Official SIH presentation guidelines & recommended slide sequence",
+        "System architecture & data flow diagrams generated with AI tools",
+        "Novelty factor breakdown & existing solution comparison matrix",
+        "Visualizing scalability, technical stack, and social impact metrics",
+      ],
+      icon: "Presentation",
+    },
+    {
+      number: "04",
+      title: "Jury Pitching & Viva Defense",
+      tagline: "Stage Confidence, Presentation & Q&A Mastery",
+      description:
+        "Even the best project fails if not presented effectively. Master the 3-minute elevator pitch, handle tough jury counter-questions with calm confidence, and communicate with authority.",
+      keyPoints: [
+        "3-Minute elevator pitch blueprint (Problem → Solution → Live Demo → Impact)",
+        "Jury cross-examination: How to answer tricky technical questions calmly",
+        "Team coordination: Defining roles on who speaks when for maximum impact",
+        "Live demo disaster recovery: Fail-safe backup strategies if WiFi drops",
+      ],
+      icon: "Mic",
+    },
+  ],
+  deliverables: [
+    {
+      title: "Winning SIH PPT Template",
+      desc: "Ready-to-use professional slide deck (.pptx & Canva) designed to meet official SIH evaluation standards.",
+      icon: "FileCheck",
+    },
+    {
+      title: "AI Hackathon Prompt Swipe File",
+      desc: "50+ tested prompts to generate prototypes, architectures, and database schemas in minutes.",
+      icon: "Sparkles",
+    },
+    {
+      title: "Jury Q&A & Pitch Script Sheet",
+      desc: "Word-for-word 3-minute pitch template and response guide for the 15 most common jury questions.",
+      icon: "MessageSquare",
+    },
+    {
+      title: "Full 2-Hour Session Recording",
+      desc: "Re-watch the entire live walkthrough with your team whenever needed before your hackathon submission.",
+      icon: "Video",
+    },
+  ],
+  timingInfo: {
+    durationText: "2 Hours Live Interactive Workshop",
+    timeText: "Weekend Special Live Stream • Zoom Link via WhatsApp & Email",
+    languageText: "English (Clear, Practical & Beginner-Friendly)",
+    seatsText: "Limited to 30 Teams / Students for Direct Mentoring",
+  },
+};
+
 
 // Replace with external checkout link if desired. When empty, opens the sleek built-in enrollment modal.
 export const PAYMENT_URL: string = "";

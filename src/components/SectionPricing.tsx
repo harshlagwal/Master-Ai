@@ -1,12 +1,13 @@
-import React, { useRef } from 'react';
-import { PRICING_SECTION_DATA, PAYMENT_URL, WORKSHOP_TOPICS, BRAND } from '../data';
-import { Check, ArrowRight, ShieldCheck, Users, Clock } from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { PRICING_SECTION_DATA, PAYMENT_URL, WORKSHOP_TOPICS, BRAND, SIH_WORKSHOP_DATA } from '../data';
+import { Check, ArrowRight, ShieldCheck, Users, Clock, Trophy, Sparkles } from 'lucide-react';
 
 interface SectionPricingProps {
-  onJoinClick: () => void;
+  onJoinClick: (trackId?: string) => void;
 }
 
 export const SectionPricing: React.FC<SectionPricingProps> = ({ onJoinClick }) => {
+  const [activeTab, setActiveTab] = useState<'master' | 'sih'>('master');
   const cardRef = useRef<HTMLDivElement>(null);
   const spotlightRef = useRef<HTMLDivElement>(null);
   const rafRef = useRef<number | null>(null);
@@ -20,7 +21,8 @@ export const SectionPricing: React.FC<SectionPricingProps> = ({ onJoinClick }) =
     if (rafRef.current) cancelAnimationFrame(rafRef.current);
     rafRef.current = requestAnimationFrame(() => {
       if (spotlightRef.current) {
-        spotlightRef.current.style.background = `radial-gradient(600px circle at ${x}px ${y}px, rgba(147, 51, 234, 0.15), transparent 75%)`;
+        const glowColor = activeTab === 'sih' ? 'rgba(245, 158, 11, 0.15)' : 'rgba(147, 51, 234, 0.15)';
+        spotlightRef.current.style.background = `radial-gradient(600px circle at ${x}px ${y}px, ${glowColor}, transparent 75%)`;
       }
     });
   };
@@ -42,7 +44,7 @@ export const SectionPricing: React.FC<SectionPricingProps> = ({ onJoinClick }) =
     if (PAYMENT_URL && PAYMENT_URL.trim() !== '' && PAYMENT_URL !== '#') {
       window.open(PAYMENT_URL, '_blank', 'noopener,noreferrer');
     } else {
-      onJoinClick();
+      onJoinClick(activeTab === 'sih' ? 'sih-masterclass' : 'master-pass');
     }
   };
 
@@ -67,28 +69,55 @@ export const SectionPricing: React.FC<SectionPricingProps> = ({ onJoinClick }) =
 
         {/* Large Typography Statement */}
         <div
-          className="text-[22px] sm:text-[34px] md:text-[42px] font-medium tracking-tight text-white/90 mb-10 select-none"
+          className="text-[22px] sm:text-[34px] md:text-[42px] font-medium tracking-tight text-white/90 mb-8 select-none"
           style={{ fontFamily: 'var(--font-heading)' }}
         >
           {PRICING_SECTION_DATA.statement}
         </div>
 
-        {/* Philosophy Copy */}
-        <div className="space-y-4 text-[16px] sm:text-[18px] text-white/75 leading-relaxed font-normal max-w-3xl mb-12">
-          {PRICING_SECTION_DATA.copy.map((p, idx) => (
-            <p key={idx}>{p}</p>
-          ))}
+        {/* Interactive Workshop Switcher Tabs (Super Clean on Mobile & Desktop) */}
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3 p-1.5 rounded-2xl bg-white/[0.05] border border-white/10 max-w-xl mb-10">
+          <button
+            type="button"
+            onClick={() => setActiveTab('master')}
+            className={`flex-1 min-w-[180px] py-2.5 px-4 rounded-xl text-xs sm:text-sm font-medium transition-all cursor-pointer flex items-center justify-center gap-2 ${
+              activeTab === 'master'
+                ? 'bg-white text-black shadow-lg font-semibold'
+                : 'text-white/60 hover:text-white hover:bg-white/5'
+            }`}
+          >
+            <span>7-Day Masterclass</span>
+            <span className="text-[11px] font-mono opacity-80">(₹89)</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setActiveTab('sih')}
+            className={`flex-1 min-w-[180px] py-2.5 px-4 rounded-xl text-xs sm:text-sm font-medium transition-all cursor-pointer flex items-center justify-center gap-2 ${
+              activeTab === 'sih'
+                ? 'bg-gradient-to-r from-amber-400 to-orange-400 text-black shadow-lg font-bold'
+                : 'text-white/60 hover:text-white hover:bg-white/5'
+            }`}
+          >
+            <Trophy className="w-3.5 h-3.5 text-amber-400 shrink-0" />
+            <span>SIH 2-Hr Sprint</span>
+            <span className="text-[11px] font-mono opacity-80">(₹199)</span>
+          </button>
         </div>
 
-        {/* Single Unified Ticket Card (No Passes, No Confusion) */}
+        {/* Single Dynamic Ticket Card */}
         <div
           ref={cardRef}
           onMouseMove={handleMouseMove}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
-          className="p-6 sm:p-10 md:p-12 rounded-3xl border border-white/20 bg-white/[0.04] shadow-2xl relative overflow-hidden transition-all duration-300 hover:border-white/40"
+          className={`p-6 sm:p-10 md:p-12 rounded-3xl border shadow-2xl relative overflow-hidden transition-all duration-300 ${
+            activeTab === 'sih'
+              ? 'border-amber-500/40 bg-amber-950/[0.08]'
+              : 'border-white/20 bg-white/[0.04]'
+          }`}
         >
-          {/* Interactive Mouse Spotlight Glow (Direct DOM GPU rendering, 0 React re-renders) */}
+          {/* Interactive Mouse Spotlight Glow */}
           <div
             ref={spotlightRef}
             className="pointer-events-none absolute -inset-px opacity-0 transition-opacity duration-300 z-0"
@@ -98,74 +127,150 @@ export const SectionPricing: React.FC<SectionPricingProps> = ({ onJoinClick }) =
           />
 
           {/* Subtle Ambient Glow Background Accent */}
-          <div className="absolute top-0 right-0 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl pointer-events-none" />
+          <div
+            className={`absolute top-0 right-0 w-96 h-96 rounded-full blur-3xl pointer-events-none transition-colors duration-500 ${
+              activeTab === 'sih' ? 'bg-amber-500/10' : 'bg-purple-500/10'
+            }`}
+          />
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center relative z-10">
-            {/* Left Column: Workshop Scope & Skills */}
+            {/* Left Column: Workshop Scope & Details */}
             <div className="lg:col-span-7 space-y-6">
-              <div>
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-mono mb-3">
-                  <Users className="w-3.5 h-3.5" />
-                  <span>Strictly Capped at 20 Students / Daily Batch</span>
-                </div>
-                <h3
-                  className="text-2xl sm:text-3xl font-medium text-white tracking-tight"
-                  style={{ fontFamily: 'var(--font-heading)' }}
-                >
-                  Complete 7-Day Live Masterclass
-                </h3>
-                <p className="text-sm text-white/70 mt-1">
-                  All 9 high-income skills included in one single registration.
-                </p>
-              </div>
-
-              {/* 9 Skills Quick Checklist */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-2">
-                {WORKSHOP_TOPICS.map((topic, i) => (
-                  <div key={topic.id} className="flex items-center gap-2 text-xs text-white/80">
-                    <Check className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
-                    <span className="truncate">{topic.title}</span>
+              {activeTab === 'master' ? (
+                <>
+                  <div>
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-mono mb-3">
+                      <Users className="w-3.5 h-3.5" />
+                      <span>Strictly Capped at 20 Students / Daily Batch</span>
+                    </div>
+                    <h3
+                      className="text-2xl sm:text-3xl font-medium text-white tracking-tight"
+                      style={{ fontFamily: 'var(--font-heading)' }}
+                    >
+                      Complete 7-Day Live Masterclass
+                    </h3>
+                    <p className="text-sm text-white/70 mt-1">
+                      All 9 high-income skills included in one single registration.
+                    </p>
                   </div>
-                ))}
-              </div>
 
-              {/* Session Details Pills */}
-              <div className="flex flex-wrap items-center gap-3 pt-4 border-t border-white/10 text-xs font-mono text-white/60">
-                <div className="flex items-center gap-1.5">
-                  <Clock className="w-3.5 h-3.5 text-white/50" />
-                  <span>9:00 PM – 10:30 PM IST Daily</span>
-                </div>
-                <span>•</span>
-                <span>Live Interactive Zoom</span>
-                <span>•</span>
-                <span>Hindi + English</span>
-              </div>
+                  {/* 9 Skills Quick Checklist */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-2">
+                    {WORKSHOP_TOPICS.map((topic) => (
+                      <div key={topic.id} className="flex items-center gap-2 text-xs text-white/80">
+                        <Check className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+                        <span className="truncate">{topic.title}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Session Details Pills */}
+                  <div className="flex flex-wrap items-center gap-3 pt-4 border-t border-white/10 text-xs font-mono text-white/60">
+                    <div className="flex items-center gap-1.5">
+                      <Clock className="w-3.5 h-3.5 text-white/50" />
+                      <span>9:00 PM – 10:30 PM IST Daily</span>
+                    </div>
+                    <span>•</span>
+                    <span>Live Interactive Zoom</span>
+                    <span>•</span>
+                    <span>Hindi + English</span>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div>
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-mono mb-3">
+                      <Trophy className="w-3.5 h-3.5 text-amber-400" />
+                      <span>Smart India Hackathon Special Sprint</span>
+                    </div>
+                    <h3
+                      className="text-2xl sm:text-3xl font-medium text-white tracking-tight"
+                      style={{ fontFamily: 'var(--font-heading)' }}
+                    >
+                      SIH 2-Hour Intensive Masterclass
+                    </h3>
+                    <p className="text-sm text-white/70 mt-1">
+                      Problem statement detailing, live AI MVP building, winning PPT deck & jury presentation.
+                    </p>
+                  </div>
+
+                  {/* SIH Checklist */}
+                  <div className="space-y-2.5 pt-2">
+                    <div className="flex items-start gap-2.5 text-xs text-white/85">
+                      <Check className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                      <span><strong>Comprehensive Detailing & PS Selection:</strong> Theme breakdown & college screening round clearing formula.</span>
+                    </div>
+                    <div className="flex items-start gap-2.5 text-xs text-white/85">
+                      <Check className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                      <span><strong>AI-Powered Project Build:</strong> Live working prototype development with Cursor, Bolt.new, v0 & Supabase.</span>
+                    </div>
+                    <div className="flex items-start gap-2.5 text-xs text-white/85">
+                      <Check className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                      <span><strong>SIH-Approved Winning Presentation:</strong> Architecture diagrams, novelty differentiation & social impact slides.</span>
+                    </div>
+                    <div className="flex items-start gap-2.5 text-xs text-white/85">
+                      <Check className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                      <span><strong>Jury Pitching & Viva Defense:</strong> 3-minute pitch script, presentation confidence & Q&A defense.</span>
+                    </div>
+                  </div>
+
+                  {/* SIH Details Pills */}
+                  <div className="flex flex-wrap items-center gap-3 pt-4 border-t border-white/10 text-xs font-mono text-white/60">
+                    <div className="flex items-center gap-1.5">
+                      <Clock className="w-3.5 h-3.5 text-amber-400" />
+                      <span>2 Hours Live on Zoom</span>
+                    </div>
+                    <span>•</span>
+                    <span>Includes SIH PPT Template & Recording</span>
+                    <span>•</span>
+                    <a href="#sih" className="text-amber-400 hover:underline">
+                      View Full Details →
+                    </a>
+                  </div>
+                </>
+              )}
             </div>
 
             {/* Right Column: Price & Instant Action Box */}
-            <div className="lg:col-span-5 p-6 sm:p-8 rounded-2xl bg-black/60 border border-white/15 flex flex-col justify-between">
+            <div className="lg:col-span-5 p-6 sm:p-8 rounded-2xl bg-black/75 border border-white/15 flex flex-col justify-between">
               <div>
                 <div className="text-xs font-mono uppercase tracking-widest text-white/50 mb-1">
-                  Total One-Time Fee
+                  {activeTab === 'sih' ? 'SIH Masterclass Fee' : 'Total One-Time Fee'}
                 </div>
                 <div className="flex items-baseline gap-2 mb-2">
                   <span className="text-5xl sm:text-6xl font-bold tracking-tight text-white">
-                    {BRAND.price}
+                    {activeTab === 'sih' ? SIH_WORKSHOP_DATA.price : BRAND.price}
                   </span>
-                  <span className="text-sm text-white/50 line-through">₹2,499</span>
+                  <span className="text-sm text-white/50 line-through">
+                    {activeTab === 'sih' ? SIH_WORKSHOP_DATA.originalPrice : '₹2,499'}
+                  </span>
                 </div>
-                <p className="text-xs text-emerald-400 font-mono mb-6">
+                <p
+                  className={`text-xs font-mono mb-6 ${
+                    activeTab === 'sih' ? 'text-amber-400' : 'text-emerald-400'
+                  }`}
+                >
                   Zero commission • Direct UPI • Instant Zoom Link
                 </p>
 
                 {/* Batch Urgency Box */}
                 <div className="p-3 rounded-xl bg-white/5 border border-white/10 mb-6 text-xs text-white/80 space-y-1">
                   <div className="font-semibold text-white flex items-center justify-between">
-                    <span>Today's Batch Capacity:</span>
-                    <span className="text-emerald-400 font-mono">20 Seats Only</span>
+                    <span>
+                      {activeTab === 'sih' ? 'Batch Limit:' : "Today's Batch Capacity:"}
+                    </span>
+                    <span
+                      className={`font-mono ${
+                        activeTab === 'sih' ? 'text-amber-400' : 'text-emerald-400'
+                      }`}
+                    >
+                      {activeTab === 'sih' ? '30 Teams Max' : '20 Seats Only'}
+                    </span>
                   </div>
                   <p className="text-[11px] text-white/60 leading-relaxed">
-                    We cap each batch to 20 students to guarantee individual attention and live screen-share reviews.
+                    {activeTab === 'sih'
+                      ? '1 Ticket covers your entire team. Get direct access to PPT templates, AI prompts & live doubt clearing.'
+                      : 'We cap each batch to 20 students to guarantee individual attention and live screen-share reviews.'}
                   </p>
                 </div>
               </div>
@@ -174,14 +279,24 @@ export const SectionPricing: React.FC<SectionPricingProps> = ({ onJoinClick }) =
               <button
                 type="button"
                 onClick={handleCTA}
-                className="w-full py-4 rounded-full bg-white hover:bg-neutral-200 text-black text-sm font-semibold uppercase tracking-wider flex items-center justify-center gap-2 shadow-xl transition-all cursor-pointer active:scale-95"
+                className={`w-full py-4 rounded-full text-sm font-semibold uppercase tracking-wider flex items-center justify-center gap-2 shadow-xl transition-all cursor-pointer active:scale-95 ${
+                  activeTab === 'sih'
+                    ? 'bg-gradient-to-r from-amber-400 via-orange-400 to-amber-300 text-black hover:opacity-95'
+                    : 'bg-white hover:bg-neutral-200 text-black'
+                }`}
               >
-                <span>Enroll in Today's Batch — ₹89</span>
+                <span>
+                  {activeTab === 'sih' ? 'Enroll in SIH Session — ₹199' : "Enroll in Today's Batch — ₹89"}
+                </span>
                 <ArrowRight className="w-4 h-4" />
               </button>
 
               <div className="flex items-center justify-center gap-2 mt-4 text-[11px] text-white/50">
-                <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+                <ShieldCheck
+                  className={`w-3.5 h-3.5 ${
+                    activeTab === 'sih' ? 'text-amber-400' : 'text-emerald-400'
+                  }`}
+                />
                 <span>Zero Risk • Instant Google Form Confirmation</span>
               </div>
             </div>
@@ -200,10 +315,10 @@ export const SectionPricing: React.FC<SectionPricingProps> = ({ onJoinClick }) =
           </div>
           <div>
             <div className="text-xs font-mono uppercase text-emerald-400 mb-2">
-              MASTER AI Live Masterclass
+              MASTER AI Live Masterclasses
             </div>
             <p className="text-white/90 leading-relaxed font-medium">
-              {PRICING_SECTION_DATA.comparison.masterAi}
+              Live hands-on building with direct mentor feedback, starting at just ₹89.
             </p>
           </div>
         </div>

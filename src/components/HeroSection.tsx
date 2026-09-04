@@ -93,6 +93,14 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             9 Core Skills
           </a>
 
+          {/* SIH Special 2-Hr Masterclass */}
+          <a
+            href="#sih"
+            className="inline-flex items-center justify-center bg-gradient-to-r from-amber-400 via-orange-400 to-amber-300 text-black font-bold rounded-full text-[12px] sm:text-[13px] md:text-[14px] px-3.5 sm:px-4 py-1.5 whitespace-nowrap hover:opacity-90 transition-all duration-200 cursor-pointer shadow-xs active:scale-95 no-underline gap-1 border border-amber-500/30"
+          >
+            <span>🏆 SIH Sprint (₹199)</span>
+          </a>
+
           {/* 2. Explore 7-Day Journey */}
           <a
             href="#journey"
