@@ -139,17 +139,6 @@ export const NamasteIntro: React.FC = () => {
     };
     window.addEventListener('keydown', handleKeyDown);
 
-    // Respect user's reduced-motion preference
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) {
-      // For reduced-motion, shorten drastically to avoid discomfort
-      finishIntro(false);
-      return () => {
-        window.removeEventListener('keydown', handleKeyDown);
-        document.body.style.overflow = originalOverflow;
-      };
-    }
-
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
       document.body.style.overflow = originalOverflow;
