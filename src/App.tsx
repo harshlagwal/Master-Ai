@@ -20,6 +20,7 @@ import { Footer } from './components/Footer';
 import { RegistrationModal } from './components/RegistrationModal';
 import { WhatsAppModal } from './components/WhatsAppModal';
 import { StickyQuickEnrollBar } from './components/StickyQuickEnrollBar';
+import { NamasteIntro } from './components/NamasteIntro';
 
 export default function App() {
   const [isRegistrationOpen, setIsRegistrationOpen] = useState(false);
@@ -138,6 +139,9 @@ export default function App() {
 
       {/* Floating Sticky Quick-Enroll Capsule Bar on Scroll */}
       <StickyQuickEnrollBar onJoinClick={() => openRegistration()} />
+
+      {/* Cinematic Full-Screen Multilingual Namaste Intro Experience */}
+      <NamasteIntro />
     </div>
   );
 }
