@@ -118,17 +118,41 @@ export const SectionRegistration: React.FC<SectionRegistrationProps> = ({
             <form onSubmit={handleDetailsSubmit} className="space-y-4">
               {/* Select Program Tabs */}
               {/* Select Program Tabs */}
-              <div className="grid grid-cols-2 gap-2.5 mb-3">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 mb-3">
+                <button
+                  type="button"
+                  onClick={() => setSelectedTrackId('flash-pass-60')}
+                  className={`p-3 rounded-2xl border-2 text-left transition-all cursor-pointer ${
+                    selectedTrackId === 'flash-pass-60'
+                      ? 'border-amber-400 bg-amber-400 text-black shadow-md font-semibold'
+                      : 'border-white/20 bg-white/5 text-white/80 hover:border-amber-400'
+                  }`}
+                >
+                  <div className="text-xs sm:text-sm font-bold leading-snug flex items-center justify-between">
+                    <span>Student Pass</span>
+                    <span className="text-[10px] bg-black/15 px-1.5 py-0.5 rounded font-bold uppercase">
+                      Grant
+                    </span>
+                  </div>
+                  <div
+                    className={`text-xs font-bold mt-0.5 ${
+                      selectedTrackId === 'flash-pass-60' ? 'text-black' : 'text-emerald-400'
+                    }`}
+                  >
+                    ₹60 Total
+                  </div>
+                </button>
+
                 <button
                   type="button"
                   onClick={() => setSelectedTrackId('master-pass')}
-                  className={`p-3.5 rounded-2xl border-2 text-left transition-all cursor-pointer ${
+                  className={`p-3 rounded-2xl border-2 text-left transition-all cursor-pointer ${
                     selectedTrackId === 'master-pass'
-                      ? 'border-white bg-white text-black shadow-md'
+                      ? 'border-white bg-white text-black shadow-md font-semibold'
                       : 'border-white/20 bg-white/5 text-white/80 hover:border-white/40'
                   }`}
                 >
-                  <div className="text-xs sm:text-sm font-bold leading-snug">7-Day Masterclass</div>
+                  <div className="text-xs sm:text-sm font-bold leading-snug">7-Day Master</div>
                   <div
                     className={`text-xs font-bold mt-0.5 ${
                       selectedTrackId === 'master-pass' ? 'text-emerald-700' : 'text-emerald-400'
@@ -141,16 +165,16 @@ export const SectionRegistration: React.FC<SectionRegistrationProps> = ({
                 <button
                   type="button"
                   onClick={() => setSelectedTrackId('sih-masterclass')}
-                  className={`p-3.5 rounded-2xl border-2 text-left transition-all cursor-pointer ${
+                  className={`p-3 rounded-2xl border-2 text-left transition-all cursor-pointer ${
                     selectedTrackId === 'sih-masterclass'
                       ? 'border-amber-400 bg-gradient-to-r from-amber-400 to-orange-400 text-black shadow-md font-semibold'
                       : 'border-white/20 bg-white/5 text-white/80 hover:border-amber-400'
                   }`}
                 >
                   <div className="text-xs sm:text-sm font-bold leading-snug flex items-center justify-between">
-                    <span>SIH 2-Hr Sprint</span>
+                    <span>SIH 2-Hr</span>
                     <span className="text-[10px] bg-black/20 px-1.5 py-0.5 rounded font-bold uppercase">
-                      Special
+                      Sprint
                     </span>
                   </div>
                   <div
@@ -158,7 +182,7 @@ export const SectionRegistration: React.FC<SectionRegistrationProps> = ({
                       selectedTrackId === 'sih-masterclass' ? 'text-black' : 'text-amber-400'
                     }`}
                   >
-                    ₹199 Team Pass
+                    ₹199 Team
                   </div>
                 </button>
               </div>
@@ -168,6 +192,8 @@ export const SectionRegistration: React.FC<SectionRegistrationProps> = ({
                 className={`p-4 rounded-2xl border-2 flex items-center justify-between mb-3 ${
                   selectedTrackId === 'sih-masterclass'
                     ? 'bg-amber-500/15 border-amber-400/40'
+                    : selectedTrackId === 'flash-pass-60'
+                    ? 'bg-amber-500/15 border-amber-400/40'
                     : 'bg-white/5 border-white/20'
                 }`}
               >
@@ -175,6 +201,8 @@ export const SectionRegistration: React.FC<SectionRegistrationProps> = ({
                   <span className="block text-sm font-bold text-white mb-0.5">
                     {selectedTrackId === 'sih-masterclass'
                       ? 'Smart India Hackathon (SIH) 2-Hr Masterclass'
+                      : selectedTrackId === 'flash-pass-60'
+                      ? 'Student Flash Pass (₹60 Launch Grant)'
                       : '7-Day Masterclass (All 9 Skills)'}
                   </span>
                   <span className="text-xs text-white/80 font-medium">

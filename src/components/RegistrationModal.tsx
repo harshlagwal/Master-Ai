@@ -143,19 +143,43 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
             </p>
 
             {/* Select Workshop Track Pills */}
-            <div className="grid grid-cols-2 gap-2.5 mb-3.5">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mb-3.5">
+              <button
+                type="button"
+                onClick={() => setSelectedTrackId('flash-pass-60')}
+                className={`p-2.5 sm:p-3 rounded-2xl border-2 text-left transition-all cursor-pointer ${
+                  selectedTrackId === 'flash-pass-60'
+                    ? 'border-amber-500 bg-amber-400 text-black shadow-sm font-semibold'
+                    : 'border-neutral-300 bg-neutral-50 text-neutral-800 hover:border-amber-400'
+                }`}
+              >
+                <div className="text-[12px] font-bold leading-snug flex items-center justify-between">
+                  <span>Student Pass</span>
+                  <span className="text-[9px] font-extrabold bg-black/15 px-1 rounded uppercase">
+                    Grant
+                  </span>
+                </div>
+                <div
+                  className={`text-[11px] font-extrabold mt-0.5 ${
+                    selectedTrackId === 'flash-pass-60' ? 'text-black' : 'text-emerald-700'
+                  }`}
+                >
+                  ₹60 Total
+                </div>
+              </button>
+
               <button
                 type="button"
                 onClick={() => setSelectedTrackId('master-pass')}
-                className={`p-3 rounded-2xl border-2 text-left transition-all cursor-pointer ${
+                className={`p-2.5 sm:p-3 rounded-2xl border-2 text-left transition-all cursor-pointer ${
                   selectedTrackId === 'master-pass'
                     ? 'border-neutral-950 bg-neutral-950 text-white shadow-sm'
                     : 'border-neutral-300 bg-neutral-50 text-neutral-800 hover:border-neutral-400'
                 }`}
               >
-                <div className="text-[12.5px] font-bold leading-snug">7-Day Masterclass</div>
+                <div className="text-[12px] font-bold leading-snug">7-Day Master</div>
                 <div
-                  className={`text-[11.5px] font-extrabold mt-0.5 ${
+                  className={`text-[11px] font-extrabold mt-0.5 ${
                     selectedTrackId === 'master-pass' ? 'text-emerald-400' : 'text-emerald-700'
                   }`}
                 >
@@ -166,24 +190,24 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
               <button
                 type="button"
                 onClick={() => setSelectedTrackId('sih-masterclass')}
-                className={`p-3 rounded-2xl border-2 text-left transition-all cursor-pointer ${
+                className={`p-2.5 sm:p-3 rounded-2xl border-2 text-left transition-all cursor-pointer ${
                   selectedTrackId === 'sih-masterclass'
                     ? 'border-amber-600 bg-gradient-to-r from-amber-500 to-orange-500 text-neutral-950 shadow-sm'
                     : 'border-neutral-300 bg-neutral-50 text-neutral-800 hover:border-amber-400'
                 }`}
               >
-                <div className="text-[12.5px] font-bold leading-snug flex items-center justify-between">
-                  <span>SIH 2-Hr Sprint</span>
-                  <span className="text-[9.5px] font-extrabold bg-black/20 px-1.5 py-0.5 rounded text-neutral-950 uppercase tracking-wide">
-                    Special
+                <div className="text-[12px] font-bold leading-snug flex items-center justify-between">
+                  <span>SIH 2-Hr</span>
+                  <span className="text-[9px] font-extrabold bg-black/20 px-1 rounded text-neutral-950 uppercase">
+                    Sprint
                   </span>
                 </div>
                 <div
-                  className={`text-[11.5px] font-extrabold mt-0.5 ${
+                  className={`text-[11px] font-extrabold mt-0.5 ${
                     selectedTrackId === 'sih-masterclass' ? 'text-neutral-950' : 'text-amber-700'
                   }`}
                 >
-                  ₹199 Team Pass
+                  ₹199 Team
                 </div>
               </button>
             </div>
@@ -193,6 +217,8 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
               className={`mb-4 p-3.5 rounded-2xl border-2 ${
                 selectedTrackId === 'sih-masterclass'
                   ? 'bg-amber-50/90 border-amber-300'
+                  : selectedTrackId === 'flash-pass-60'
+                  ? 'bg-amber-50/90 border-amber-400'
                   : 'bg-neutral-100/90 border-neutral-300'
               }`}
             >
@@ -200,12 +226,16 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
                 <span className="text-sm font-bold text-neutral-950">
                   {selectedTrackId === 'sih-masterclass'
                     ? 'SIH 2-Hour Intensive Masterclass'
+                    : selectedTrackId === 'flash-pass-60'
+                    ? 'Student Flash Pass (₹60 Grant)'
                     : 'Complete 7-Day Access'}
                 </span>
                 <span
                   className={`text-xs font-bold px-2.5 py-0.5 rounded-full border ${
                     selectedTrackId === 'sih-masterclass'
                       ? 'text-amber-950 bg-amber-200 border-amber-400'
+                      : selectedTrackId === 'flash-pass-60'
+                      ? 'text-amber-950 bg-amber-300 border-amber-500'
                       : 'text-emerald-950 bg-emerald-100 border-emerald-300'
                   }`}
                 >

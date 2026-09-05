@@ -22,10 +22,13 @@ import { RegistrationModal } from './components/RegistrationModal';
 import { WhatsAppModal } from './components/WhatsAppModal';
 import { StickyQuickEnrollBar } from './components/StickyQuickEnrollBar';
 import { NamasteIntro } from './components/NamasteIntro';
+import { PromoOfferPopup } from './components/PromoOfferPopup';
+import { SectionOpportunities } from './components/SectionOpportunities';
 
 export default function App() {
   const [isRegistrationOpen, setIsRegistrationOpen] = useState(false);
   const [isWhatsAppOpen, setIsWhatsAppOpen] = useState(false);
+  const [isPromoPopupOpen, setIsPromoPopupOpen] = useState(false);
   const [selectedTrackId, setSelectedTrackId] = useState<string>('master-pass');
 
   const openRegistration = (trackId?: string) => {
@@ -37,6 +40,31 @@ export default function App() {
 
   const openWhatsApp = () => {
     setIsWhatsAppOpen(true);
+  };
+
+  // Trigger launch offer popup smoothly after intro finishes (or if already completed)
+  const handleIntroComplete = () => {
+    try {
+      const dismissed = sessionStorage.getItem('master_ai_promo_dismissed');
+      if (!dismissed) {
+        window.setTimeout(() => {
+          setIsPromoPopupOpen(true);
+        }, 1100);
+      }
+    } catch {
+      window.setTimeout(() => {
+        setIsPromoPopupOpen(true);
+      }, 1100);
+    }
+  };
+
+  const handleClosePromo = () => {
+    setIsPromoPopupOpen(false);
+    try {
+      sessionStorage.setItem('master_ai_promo_dismissed', 'true');
+    } catch {
+      // ignore
+    }
   };
 
   return (
@@ -102,30 +130,35 @@ export default function App() {
           <SectionWhy />
         </div>
 
-        {/* 09 // Why Only ₹89? (Honest Value Philosophy • 20 Seats Daily) */}
+        {/* 09 // Verified Credentials & Elite Opportunities (Skill India, upGrad, IIT Kanpur) */}
+        <div className="content-auto">
+          <SectionOpportunities onJoinClick={openRegistration} />
+        </div>
+
+        {/* 10 // Why Only ₹89? (Honest Value Philosophy • 20 Seats Daily) */}
         <SectionPricing onJoinClick={openRegistration} />
 
-        {/* 10 // The Details (Dates, Time, Format & Legitimate Credential Clarity) */}
+        {/* 11 // The Details (Dates, Time, Format & Legitimate Credential Clarity) */}
         <div className="content-auto">
           <SectionDetails />
         </div>
 
-        {/* 11 // Registration & Instant Checkout */}
+        {/* 12 // Registration & Instant Checkout */}
         <div className="content-auto">
           <SectionRegistration />
         </div>
 
-        {/* 12 // Frequently Asked Questions */}
+        {/* 13 // Frequently Asked Questions */}
         <div className="content-auto">
           <SectionFAQ />
         </div>
 
-        {/* 13 // Final Magnetic Call to Action */}
+        {/* 14 // Final Magnetic Call to Action */}
         <div className="content-auto">
           <SectionFinalCTA onJoinClick={openRegistration} />
         </div>
 
-        {/* 14 // Minimal Editorial Footer */}
+        {/* 15 // Minimal Editorial Footer */}
         <Footer onWhatsAppClick={openWhatsApp} />
       </main>
 
@@ -145,11 +178,20 @@ export default function App() {
         }}
       />
 
+      {/* Launch Offer & Flash Promotion Popup (₹60 Grant & Free Certs) */}
+      <PromoOfferPopup
+        isOpen={isPromoPopupOpen}
+        onClose={handleClosePromo}
+        onClaim={(trackId) => {
+          openRegistration(trackId || 'flash-pass-60');
+        }}
+      />
+
       {/* Floating Sticky Quick-Enroll Capsule Bar on Scroll */}
       <StickyQuickEnrollBar onJoinClick={() => openRegistration()} />
 
       {/* Cinematic Full-Screen Multilingual Namaste Intro Experience */}
-      <NamasteIntro />
+      <NamasteIntro onComplete={handleIntroComplete} />
     </div>
   );
 }

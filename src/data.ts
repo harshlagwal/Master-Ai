@@ -123,6 +123,23 @@ export const WORKSHOP_TOPICS: WorkshopTopic[] = [
 // Domain Tracks: 7-Day Live Masterclass and SIH 2-Hour Intensive Masterclass
 export const DOMAIN_TRACKS: DomainTrack[] = [
   {
+    id: "flash-pass-60",
+    name: "Student Flash Grant • Complete 7-Day Live Masterclass",
+    shortName: "Student Flash Pass (₹60)",
+    badge: "Special Launch Grant • ₹60 Only",
+    price: "₹60",
+    amountNum: 60,
+    sessions: "All 7 Days (9:00 PM – 10:30 PM IST)",
+    idealFor: "College Freshers, Students & Early Tech Aspirants",
+    highlights: [
+      "Special ₹60 Launch Price (Regular ₹89)",
+      "Full 7-Day Live Interactive Zoom Training (All 9 Skills)",
+      "Skill India & upGrad Free Certificate Claim Roadmap",
+      "IIT Kanpur Campus Ambassador & Internship Guidance",
+      "Ready-to-use ATS Resume & AI Prompt Swipe Files",
+    ],
+  },
+  {
     id: "master-pass",
     name: "Complete 7-Day Live Masterclass (All 9 Skills)",
     shortName: "7-Day All 9 Skills (₹89)",
@@ -787,3 +804,135 @@ export const FAQ_ITEMS: FAQItem[] = [
       "Tools may include ChatGPT, Gemini, Claude, Perplexity, NotebookLM, Canva AI, Gamma, Replit, Cursor and other relevant AI tools. The exact toolkit may evolve as better tools become available.",
   },
 ];
+
+// Launch Offer & Flash Promotion Data (₹60 Grant)
+export const PROMO_OFFER_DATA = {
+  badge: "LIMITED STUDENT FLASH GRANT",
+  headline: "Master AI in Just ₹60",
+  subheadline: "7-Day Live Masterclass • Skill India & upGrad Free Certificate Guide • IIT Kanpur Internship Prep",
+  originalPrice: "₹499",
+  offerPrice: "₹60",
+  spotsLeft: "Limited to 50 Students",
+  perks: [
+    {
+      title: "7-Day Live Zoom Masterclass",
+      desc: "Learn 9 high-income AI tools, coding assistants, and automated workflows.",
+    },
+    {
+      title: "Skill India & upGrad Free Certificates",
+      desc: "Step-by-step roadmap to enroll, qualify, and claim verified credentials at ₹0.",
+    },
+    {
+      title: "IIT Kanpur Internship & Ambassador Prep",
+      desc: "Eligibility criteria, SOP templates, student leadership roles & LOR guidance.",
+    },
+  ],
+  trackId: "flash-pass-60",
+};
+
+// Verified Credentials & Elite Opportunities Data
+export const OPPORTUNITIES_DATA = {
+  sectionTag: "10 // CREDENTIALS & LEADERSHIP OPPORTUNITIES",
+  headline: "Free Recognized Certifications & Premier College Internships",
+  subheadline:
+    "We cut through internet spam to give you the verified, legitimate steps to earn national certifications and premier institute student ambassadorships.",
+  cards: [
+    {
+      id: "skill-india-upgrad",
+      tag: "100% FREE CREDENTIALS",
+      title: "Skill India & upGrad Free Certificate Roadmap",
+      subtitle: "Government & Leading EdTech Recognized Digital Badges",
+      badgeColor: "emerald",
+      overview:
+        "Top platforms like Skill India Digital (MSDE) and upGrad provide complimentary certification modules. We give you the complete step-by-step framework to qualify and claim them.",
+      steps: [
+        {
+          stepNumber: "01",
+          title: "Build Hands-on Project",
+          desc: "Complete your practical prompt engineering or web prototype during Day 1-4 of Master AI.",
+        },
+        {
+          stepNumber: "02",
+          title: "Access Partner Portals",
+          desc: "Direct navigation to verified Skill India & upGrad free competency portals without hidden payment traps.",
+        },
+        {
+          stepNumber: "03",
+          title: "Pass Verification & Download",
+          desc: "Apply your newly learned Master AI concepts to pass module quizzes and download your shareable digital certificate.",
+        },
+      ],
+      highlights: [
+        "No credit card or paid subscription needed",
+        "Add verifiable badge to LinkedIn & Resume",
+        "Recognized across corporate & government recruitments",
+      ],
+      ctaText: "Enroll & Learn Claim Steps",
+    },
+    {
+      id: "iit-kanpur-ambassador",
+      tag: "PREMIER INSTITUTE CALL",
+      title: "IIT Kanpur Campus Ambassador & Internship Blueprint",
+      subtitle: "Student Leadership & Direct Institute Exposure",
+      badgeColor: "amber",
+      overview:
+        "Every year IIT Kanpur opens prestigious student initiatives, tech fest ambassadorships, and winter/summer research calls. Learn how to craft a winning application that gets shortlisted.",
+      steps: [
+        {
+          stepNumber: "01",
+          title: "Campus Ambassador Selection",
+          desc: "Represent your college for IIT Kanpur tech initiatives. We share exact SOP templates & application prompts.",
+        },
+        {
+          stepNumber: "02",
+          title: "Exclusive Perks & Stipend Access",
+          desc: "Earn official Certificates of Appreciation, free entry passes to national hackathons, and performance rewards.",
+        },
+        {
+          stepNumber: "03",
+          title: "Winter / Summer Internship Pipeline",
+          desc: "Leverage ambassador credentials and your AI project repository to apply for student research and developer internships.",
+        },
+      ],
+      highlights: [
+        "Official Certificate & Letter of Recommendation (LOR)",
+        "Direct networking with IIT Kanpur professors & tech leads",
+        "Dramatically boosts fresher resume shortlisting",
+      ],
+      ctaText: "Get Application Guide",
+    },
+    {
+      id: "global-free-badges",
+      tag: "GLOBAL INDUSTRY STANDARDS",
+      title: "Google, Microsoft, IBM & Cisco Free Badges",
+      subtitle: "Global Tech Industry Digital Credentials",
+      badgeColor: "blue",
+      overview:
+        "Why pay thousands for ordinary certificates when global tech giants offer completely free verified pathways? Learn how to unlock them on Day 6.",
+      steps: [
+        {
+          stepNumber: "01",
+          title: "Google Cloud Skills Boost",
+          desc: "Claim student tier access to complete interactive labs and earn official Google skill badges.",
+        },
+        {
+          stepNumber: "02",
+          title: "Microsoft Learn & Cisco Academy",
+          desc: "Unlock free foundational certifications in Cloud, AI, and Cybersecurity directly from Microsoft and Cisco.",
+        },
+        {
+          stepNumber: "03",
+          title: "Resume & ATS Optimization",
+          desc: "Format your earned credentials into ATS-friendly keywords that get you noticed by tech recruiters.",
+        },
+      ],
+      highlights: [
+        "100% Free & Globally Recognized",
+        "Shareable Credly and LinkedIn verified URLs",
+        "Hands-on practice without expensive software subscriptions",
+      ],
+      ctaText: "View Day 6 Curriculum",
+    },
+  ],
+};
+

@@ -76,7 +76,7 @@ const INDIC_FONT_STACK = [
   'sans-serif',
 ].join(', ');
 
-export const NamasteIntro: React.FC = () => {
+export const NamasteIntro: React.FC<{ onComplete?: () => void }> = ({ onComplete }) => {
   // Check if intro should be shown according to configuration
   const [shouldRender, setShouldRender] = useState<boolean>(() => {
     if (typeof window === 'undefined') return false;
@@ -112,6 +112,7 @@ export const NamasteIntro: React.FC = () => {
       setStage('done');
       setShouldRender(false);
       document.body.style.overflow = '';
+      onComplete?.();
       return;
     }
 
@@ -120,8 +121,16 @@ export const NamasteIntro: React.FC = () => {
       setStage('done');
       setShouldRender(false);
       document.body.style.overflow = '';
+      onComplete?.();
     }, OVERLAY_FADE_DURATION_MS);
-  }, []);
+  }, [onComplete]);
+
+  // If already not rendered, trigger onComplete once
+  useEffect(() => {
+    if (!shouldRender) {
+      onComplete?.();
+    }
+  }, [shouldRender, onComplete]);
 
   // Lock scroll during intro playback and attach Escape key listener
   useEffect(() => {

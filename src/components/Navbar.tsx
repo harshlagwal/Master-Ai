@@ -96,6 +96,12 @@ export const Navbar: React.FC<NavbarProps> = ({ onJoinClick }) => {
               <span className="text-[10px] font-mono font-bold">₹199</span>
             </a>
             <a
+              href="#opportunities"
+              className="px-2.5 py-1 rounded-full hover:text-black hover:bg-black/5 transition-all whitespace-nowrap"
+            >
+              Certificates & IIT
+            </a>
+            <a
               href="#pricing"
               className="px-2.5 py-1 rounded-full hover:text-black hover:bg-black/5 transition-all whitespace-nowrap"
             >
@@ -209,6 +215,17 @@ export const Navbar: React.FC<NavbarProps> = ({ onJoinClick }) => {
           style={{ fontFamily: 'var(--font-heading)' }}
         >
           Curriculum
+        </a>
+        <a
+          href="#opportunities"
+          onClick={closeMenu}
+          className="text-[32px] sm:text-[36px] font-medium text-emerald-600 hover:opacity-80 transition-opacity tracking-tight flex items-center justify-between"
+          style={{ fontFamily: 'var(--font-heading)' }}
+        >
+          <span>Free Certs & IIT</span>
+          <span className="text-xs font-mono font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300">
+            ₹0
+          </span>
         </a>
         <a
           href="#pricing"
