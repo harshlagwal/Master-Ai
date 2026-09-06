@@ -407,41 +407,31 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
               </div>
 
               {/* Copyable UPI ID Pill */}
-              <div className="w-full flex items-center justify-between gap-2 px-3.5 py-2.5 rounded-xl bg-white border border-neutral-300 text-xs font-bold">
-                <span className="text-neutral-900 truncate">{UPI_CONFIG.upiId}</span>
+              <div className="w-full flex items-center justify-between gap-2 px-3.5 py-3 rounded-xl bg-white border-2 border-neutral-300 hover:border-black text-xs font-bold transition-colors">
+                <span className="text-neutral-900 font-mono select-all truncate">{UPI_CONFIG.upiId}</span>
                 <button
                   type="button"
                   onClick={handleCopyUpi}
-                  className="shrink-0 flex items-center gap-1 text-xs text-neutral-950 font-bold bg-neutral-100 hover:bg-neutral-200 px-2.5 py-1 rounded-md transition-colors cursor-pointer"
+                  className="shrink-0 flex items-center gap-1.5 text-xs text-neutral-950 font-bold bg-neutral-100 hover:bg-neutral-200 px-3 py-1.5 rounded-lg transition-colors cursor-pointer"
                 >
                   {copied ? (
                     <>
                       <Check className="w-3.5 h-3.5 text-emerald-600" />
-                      <span className="text-emerald-700">Copied</span>
+                      <span className="text-emerald-700">Copied!</span>
                     </>
                   ) : (
                     <>
                       <Copy className="w-3.5 h-3.5" />
-                      <span>Copy</span>
+                      <span>Copy UPI ID</span>
                     </>
                   )}
                 </button>
               </div>
 
-              {/* Mobile 1-Click UPI App Launch */}
-              <button
-                type="button"
-                onClick={handleMobilePay}
-                className="w-full mt-3 py-3 px-4 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition-colors cursor-pointer shadow-sm"
-              >
-                <Smartphone className="w-4 h-4" />
-                <span>Open GPay / PhonePe / Paytm (₹{amountStr})</span>
-              </button>
-
-              {/* Mobile UPI Limit Helper Notice */}
-              <div className="w-full mt-2.5 p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/25 text-[11px] text-amber-900 leading-snug text-left">
-                <span className="font-bold text-amber-950">💡 Mobile Bank Limit Note:</span> If GPay or PhonePe shows <em>"Bank limit exceeded"</em> on direct click, simply <strong>scan the QR code above</strong> or tap <strong>Copy UPI ID</strong> to pay directly.
-              </div>
+              {/* Simple Step Helper */}
+              <p className="text-[11px] text-neutral-600 mt-2 text-center">
+                Scan QR with GPay/PhonePe/Paytm or copy UPI ID to pay ₹{amountStr}.
+              </p>
             </div>
 
             {/* Step 2 Form: Enter UTR / Confirm Payment */}

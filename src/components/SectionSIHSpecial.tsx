@@ -67,7 +67,7 @@ export const SectionSIHSpecial: React.FC<SectionSIHSpecialProps> = ({ onJoinClic
     <section
       id="sih"
       ref={containerRef}
-      className="relative z-10 w-full py-20 sm:py-28 md:py-36 px-4 sm:px-8 md:px-14 lg:px-20 bg-[#070709] text-white border-t border-white/10 overflow-hidden"
+      className="relative z-10 w-full py-16 sm:py-20 md:py-24 px-4 sm:px-8 md:px-14 lg:px-20 bg-[#070709] text-white border-t border-white/10 overflow-hidden"
     >
       {/* Dynamic Ambient Background Glows */}
       <div className="absolute top-1/4 -left-32 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />

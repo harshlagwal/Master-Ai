@@ -90,24 +90,24 @@ export const SectionRegistration: React.FC<SectionRegistrationProps> = ({
   return (
     <section
       id="register"
-      className="relative z-10 w-full py-28 sm:py-36 md:py-44 px-6 sm:px-10 md:px-16 lg:px-24 bg-[#0A0A0A] text-white border-t border-white/10"
+      className="relative z-10 w-full py-16 sm:py-20 md:py-24 px-6 sm:px-10 md:px-16 lg:px-24 bg-[#0A0A0A] text-white border-t border-white/10"
     >
       <div className="max-w-4xl mx-auto text-center">
         {/* Section Identifier */}
-        <div className="text-[12px] font-mono tracking-widest text-white/40 uppercase mb-6">
+        <div className="text-[12px] font-mono tracking-widest text-white/40 uppercase mb-4 sm:mb-6">
           10 // WORKSHOP ENROLLMENT
         </div>
 
         {/* Headline */}
         <h2
-          className="text-[38px] sm:text-[56px] md:text-[70px] font-medium tracking-tight leading-[1.05] text-white mb-6"
+          className="text-[32px] sm:text-[46px] md:text-[58px] lg:text-[66px] font-medium tracking-tight leading-[1.05] text-white mb-4 sm:mb-6"
           style={{ fontFamily: 'var(--font-heading)' }}
         >
           Secure Your Seat Today
         </h2>
 
         {/* Subheading */}
-        <p className="text-[17px] sm:text-[22px] text-white/80 font-normal max-w-2xl mx-auto mb-12 leading-relaxed">
+        <p className="text-[16px] sm:text-[19px] text-white/80 font-normal max-w-2xl mx-auto mb-8 sm:mb-10 leading-relaxed">
           Choose your live workshop program and reserve your seat via direct UPI with zero transaction fees.
         </p>
 
@@ -334,36 +334,30 @@ export const SectionRegistration: React.FC<SectionRegistrationProps> = ({
                 </div>
 
                 {/* Copyable UPI ID */}
-                <div className="w-full flex items-center justify-between gap-2 px-3.5 py-2.5 rounded-xl bg-white/10 border border-white/15 text-xs font-mono">
-                  <span className="text-white/90 truncate">{UPI_CONFIG.upiId}</span>
+                <div className="w-full flex items-center justify-between gap-2 px-3.5 py-3 rounded-xl bg-white/10 border border-white/20 hover:border-white/40 text-xs font-mono transition-colors">
+                  <span className="text-white/90 select-all truncate">{UPI_CONFIG.upiId}</span>
                   <button
                     type="button"
                     onClick={handleCopyUpi}
-                    className="shrink-0 flex items-center gap-1.5 text-xs text-white bg-white/15 hover:bg-white/25 px-2.5 py-1 rounded-lg transition-colors cursor-pointer"
+                    className="shrink-0 flex items-center gap-1.5 text-xs text-white bg-white/20 hover:bg-white/30 px-3 py-1.5 rounded-lg transition-colors cursor-pointer"
                   >
                     {copied ? (
                       <>
                         <Check className="w-3.5 h-3.5 text-emerald-400" />
-                        <span className="text-emerald-400 font-semibold">Copied</span>
+                        <span className="text-emerald-400 font-semibold">Copied!</span>
                       </>
                     ) : (
                       <>
                         <Copy className="w-3.5 h-3.5" />
-                        <span>Copy UPI</span>
+                        <span>Copy UPI ID</span>
                       </>
                     )}
                   </button>
                 </div>
 
-                {/* Direct Mobile App Launch Button */}
-                <button
-                  type="button"
-                  onClick={handleMobilePay}
-                  className="w-full mt-3 py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs sm:text-sm font-semibold flex items-center justify-center gap-2 transition-colors cursor-pointer shadow-md"
-                >
-                  <Smartphone className="w-4 h-4" />
-                  <span>Tap to Pay ₹{amountStr} on UPI App</span>
-                </button>
+                <p className="text-[11px] text-white/50 mt-2 text-center">
+                  Scan QR with any UPI app or copy UPI ID to pay ₹{amountStr}.
+                </p>
               </div>
 
               {/* UTR Reference Input Form */}

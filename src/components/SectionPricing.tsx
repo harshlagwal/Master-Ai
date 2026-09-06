@@ -66,7 +66,7 @@ export const SectionPricing: React.FC<SectionPricingProps> = ({ onJoinClick }) =
   return (
     <section
       id="pricing"
-      className="relative z-10 w-full py-24 sm:py-32 md:py-40 px-6 sm:px-10 md:px-16 lg:px-24 bg-[#0A0A0A] text-white border-t border-white/10"
+      className="relative z-10 w-full py-16 sm:py-20 md:py-24 px-6 sm:px-10 md:px-16 lg:px-24 bg-[#0A0A0A] text-white border-t border-white/10"
     >
       <div className="max-w-5xl mx-auto">
         {/* Section Identifier */}

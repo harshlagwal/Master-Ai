@@ -32,7 +32,7 @@ export const SectionOpportunities: React.FC<SectionOpportunitiesProps> = ({ onJo
   return (
     <section
       id="opportunities"
-      className="relative z-10 w-full py-20 sm:py-28 md:py-36 px-5 sm:px-8 md:px-14 lg:px-20 bg-[#0C0C0E] text-white border-t border-white/10 overflow-hidden"
+      className="relative z-10 w-full py-16 sm:py-20 md:py-24 px-5 sm:px-8 md:px-14 lg:px-20 bg-[#0C0C0E] text-white border-t border-white/10 overflow-hidden"
     >
       {/* Background Ambient Glows */}
       <div

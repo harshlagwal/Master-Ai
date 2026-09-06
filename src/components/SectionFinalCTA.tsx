@@ -17,7 +17,7 @@ export const SectionFinalCTA: React.FC<SectionFinalCTAProps> = ({ onJoinClick })
   return (
     <section
       id="final-cta"
-      className="relative z-10 w-full py-32 sm:py-44 md:py-52 px-6 sm:px-10 md:px-16 lg:px-24 bg-[#0A0A0A] text-white border-t border-white/10 overflow-hidden"
+      className="relative z-10 w-full py-18 sm:py-24 md:py-28 px-6 sm:px-10 md:px-16 lg:px-24 bg-[#0A0A0A] text-white border-t border-white/10 overflow-hidden"
     >
       <div className="max-w-5xl mx-auto text-center">
         {/* Section Identifier */}

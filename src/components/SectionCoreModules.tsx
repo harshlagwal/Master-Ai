@@ -151,42 +151,91 @@ const SpotlightCard: React.FC<SpotlightCardProps> = ({ module, index }) => {
 };
 
 export const SectionCoreModules: React.FC<SectionCoreModulesProps> = ({ onJoinClick }) => {
+  const [activeSlide, setActiveSlide] = React.useState(0);
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  const handleScroll = () => {
+    if (!scrollRef.current) return;
+    const scrollLeft = scrollRef.current.scrollLeft;
+    const itemWidth = scrollRef.current.offsetWidth * 0.85;
+    const index = Math.round(scrollLeft / itemWidth);
+    setActiveSlide(Math.min(Math.max(index, 0), WORKSHOP_TOPICS.length - 1));
+  };
+
+  const scrollToSlide = (index: number) => {
+    if (!scrollRef.current) return;
+    const cards = scrollRef.current.querySelectorAll('.core-module-card');
+    if (cards[index]) {
+      cards[index].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      setActiveSlide(index);
+    }
+  };
+
   return (
     <section
       id="modules"
-      className="relative z-10 w-full py-24 sm:py-32 md:py-36 px-6 sm:px-10 md:px-16 lg:px-24 bg-[#F7F7F6] text-[#0A0A0A] border-t border-black/5"
+      className="relative z-10 w-full py-16 sm:py-20 md:py-24 px-6 sm:px-10 md:px-16 lg:px-24 bg-[#F7F7F6] text-[#0A0A0A] border-t border-black/5"
     >
       <div className="max-w-6xl mx-auto">
         {/* Section Identifier */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-10 sm:mb-14">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 sm:mb-12">
           <div>
             <div className="text-[12px] font-mono tracking-widest text-black/40 uppercase mb-3">
               02 // CURRICULUM ARCHITECTURE
             </div>
             <h2
-              className="text-[34px] sm:text-[46px] md:text-[56px] font-medium tracking-tight leading-[1.08] text-black"
+              className="text-[32px] sm:text-[44px] md:text-[54px] font-medium tracking-tight leading-[1.08] text-black"
               style={{ fontFamily: 'var(--font-heading)' }}
             >
               The 9 Core Skills You Will Master
             </h2>
           </div>
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/5 border border-black/10 text-xs font-mono text-black/75 self-start sm:self-auto">
-            <Users className="w-3.5 h-3.5 text-black/60" />
-            <span>Batch Capped at 20 Students / Day</span>
+          <div className="flex items-center gap-3">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/5 border border-black/10 text-xs font-mono text-black/75 self-start sm:self-auto">
+              <Users className="w-3.5 h-3.5 text-black/60" />
+              <span>Capped at 20 Students / Day</span>
+            </div>
+            {/* Mobile swipe counter */}
+            <span className="text-xs font-mono text-black/50 md:hidden">
+              {activeSlide + 1}/{WORKSHOP_TOPICS.length}
+            </span>
           </div>
         </div>
 
         {/* Sub-headline */}
-        <p className="text-[17px] sm:text-[20px] text-black/70 font-normal leading-relaxed max-w-3xl mb-12 sm:mb-16">
+        <p className="text-[16px] sm:text-[18px] text-black/70 font-normal leading-relaxed max-w-3xl mb-10 sm:mb-12">
           Every skill is taught through real-time building on Zoom. No passive video lectures,
           no fake promises. You walk away with tangible projects, working automations, and
           practical systems you can showcase to recruiters and clients.
         </p>
 
-        {/* 9 Modules Grid with Smooth Interactive Spotlight Hover */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+        {/* 9 Modules: Mobile Touch-Snap Swiper | Desktop 3-Column Grid */}
+        <div
+          ref={scrollRef}
+          onScroll={handleScroll}
+          className="flex md:grid md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 md:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory pb-4 md:pb-0 scrollbar-none"
+        >
           {WORKSHOP_TOPICS.map((module, index) => (
-            <SpotlightCard key={module.id} module={module} index={index} />
+            <div
+              key={module.id}
+              className="core-module-card shrink-0 w-[84vw] max-w-[340px] md:w-auto md:max-w-none snap-center flex flex-col"
+            >
+              <SpotlightCard module={module} index={index} />
+            </div>
+          ))}
+        </div>
+
+        {/* Mobile Indicator Dots */}
+        <div className="flex md:hidden items-center justify-center gap-1.5 mt-4">
+          {WORKSHOP_TOPICS.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => scrollToSlide(i)}
+              aria-label={`Go to module ${i + 1}`}
+              className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
+                activeSlide === i ? 'w-5 bg-black' : 'w-1.5 bg-black/20'
+              }`}
+            />
           ))}
         </div>
 

@@ -6,24 +6,24 @@ export const SectionMentor: React.FC = () => {
   return (
     <section
       id="mentor"
-      className="relative z-10 w-full py-28 sm:py-36 md:py-44 px-6 sm:px-10 md:px-16 lg:px-24 bg-[#0A0A0A] text-white border-t border-white/10"
+      className="relative z-10 w-full py-16 sm:py-20 md:py-24 px-6 sm:px-10 md:px-16 lg:px-24 bg-[#0A0A0A] text-white border-t border-white/10"
     >
       <div className="max-w-5xl mx-auto">
         {/* Section Identifier */}
-        <div className="text-[12px] font-mono tracking-widest text-white/40 uppercase mb-8 sm:mb-12">
+        <div className="text-[12px] font-mono tracking-widest text-white/40 uppercase mb-6 sm:mb-8">
           06 // INSTRUCTOR
         </div>
 
         {/* Section Headline */}
         <h2
-          className="text-[38px] sm:text-[54px] md:text-[68px] lg:text-[76px] font-medium tracking-tight leading-[1.05] text-white mb-12 sm:mb-16"
+          className="text-[32px] sm:text-[46px] md:text-[56px] lg:text-[64px] font-medium tracking-tight leading-[1.05] text-white mb-8 sm:mb-12"
           style={{ fontFamily: 'var(--font-heading)' }}
         >
           Meet Your Mentor.
         </h2>
 
         {/* Mentor Bio Block */}
-        <div className="p-8 sm:p-12 md:p-16 rounded-3xl border border-white/12 bg-white/[0.03]">
+        <div className="p-6 sm:p-10 md:p-12 rounded-3xl border border-white/12 bg-white/[0.03]">
           <div className="flex flex-col md:flex-row md:items-baseline justify-between gap-4 mb-8 pb-8 border-b border-white/10">
             <div>
               <h3

@@ -5,11 +5,11 @@ export const SectionDetails: React.FC = () => {
   return (
     <section
       id="details"
-      className="relative z-10 w-full py-24 sm:py-32 md:py-36 px-6 sm:px-10 md:px-16 lg:px-24 bg-[#F5F5F4] text-[#0A0A0A] border-t border-black/5"
+      className="relative z-10 w-full py-14 sm:py-18 md:py-20 px-6 sm:px-10 md:px-16 lg:px-24 bg-[#F5F5F4] text-[#0A0A0A] border-t border-black/5"
     >
       <div className="max-w-5xl mx-auto">
         {/* Section Header */}
-        <div className="max-w-2xl mb-14 sm:mb-20">
+        <div className="max-w-2xl mb-8 sm:mb-12">
           <div className="text-[12px] font-mono tracking-widest text-black/40 uppercase mb-4">
             09 // LOGISTICS
           </div>

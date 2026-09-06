@@ -11,11 +11,11 @@ export const SectionFAQ: React.FC = () => {
   return (
     <section
       id="faq"
-      className="relative z-10 w-full py-28 sm:py-36 md:py-44 px-6 sm:px-10 md:px-16 lg:px-24 bg-[#F5F5F4] text-[#0A0A0A] border-t border-black/5"
+      className="relative z-10 w-full py-16 sm:py-20 md:py-24 px-6 sm:px-10 md:px-16 lg:px-24 bg-[#F5F5F4] text-[#0A0A0A] border-t border-black/5"
     >
       <div className="max-w-4xl mx-auto">
         {/* Section Header */}
-        <div className="mb-16 sm:mb-20">
+        <div className="mb-10 sm:mb-14">
           <div className="text-[12px] font-mono tracking-widest text-black/40 uppercase mb-4">
             11 // CLARIFICATIONS
           </div>
