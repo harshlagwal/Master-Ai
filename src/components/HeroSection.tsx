@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useTypewriter } from '../hooks/useTypewriter';
 import { HERO_DATA } from '../data';
+import { Sparkles } from 'lucide-react';
 
 interface HeroSectionProps {
-  onJoinClick: () => void;
+  onJoinClick: (trackId?: string) => void;
   onWhatsAppClick: () => void;
 }
 
@@ -25,7 +26,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
   const handleOutlinePillClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    onJoinClick();
+    onJoinClick('week-pass-299');
   };
 
   return (
@@ -60,7 +61,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         {/* 2. Typewriter text */}
         <p
           id="typewriter-message"
-          className="text-black mb-5 sm:mb-6 font-normal tracking-tight leading-[1.38]"
+          className="text-black mb-5 sm:mb-6 font-medium tracking-tight leading-[1.4]"
           style={{
             fontSize: 'clamp(17px, 2.3vw, 22px)',
             minHeight: '62px',
@@ -85,7 +86,29 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             transition: 'opacity 0.4s ease, transform 0.4s ease',
           }}
         >
-          {/* 1. 9 Core Skills */}
+          {/* 1. 1-Week Pass (₹299) Most Popular Pill */}
+          <button
+            type="button"
+            onClick={() => onJoinClick('week-pass-299')}
+            title="Claim 1-Week Live Masterclass Pass — ₹299"
+            className="inline-flex items-center justify-center bg-gradient-to-r from-amber-400 via-amber-300 to-yellow-400 text-black font-bold rounded-full text-[12px] sm:text-[13px] md:text-[14px] px-3.5 sm:px-4 py-1.5 whitespace-nowrap hover:opacity-90 transition-all duration-200 cursor-pointer shadow-xs active:scale-95 gap-1.5 border border-amber-500/40"
+          >
+            <Sparkles className="w-3.5 h-3.5 text-black shrink-0" />
+            <span>1-Week Pass (₹299)</span>
+          </button>
+
+          {/* 2. 30-Min Demo (Only 2 Days) Free Pill */}
+          <button
+            type="button"
+            onClick={() => onJoinClick('demo-free')}
+            title="Join 30-Minute Free Live Demo — Only 2 Days"
+            className="inline-flex items-center justify-center bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-full text-[12px] sm:text-[13px] md:text-[14px] px-3.5 sm:px-4 py-1.5 whitespace-nowrap transition-all duration-200 cursor-pointer shadow-xs active:scale-95 gap-1.5 border border-emerald-400/40"
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse shrink-0" />
+            <span>30-Min Demo (Free • Only 2 Days)</span>
+          </button>
+
+          {/* 3. 9 Core Skills */}
           <a
             href="#modules"
             className="inline-flex items-center justify-center bg-white text-black border border-black/15 font-medium rounded-full text-[12px] sm:text-[13px] md:text-[14px] px-3.5 sm:px-4 py-1.5 whitespace-nowrap hover:bg-black hover:text-white transition-all duration-200 cursor-pointer shadow-xs active:scale-95 no-underline"

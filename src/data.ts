@@ -123,6 +123,40 @@ export const WORKSHOP_TOPICS: WorkshopTopic[] = [
 // Domain Tracks: 7-Day Live Masterclass and SIH 2-Hour Intensive Masterclass
 export const DOMAIN_TRACKS: DomainTrack[] = [
   {
+    id: "demo-free",
+    name: "30-Minute Free Live Demo Class (Only 2 Days)",
+    shortName: "Free Demo (Only 2 Days)",
+    badge: "100% Free • Available for Next 2 Days Only",
+    price: "₹0 Free",
+    amountNum: 0,
+    sessions: "30-Minute Live Demo on Google Meet (Next 2 Days)",
+    idealFor: "Anyone curious about AI tools, students & early beginners",
+    highlights: [
+      "100% Free Entry • Limited to Next 2 Days Only",
+      "Live Interactive Demo on Google Meet",
+      "Live Breakdown of ChatGPT, Claude 3.5 & Cursor IDE",
+      "Live Q&A Session with Harsh Lagwal",
+      "Instant Google Meet Join Link via WhatsApp & Email",
+    ],
+  },
+  {
+    id: "week-pass-299",
+    name: "1-Week Live Masterclass Pass (All 9 Skills)",
+    shortName: "1-Week Pass (₹299)",
+    badge: "Daily Night 9:00 PM • Google Meet",
+    price: "₹299",
+    amountNum: 299,
+    sessions: "Daily Night 9:00 PM – 10:30 PM (Google Meet)",
+    idealFor: "Students, College Freshers, Coders, Creators & Freelancers",
+    highlights: [
+      "Daily 9:00 PM Live Intensive Training on Google Meet",
+      "Hands-on Building across All 9 High-Income AI Skills",
+      "Skill India & upGrad Free Certificate Claim Roadmap",
+      "IIT Kanpur Campus Ambassador & Internship Guidance",
+      "100+ Production Prompts, Code Repos & ATS Resume Kits",
+    ],
+  },
+  {
     id: "flash-pass-60",
     name: "Student Flash Grant • Complete 7-Day Live Masterclass",
     shortName: "Student Flash Pass (₹60)",
@@ -804,6 +838,59 @@ export const FAQ_ITEMS: FAQItem[] = [
       "Tools may include ChatGPT, Gemini, Claude, Perplexity, NotebookLM, Canva AI, Gamma, Replit, Cursor and other relevant AI tools. The exact toolkit may evolve as better tools become available.",
   },
 ];
+
+// Interactive Live Workshop Popup Data (Free 30-Min Demo & ₹299 1-Week Pass on Google Meet)
+export const WORKSHOP_POPUP_DATA = {
+  badge: "SPECIAL INVITATION • LIVE ON GOOGLE MEET",
+  headline: "Choose Your AI Learning Path",
+  subheadline:
+    "Join the free 30-minute interactive live demo or unlock the complete 1-Week Live Masterclass to master all 9 high-income AI skills with Harsh Lagwal.",
+  demoCard: {
+    id: "demo-free",
+    badge: "100% FREE • ONLY 2 DAYS",
+    title: "30-Min Live Demo (Only 2 Days)",
+    format: "Google Meet • Interactive Live Class",
+    timing: "30-Min Session • Next 2 Days Only",
+    price: "₹0",
+    priceLabel: "Free Access",
+    perks: [
+      "Special free entry available for the next 2 days only",
+      "Live breakdown of ChatGPT, Claude 3.5 & Cursor IDE",
+      "Live interactive Q&A with mentor Harsh Lagwal",
+      "Instant Google Meet invite link sent via WhatsApp & Email",
+    ],
+    ctaText: "Join Free Demo Class (Only 2 Days)",
+  },
+  weekPassCard: {
+    id: "week-pass-299",
+    badge: "⭐ BEST VALUE • 88% OFF",
+    title: "1-Week Workshop Pass",
+    format: "Daily Night 9:00 PM Live on Google Meet",
+    timing: "Full 7 Days • Daily 9:00 PM – 10:30 PM",
+    price: "₹299",
+    originalPrice: "₹2,499",
+    priceLabel: "Complete 1-Week Access",
+    perks: [
+      "Daily 9:00 PM Live Class on Google Meet (1 Full Week)",
+      "Hands-on building across All 9 High-Income AI Skills",
+      "Skill India & upGrad Free Certificate Claim Blueprint",
+      "IIT Kanpur Campus Ambassador & Internship Roadmap",
+      "100+ Production Prompts, Project Repos & ATS Resume Kits",
+    ],
+    ctaText: "Claim ₹299 Week Pass",
+  },
+  skills: [
+    "AI Tools & Prompts",
+    "AI Coding (Cursor)",
+    "AI Graphic Design",
+    "AI Video & Avatars",
+    "AI Voice Synthesis",
+    "AI Automation (Make)",
+    "AI Presentations",
+    "Deep AI Research",
+    "Freelance Playbook",
+  ],
+};
 
 // Launch Offer & Flash Promotion Data (₹60 Grant)
 export const PROMO_OFFER_DATA = {

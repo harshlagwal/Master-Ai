@@ -5,6 +5,7 @@ import {
   CheckCircle2,
   ArrowRight,
   MessageCircle,
+  MessageSquare,
   Copy,
   Check,
   Smartphone,
@@ -66,8 +67,15 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
     setIsProceeding(true);
     setTimeout(() => {
       setIsProceeding(false);
-      setTicketId(`MAI-${Math.floor(100000 + Math.random() * 900000)}`);
-      setStep('payment');
+      const genId = selectedTrack.amountNum === 0
+        ? `MAI-DEMO-${Math.floor(100000 + Math.random() * 900000)}`
+        : `MAI-${Math.floor(100000 + Math.random() * 900000)}`;
+      setTicketId(genId);
+      if (selectedTrack.amountNum === 0) {
+        setStep('success');
+      } else {
+        setStep('payment');
+      }
     }, 600);
   };
 
@@ -93,16 +101,19 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
     }, 900);
   };
 
+  const isFreeTrack = selectedTrack.amountNum === 0;
+
   const whatsappConfirmationText = encodeURIComponent(
     `Hi Harsh! 👋\nI have registered for the MASTER AI Workshop.\n\n` +
       `👤 Name: ${formData.fullName}\n` +
       `📱 Phone: ${formData.phone}\n` +
       `✉️ Email: ${formData.email}\n` +
       `🎓 Selected Program: ${selectedTrack.name}\n` +
-      `💰 Amount: ₹${amountStr} (UPI)\n` +
+      `💰 Amount: ${isFreeTrack ? 'FREE (₹0 Entry)' : `₹${amountStr} (UPI)`}\n` +
+      `📹 Platform: Google Meet (Live Session)\n` +
       `🆔 Ticket ID: ${ticketId || 'MAI-REGISTERED'}\n` +
-      `🧾 UTR / Ref: ${utrNumber || 'Completed via UPI to golulagwal890-2@oksbi'}\n\n` +
-      `Please confirm my seat!`
+      (!isFreeTrack ? `🧾 UTR / Ref: ${utrNumber || 'Completed via UPI'}\n\n` : `\n`) +
+      `Please confirm my Google Meet seat!`
   );
 
   return (
@@ -139,29 +150,77 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
             </h3>
 
             <p className="text-[13px] sm:text-sm text-neutral-700 font-medium mb-3.5 leading-snug">
-              Select your workshop track and enter details for instant Zoom credentials.
+              Select your workshop track and enter details for your Google Meet session link.
             </p>
 
             {/* Select Workshop Track Pills */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 mb-3.5">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3.5">
               <button
                 type="button"
-                onClick={() => setSelectedTrackId('flash-pass-60')}
-                className={`p-2.5 sm:p-3 rounded-2xl border-2 text-left transition-all cursor-pointer ${
-                  selectedTrackId === 'flash-pass-60'
+                onClick={() => setSelectedTrackId('week-pass-299')}
+                className={`p-2 sm:p-2.5 rounded-2xl border-2 text-left transition-all cursor-pointer ${
+                  selectedTrackId === 'week-pass-299'
                     ? 'border-amber-500 bg-amber-400 text-black shadow-sm font-semibold'
                     : 'border-neutral-300 bg-neutral-50 text-neutral-800 hover:border-amber-400'
                 }`}
               >
-                <div className="text-[12px] font-bold leading-snug flex items-center justify-between">
+                <div className="text-[11px] font-bold leading-snug flex items-center justify-between">
+                  <span>1-Week Pass</span>
+                  <span className="text-[8px] font-extrabold bg-black/20 px-1 rounded uppercase">
+                    9 Skills
+                  </span>
+                </div>
+                <div
+                  className={`text-[11px] font-extrabold mt-0.5 ${
+                    selectedTrackId === 'week-pass-299' ? 'text-black' : 'text-amber-700'
+                  }`}
+                >
+                  ₹299 Total
+                </div>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setSelectedTrackId('demo-free')}
+                className={`p-2 sm:p-2.5 rounded-2xl border-2 text-left transition-all cursor-pointer ${
+                  selectedTrackId === 'demo-free'
+                    ? 'border-emerald-600 bg-emerald-600 text-white shadow-sm font-semibold'
+                    : 'border-neutral-300 bg-neutral-50 text-neutral-800 hover:border-emerald-400'
+                }`}
+              >
+                <div className="text-[11px] font-bold leading-snug flex items-center justify-between">
+                  <span>Free Demo</span>
+                  <span className="text-[8px] font-extrabold bg-white/25 px-1 rounded uppercase">
+                    30 Min
+                  </span>
+                </div>
+                <div
+                  className={`text-[11px] font-extrabold mt-0.5 ${
+                    selectedTrackId === 'demo-free' ? 'text-emerald-100' : 'text-emerald-700'
+                  }`}
+                >
+                  ₹0 Free
+                </div>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setSelectedTrackId('flash-pass-60')}
+                className={`p-2 sm:p-2.5 rounded-2xl border-2 text-left transition-all cursor-pointer ${
+                  selectedTrackId === 'flash-pass-60'
+                    ? 'border-neutral-900 bg-neutral-900 text-white shadow-sm font-semibold'
+                    : 'border-neutral-300 bg-neutral-50 text-neutral-800 hover:border-neutral-400'
+                }`}
+              >
+                <div className="text-[11px] font-bold leading-snug flex items-center justify-between">
                   <span>Student Pass</span>
-                  <span className="text-[9px] font-extrabold bg-black/15 px-1 rounded uppercase">
+                  <span className="text-[8px] font-extrabold bg-white/20 px-1 rounded uppercase">
                     Grant
                   </span>
                 </div>
                 <div
                   className={`text-[11px] font-extrabold mt-0.5 ${
-                    selectedTrackId === 'flash-pass-60' ? 'text-black' : 'text-emerald-700'
+                    selectedTrackId === 'flash-pass-60' ? 'text-emerald-300' : 'text-emerald-700'
                   }`}
                 >
                   ₹60 Total
@@ -170,35 +229,16 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
 
               <button
                 type="button"
-                onClick={() => setSelectedTrackId('master-pass')}
-                className={`p-2.5 sm:p-3 rounded-2xl border-2 text-left transition-all cursor-pointer ${
-                  selectedTrackId === 'master-pass'
-                    ? 'border-neutral-950 bg-neutral-950 text-white shadow-sm'
-                    : 'border-neutral-300 bg-neutral-50 text-neutral-800 hover:border-neutral-400'
-                }`}
-              >
-                <div className="text-[12px] font-bold leading-snug">7-Day Master</div>
-                <div
-                  className={`text-[11px] font-extrabold mt-0.5 ${
-                    selectedTrackId === 'master-pass' ? 'text-emerald-400' : 'text-emerald-700'
-                  }`}
-                >
-                  ₹89 Total
-                </div>
-              </button>
-
-              <button
-                type="button"
                 onClick={() => setSelectedTrackId('sih-masterclass')}
-                className={`p-2.5 sm:p-3 rounded-2xl border-2 text-left transition-all cursor-pointer ${
+                className={`p-2 sm:p-2.5 rounded-2xl border-2 text-left transition-all cursor-pointer ${
                   selectedTrackId === 'sih-masterclass'
-                    ? 'border-amber-600 bg-gradient-to-r from-amber-500 to-orange-500 text-neutral-950 shadow-sm'
+                    ? 'border-orange-600 bg-gradient-to-r from-amber-500 to-orange-500 text-neutral-950 shadow-sm'
                     : 'border-neutral-300 bg-neutral-50 text-neutral-800 hover:border-amber-400'
                 }`}
               >
-                <div className="text-[12px] font-bold leading-snug flex items-center justify-between">
+                <div className="text-[11px] font-bold leading-snug flex items-center justify-between">
                   <span>SIH 2-Hr</span>
-                  <span className="text-[9px] font-extrabold bg-black/20 px-1 rounded text-neutral-950 uppercase">
+                  <span className="text-[8px] font-extrabold bg-black/20 px-1 rounded uppercase">
                     Sprint
                   </span>
                 </div>
@@ -214,38 +254,37 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
 
             {/* Workshop Overview Card for Selected Track */}
             <div
-              className={`mb-4 p-3.5 rounded-2xl border-2 ${
-                selectedTrackId === 'sih-masterclass'
-                  ? 'bg-amber-50/90 border-amber-300'
-                  : selectedTrackId === 'flash-pass-60'
+              className={`mb-4 p-3 sm:p-3.5 rounded-2xl border-2 ${
+                selectedTrackId === 'week-pass-299'
                   ? 'bg-amber-50/90 border-amber-400'
+                  : selectedTrackId === 'demo-free'
+                  ? 'bg-emerald-50/90 border-emerald-300'
+                  : selectedTrackId === 'sih-masterclass'
+                  ? 'bg-amber-50/90 border-amber-300'
                   : 'bg-neutral-100/90 border-neutral-300'
               }`}
             >
-              <div className="flex items-center justify-between mb-1.5">
-                <span className="text-sm font-bold text-neutral-950">
-                  {selectedTrackId === 'sih-masterclass'
-                    ? 'SIH 2-Hour Intensive Masterclass'
-                    : selectedTrackId === 'flash-pass-60'
-                    ? 'Student Flash Pass (₹60 Grant)'
-                    : 'Complete 7-Day Access'}
+              <div className="flex items-center justify-between mb-1">
+                <span className="text-xs sm:text-sm font-bold text-neutral-950">
+                  {selectedTrack.name}
                 </span>
                 <span
-                  className={`text-xs font-bold px-2.5 py-0.5 rounded-full border ${
-                    selectedTrackId === 'sih-masterclass'
-                      ? 'text-amber-950 bg-amber-200 border-amber-400'
-                      : selectedTrackId === 'flash-pass-60'
+                  className={`text-[11px] sm:text-xs font-bold px-2.5 py-0.5 rounded-full border ${
+                    selectedTrackId === 'week-pass-299'
                       ? 'text-amber-950 bg-amber-300 border-amber-500'
-                      : 'text-emerald-950 bg-emerald-100 border-emerald-300'
+                      : selectedTrackId === 'demo-free'
+                      ? 'text-emerald-950 bg-emerald-200 border-emerald-400'
+                      : 'text-neutral-900 bg-neutral-200 border-neutral-300'
                   }`}
                 >
-                  ₹{amountStr} Total
+                  {selectedTrack.amountNum === 0 ? 'FREE ENTRY' : `₹${amountStr} Total`}
                 </span>
               </div>
-              <p className="text-xs sm:text-[12.5px] text-neutral-800 font-medium leading-relaxed">
-                {selectedTrackId === 'sih-masterclass'
-                  ? 'Covers detailing, AI prototype build, winning PPT deck & jury pitching. 1 ticket covers your whole 6-member team!'
-                  : 'Covers all 9 skills (Coding, Productivity, Design, Freelancing, Hackathons & Automations). Batch capped at 20 seats.'}
+              <div className="text-[11px] text-neutral-700 font-semibold mb-1">
+                📅 {selectedTrack.sessions}
+              </div>
+              <p className="text-[11.5px] sm:text-xs text-neutral-800 font-medium leading-relaxed">
+                {selectedTrack.idealFor}
               </p>
             </div>
 
@@ -266,7 +305,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
 
               <div>
                 <label className="block text-xs font-bold uppercase tracking-wider text-neutral-800 mb-1.5">
-                  Email Address (For Zoom Links & Notes)
+                  Email Address (For Google Meet Link & Access)
                 </label>
                 <input
                   type="email"
@@ -280,7 +319,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
 
               <div>
                 <label className="block text-xs font-bold uppercase tracking-wider text-neutral-800 mb-1.5">
-                  WhatsApp Number (For Evening Updates)
+                  WhatsApp Number (For Session Link & Reminders)
                 </label>
                 <input
                   type="tel"
@@ -296,16 +335,20 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
                 <button
                   type="submit"
                   disabled={isProceeding}
-                  className="w-full py-4 rounded-full bg-neutral-950 hover:bg-neutral-800 text-white font-bold text-sm uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg transition-all cursor-pointer active:scale-95 disabled:opacity-80"
+                  className="w-full py-3.5 sm:py-4 rounded-full bg-neutral-950 hover:bg-neutral-800 text-white font-bold text-xs sm:text-sm uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg transition-all cursor-pointer active:scale-95 disabled:opacity-80"
                 >
                   {isProceeding ? (
                     <div className="flex items-center gap-2.5">
                       <div className="loader-sm text-amber-400" />
-                      <span>Generating UPI Link...</span>
+                      <span>Saving your details...</span>
                     </div>
                   ) : (
                     <>
-                      <span>Proceed to UPI Payment — ₹{amountStr}</span>
+                      <span>
+                        {selectedTrack.amountNum === 0
+                          ? 'Confirm Free Demo Seat (₹0) →'
+                          : `Proceed to UPI Payment — ₹${amountStr}`}
+                      </span>
                       <ArrowRight className="w-4 h-4" />
                     </>
                   )}
@@ -394,6 +437,11 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
                 <Smartphone className="w-4 h-4" />
                 <span>Open GPay / PhonePe / Paytm (₹{amountStr})</span>
               </button>
+
+              {/* Mobile UPI Limit Helper Notice */}
+              <div className="w-full mt-2.5 p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/25 text-[11px] text-amber-900 leading-snug text-left">
+                <span className="font-bold text-amber-950">💡 Mobile Bank Limit Note:</span> If GPay or PhonePe shows <em>"Bank limit exceeded"</em> on direct click, simply <strong>scan the QR code above</strong> or tap <strong>Copy UPI ID</strong> to pay directly.
+              </div>
             </div>
 
             {/* Step 2 Form: Enter UTR / Confirm Payment */}
@@ -481,7 +529,9 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
                 </div>
                 <div>
                   <div className="text-white/40 uppercase text-[9px]">AMOUNT PAID</div>
-                  <div className="text-emerald-400 font-semibold">₹{amountStr}.00 (UPI)</div>
+                  <div className="text-emerald-400 font-semibold">
+                    {isFreeTrack ? '₹0.00 (FREE ENTRY)' : `₹${amountStr}.00 (UPI)`}
+                  </div>
                 </div>
                 <div className="col-span-2">
                   <div className="text-white/40 uppercase text-[9px]">DOMAIN TRACK</div>
@@ -492,10 +542,10 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
                   <div className="text-white truncate font-medium">{formData.fullName}</div>
                 </div>
                 <div>
-                  <div className="text-white/40 uppercase text-[9px]">PAID TO UPI</div>
-                  <div className="text-white truncate font-medium">{UPI_CONFIG.upiId}</div>
+                  <div className="text-white/40 uppercase text-[9px]">PLATFORM</div>
+                  <div className="text-white truncate font-medium">Google Meet (Live)</div>
                 </div>
-                {utrNumber && (
+                {utrNumber && !isFreeTrack && (
                   <div className="col-span-2">
                     <div className="text-white/40 uppercase text-[9px]">UTR / REF NO</div>
                     <div className="text-white font-mono">{utrNumber}</div>
@@ -504,43 +554,71 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
               </div>
 
               <div className="pt-2 border-t border-white/10 text-[10px] text-white/50">
-                Live sessions start at 9:00 PM IST. Joining link sent to {formData.email}.
+                {isFreeTrack
+                  ? `Free demo link will be sent to ${formData.email} & WhatsApp.`
+                  : `Live sessions start at 9:00 PM IST on Google Meet. Link sent to ${formData.email}.`}
               </div>
             </div>
 
-            {/* Google Form Submission Callout - Primary Next Step */}
-            <div className="mb-3 p-3 rounded-xl bg-blue-50/90 border border-blue-200 text-left">
-              <div className="flex items-center gap-2 mb-1">
-                <FileText className="w-4 h-4 text-blue-700 shrink-0" />
-                <span className="text-xs font-semibold text-blue-900">
-                  Step 2: Submit Details & Screenshot on Google Form
-                </span>
+            {/* If Free Track: Show Direct Google Meet WhatsApp Link */}
+            {isFreeTrack ? (
+              <div className="mb-3 p-3 rounded-2xl bg-emerald-50 border border-emerald-200 text-left">
+                <div className="flex items-center gap-2 mb-1">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <span className="text-xs font-bold text-emerald-900">
+                    Instant Access: Receive Google Meet Link
+                  </span>
+                </div>
+                <p className="text-[11.5px] text-emerald-800 mb-2 leading-relaxed">
+                  Send your confirmation on WhatsApp to receive the direct Google Meet room link and calendar invite immediately.
+                </p>
+                <a
+                  href={`https://api.whatsapp.com/send?text=${whatsappConfirmationText}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="w-full py-3 px-4 rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-black font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-sm transition-all"
+                >
+                  <MessageSquare className="w-4 h-4" />
+                  <span>Get Google Meet Link on WhatsApp</span>
+                </a>
               </div>
-              <p className="text-[11px] text-blue-800/80 mb-2 leading-relaxed">
-                Please upload your payment screenshot or UTR in the official form so your seat is verified instantly.
-              </p>
-              <a
-                href={GOOGLE_FORM_URL}
-                target="_blank"
-                rel="noreferrer"
-                className="w-full py-2.5 px-3 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors shadow-xs"
-              >
-                <span>Submit Details on Google Form</span>
-                <ExternalLink className="w-3.5 h-3.5" />
-              </a>
-            </div>
+            ) : (
+              /* Google Form Submission Callout - Primary Next Step for Paid Tracks */
+              <div className="mb-3 p-3 rounded-xl bg-blue-50/90 border border-blue-200 text-left">
+                <div className="flex items-center gap-2 mb-1">
+                  <FileText className="w-4 h-4 text-blue-700 shrink-0" />
+                  <span className="text-xs font-semibold text-blue-900">
+                    Step 2: Submit Details & Screenshot on Google Form
+                  </span>
+                </div>
+                <p className="text-[11px] text-blue-800/80 mb-2 leading-relaxed">
+                  Please upload your payment screenshot or UTR in the official form so your seat is verified instantly.
+                </p>
+                <a
+                  href={GOOGLE_FORM_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="w-full py-2.5 px-3 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors shadow-xs"
+                >
+                  <span>Submit Details on Google Form</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+              </div>
+            )}
 
-            {/* Next Steps: Connect on WhatsApp */}
-            <div className="flex flex-col gap-2">
-              <a
-                href={`https://api.whatsapp.com/send?text=${whatsappConfirmationText}`}
-                target="_blank"
-                rel="noreferrer"
-                className="w-full py-3 px-4 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold flex items-center justify-center gap-2 transition-colors shadow-sm"
-              >
-                <MessageCircle className="w-4 h-4" />
-                <span>Send Confirmation to Harsh on WhatsApp</span>
-              </a>
+            {/* Community & Done Actions */}
+            <div className="flex flex-col gap-2 mt-2">
+              {!isFreeTrack && (
+                <a
+                  href={`https://api.whatsapp.com/send?text=${whatsappConfirmationText}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="w-full py-3 px-4 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-semibold flex items-center justify-center gap-2 transition-colors shadow-sm"
+                >
+                  <MessageCircle className="w-4 h-4" />
+                  <span>Send Confirmation to Harsh on WhatsApp</span>
+                </a>
+              )}
 
               <a
                 href={SOCIAL_LINKS.whatsappCommunity}

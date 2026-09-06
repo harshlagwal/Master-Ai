@@ -22,7 +22,7 @@ import { RegistrationModal } from './components/RegistrationModal';
 import { WhatsAppModal } from './components/WhatsAppModal';
 import { StickyQuickEnrollBar } from './components/StickyQuickEnrollBar';
 import { NamasteIntro } from './components/NamasteIntro';
-import { PromoOfferPopup } from './components/PromoOfferPopup';
+import { WorkshopOfferPopup } from './components/WorkshopOfferPopup';
 import { SectionOpportunities } from './components/SectionOpportunities';
 
 export default function App() {
@@ -178,12 +178,12 @@ export default function App() {
         }}
       />
 
-      {/* Launch Offer & Flash Promotion Popup (₹60 Grant & Free Certs) */}
-      <PromoOfferPopup
+      {/* Live Interactive Workshop Offer Popup (Free Demo & ₹299 1-Week Pass on Google Meet) */}
+      <WorkshopOfferPopup
         isOpen={isPromoPopupOpen}
         onClose={handleClosePromo}
-        onClaim={(trackId) => {
-          openRegistration(trackId || 'flash-pass-60');
+        onSelectTrack={(trackId) => {
+          openRegistration(trackId || 'week-pass-299');
         }}
       />
 
