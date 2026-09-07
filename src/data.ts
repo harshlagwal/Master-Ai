@@ -310,9 +310,49 @@ export const SIH_WORKSHOP_DATA = {
 // Replace with external checkout link if desired. When empty, opens the sleek built-in enrollment modal.
 export const PAYMENT_URL: string = "";
 
+// Formspree endpoint for immediate email alerts on demo bookings and registrations
+export const FORMSPREE_ENDPOINT: string = "https://formspree.io/f/xppzyzzk";
+
 // Google Form URL for post-payment screenshot & registration confirmation
 export const GOOGLE_FORM_URL: string =
   "https://docs.google.com/forms/d/e/1FAIpQLSf67m-nROsXjchqIOJNTtdPPEKflG6jvd-K01ZIwV3-gtyOzQ/viewform";
+
+export async function submitLeadToFormspree(lead: {
+  fullName: string;
+  email: string;
+  phone: string;
+  trackName: string;
+  category: string;
+  ticketId: string;
+  utrNumber?: string;
+  additionalNote?: string;
+}): Promise<boolean> {
+  try {
+    const response = await fetch(FORMSPREE_ENDPOINT, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({
+        "Full Name": lead.fullName,
+        "Email Address": lead.email,
+        "Phone Number": lead.phone,
+        "Registered Program": lead.trackName,
+        "Category / Type": lead.category,
+        "Ticket ID": lead.ticketId,
+        "UTR / Ref": lead.utrNumber || (lead.category.includes("DEMO") ? "N/A (Free Demo Class)" : "Pending Verification"),
+        "Timestamp IST": new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" }),
+        "Lead Status": "New Student Lead Recorded",
+        "Notes": lead.additionalNote || "Submitted from MASTER AI Website",
+      }),
+    });
+    return response.ok;
+  } catch (err) {
+    console.warn("Formspree lead notification dispatch notice:", err);
+    return false;
+  }
+}
 
 // Social links configuration
 export const SOCIAL_LINKS = {

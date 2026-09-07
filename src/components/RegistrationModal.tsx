@@ -13,7 +13,7 @@ import {
   FileText,
   ExternalLink,
 } from 'lucide-react';
-import { BRAND, SOCIAL_LINKS, UPI_CONFIG, DOMAIN_TRACKS, GOOGLE_FORM_URL } from '../data';
+import { BRAND, SOCIAL_LINKS, UPI_CONFIG, DOMAIN_TRACKS, GOOGLE_FORM_URL, submitLeadToFormspree } from '../data';
 import { DomainTrack } from '../types';
 
 interface RegistrationModalProps {
@@ -65,13 +65,25 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
     e.preventDefault();
     if (!formData.fullName || !formData.email || !formData.phone) return;
     setIsProceeding(true);
+
+    const isFree = selectedTrack.amountNum === 0;
+    const genId = isFree
+      ? `MAI-DEMO-${Math.floor(100000 + Math.random() * 900000)}`
+      : `MAI-${Math.floor(100000 + Math.random() * 900000)}`;
+    setTicketId(genId);
+
+    // Instant Formspree dispatch for lead capture (Demo or Paid)
+    submitLeadToFormspree({
+      fullName: formData.fullName,
+      email: formData.email,
+      phone: formData.phone,
+      trackName: selectedTrack.name,
+      category: isFree ? 'FREE DEMO CLASS (30-MIN)' : `PAID WORKSHOP INTENT (₹${amountStr})`,
+      ticketId: genId,
+    });
+
     setTimeout(() => {
       setIsProceeding(false);
-      const isFree = selectedTrack.amountNum === 0;
-      const genId = isFree
-        ? `MAI-DEMO-${Math.floor(100000 + Math.random() * 900000)}`
-        : `MAI-${Math.floor(100000 + Math.random() * 900000)}`;
-      setTicketId(genId);
       if (isFree) {
         setStep('success');
         if (GOOGLE_FORM_URL) {
@@ -96,6 +108,19 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
   const handleConfirmPayment = (e: React.FormEvent) => {
     e.preventDefault();
     setIsProcessing(true);
+
+    // Instant Formspree dispatch for payment confirmation
+    submitLeadToFormspree({
+      fullName: formData.fullName,
+      email: formData.email,
+      phone: formData.phone,
+      trackName: selectedTrack.name,
+      category: `PAID WORKSHOP CONFIRMED (₹${amountStr})`,
+      ticketId: ticketId || `MAI-${Math.floor(100000 + Math.random() * 900000)}`,
+      utrNumber: utrNumber || 'Completed via UPI',
+      additionalNote: 'User submitted payment confirmation & UTR',
+    });
+
     setTimeout(() => {
       setIsProcessing(false);
       setStep('success');
