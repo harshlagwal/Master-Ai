@@ -39,14 +39,31 @@ export const SectionRegistration: React.FC<SectionRegistrationProps> = ({
   const upiUri = UPI_CONFIG.getUpiUri(amountStr, selectedTrack.shortName);
   const qrCodeUrl = UPI_CONFIG.getQrCodeUrl(amountStr, selectedTrack.shortName);
 
+  const isFreeTrack = selectedTrack.amountNum === 0;
+
   const handleDetailsSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!name || !email || !phone) return;
     setIsProceeding(true);
     setTimeout(() => {
       setIsProceeding(false);
-      setTicketId(`MAI-${Math.floor(100000 + Math.random() * 900000)}`);
-      setStep('payment');
+      const isFree = selectedTrack.amountNum === 0;
+      setTicketId(
+        isFree
+          ? `MAI-DEMO-${Math.floor(100000 + Math.random() * 900000)}`
+          : `MAI-${Math.floor(100000 + Math.random() * 900000)}`
+      );
+      if (isFree) {
+        setStep('success');
+        if (GOOGLE_FORM_URL) {
+          window.open(GOOGLE_FORM_URL, '_blank', 'noopener,noreferrer');
+        }
+        if (onDirectRegisterSuccess) {
+          onDirectRegisterSuccess({ name, email, phone });
+        }
+      } else {
+        setStep('payment');
+      }
     }, 600);
   };
 
@@ -81,9 +98,10 @@ export const SectionRegistration: React.FC<SectionRegistrationProps> = ({
       `Phone: ${phone}\n` +
       `Email: ${email}\n` +
       `Program: ${selectedTrack.name}\n` +
-      `Amount: ₹${amountStr} (UPI)\n` +
+      `Amount: ${isFreeTrack ? 'FREE (₹0 Demo Entry)' : `₹${amountStr} (UPI)`}\n` +
       `Ticket ID: ${ticketId || 'MAI-REGISTERED'}\n` +
-      `UTR / Ref: ${utrNumber || 'Completed via UPI to golulagwal890-2@oksbi'}\n\n` +
+      (!isFreeTrack && utrNumber ? `UTR / Ref: ${utrNumber}\n` : '') +
+      `📝 Google Form: ${GOOGLE_FORM_URL}\n\n` +
       `Please confirm my registration!`
   );
 
@@ -467,24 +485,49 @@ export const SectionRegistration: React.FC<SectionRegistrationProps> = ({
                 </div>
               </div>
 
-              {/* Google Form Submission Callout - Step 2 */}
-              <div className="p-3.5 rounded-2xl bg-blue-500/10 border border-blue-400/30 text-left">
-                <div className="flex items-center gap-2 mb-1">
-                  <FileText className="w-4 h-4 text-blue-400 shrink-0" />
-                  <span className="text-xs font-semibold text-blue-300">
-                    Step 2: Submit Details & Screenshot on Google Form
+              {/* Step 1: Google Form Submission Callout (Mandatory for both Free Demo & Paid Tracks) */}
+              <div
+                className={`p-3.5 rounded-2xl border text-left transition-all ${
+                  isFreeTrack
+                    ? 'bg-emerald-500/10 border-emerald-500/30'
+                    : 'bg-blue-500/10 border-blue-400/30'
+                }`}
+              >
+                <div className="flex items-center justify-between mb-1.5">
+                  <div className="flex items-center gap-2">
+                    <FileText
+                      className={`w-4 h-4 shrink-0 ${
+                        isFreeTrack ? 'text-emerald-400' : 'text-blue-400'
+                      }`}
+                    />
+                    <span
+                      className={`text-xs font-semibold uppercase tracking-wider ${
+                        isFreeTrack ? 'text-emerald-300' : 'text-blue-300'
+                      }`}
+                    >
+                      Step 1: Fill Google Form
+                    </span>
+                  </div>
+                  <span className="text-[9.5px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-red-500/20 text-red-400 border border-red-500/40 animate-pulse">
+                    Required
                   </span>
                 </div>
-                <p className="text-[11px] text-white/70 mb-3 leading-relaxed">
-                  Please upload your payment screenshot or UTR in the official form so our team can immediately verify your registration and email your Zoom link.
+                <p className="text-[11.5px] text-white/80 mb-3 leading-relaxed">
+                  {isFreeTrack
+                    ? 'Please fill the quick registration form so we can allocate your demo batch and send the Google Meet link.'
+                    : 'Please upload your payment screenshot or UTR in the official form so our team can immediately verify your registration.'}
                 </p>
                 <a
                   href={GOOGLE_FORM_URL}
                   target="_blank"
                   rel="noreferrer"
-                  className="w-full py-2.5 px-4 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs sm:text-sm font-semibold flex items-center justify-center gap-2 transition-colors shadow-md"
+                  className={`w-full py-2.5 px-4 rounded-xl text-white text-xs sm:text-sm font-semibold flex items-center justify-center gap-2 transition-colors shadow-md ${
+                    isFreeTrack
+                      ? 'bg-emerald-600 hover:bg-emerald-500'
+                      : 'bg-blue-600 hover:bg-blue-500'
+                  }`}
                 >
-                  <span>Submit Details on Google Form</span>
+                  <span>{isFreeTrack ? 'Fill Demo Registration Form' : 'Submit Details on Google Form'}</span>
                   <ExternalLink className="w-3.5 h-3.5" />
                 </a>
               </div>
@@ -498,7 +541,7 @@ export const SectionRegistration: React.FC<SectionRegistrationProps> = ({
                   className="w-full py-3.5 px-4 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white text-xs sm:text-sm font-semibold flex items-center justify-center gap-2 transition-colors shadow-md"
                 >
                   <MessageCircle className="w-4 h-4" />
-                  <span>Send Confirmation to Harsh on WhatsApp</span>
+                  <span>{isFreeTrack ? 'Send Demo Confirmation on WhatsApp' : 'Send Confirmation to Harsh on WhatsApp'}</span>
                 </a>
 
                 <a

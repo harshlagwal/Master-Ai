@@ -67,12 +67,16 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
     setIsProceeding(true);
     setTimeout(() => {
       setIsProceeding(false);
-      const genId = selectedTrack.amountNum === 0
+      const isFree = selectedTrack.amountNum === 0;
+      const genId = isFree
         ? `MAI-DEMO-${Math.floor(100000 + Math.random() * 900000)}`
         : `MAI-${Math.floor(100000 + Math.random() * 900000)}`;
       setTicketId(genId);
-      if (selectedTrack.amountNum === 0) {
+      if (isFree) {
         setStep('success');
+        if (GOOGLE_FORM_URL) {
+          window.open(GOOGLE_FORM_URL, '_blank', 'noopener,noreferrer');
+        }
       } else {
         setStep('payment');
       }
@@ -112,7 +116,8 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
       `💰 Amount: ${isFreeTrack ? 'FREE (₹0 Entry)' : `₹${amountStr} (UPI)`}\n` +
       `📹 Platform: Google Meet (Live Session)\n` +
       `🆔 Ticket ID: ${ticketId || 'MAI-REGISTERED'}\n` +
-      (!isFreeTrack ? `🧾 UTR / Ref: ${utrNumber || 'Completed via UPI'}\n\n` : `\n`) +
+      (!isFreeTrack && utrNumber ? `🧾 UTR / Ref: ${utrNumber}\n` : '') +
+      `📝 Google Form: ${GOOGLE_FORM_URL}\n\n` +
       `Please confirm my Google Meet seat!`
   );
 
@@ -550,51 +555,82 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
               </div>
             </div>
 
-            {/* If Free Track: Show Direct Google Meet WhatsApp Link */}
-            {isFreeTrack ? (
-              <div className="mb-3 p-3 rounded-2xl bg-emerald-50 border border-emerald-200 text-left">
-                <div className="flex items-center gap-2 mb-1">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-                  <span className="text-xs font-bold text-emerald-900">
-                    Instant Access: Receive Google Meet Link
+            {/* Step 1: Google Form Submission Callout (Mandatory for both Free Demo & Paid Tracks) */}
+            <div
+              className={`mb-3.5 p-3.5 rounded-2xl border text-left transition-all ${
+                isFreeTrack
+                  ? 'bg-emerald-500/10 border-emerald-500/30'
+                  : 'bg-blue-500/10 border-blue-400/30'
+              }`}
+            >
+              <div className="flex items-center justify-between mb-1.5">
+                <div className="flex items-center gap-2">
+                  <FileText
+                    className={`w-4 h-4 shrink-0 ${
+                      isFreeTrack ? 'text-emerald-600' : 'text-blue-600'
+                    }`}
+                  />
+                  <span
+                    className={`text-xs font-bold uppercase tracking-wider ${
+                      isFreeTrack ? 'text-emerald-900' : 'text-blue-900'
+                    }`}
+                  >
+                    Step 1: Fill Google Form
                   </span>
                 </div>
-                <p className="text-[11.5px] text-emerald-800 mb-2 leading-relaxed">
-                  Send your confirmation on WhatsApp to receive the direct Google Meet room link and calendar invite immediately.
-                </p>
-                <a
-                  href={`https://api.whatsapp.com/send?text=${whatsappConfirmationText}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="w-full py-3 px-4 rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-black font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-sm transition-all"
-                >
-                  <MessageSquare className="w-4 h-4" />
-                  <span>Get Google Meet Link on WhatsApp</span>
-                </a>
+                <span className="text-[9.5px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-red-500/15 text-red-600 border border-red-300 animate-pulse">
+                  Required
+                </span>
               </div>
-            ) : (
-              /* Google Form Submission Callout - Primary Next Step for Paid Tracks */
-              <div className="mb-3 p-3 rounded-xl bg-blue-50/90 border border-blue-200 text-left">
-                <div className="flex items-center gap-2 mb-1">
-                  <FileText className="w-4 h-4 text-blue-700 shrink-0" />
-                  <span className="text-xs font-semibold text-blue-900">
-                    Step 2: Submit Details & Screenshot on Google Form
-                  </span>
-                </div>
-                <p className="text-[11px] text-blue-800/80 mb-2 leading-relaxed">
-                  Please upload your payment screenshot or UTR in the official form so your seat is verified instantly.
-                </p>
-                <a
-                  href={GOOGLE_FORM_URL}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="w-full py-2.5 px-3 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors shadow-xs"
-                >
-                  <span>Submit Details on Google Form</span>
-                  <ExternalLink className="w-3.5 h-3.5" />
-                </a>
+
+              <p
+                className={`text-[11.5px] mb-3 leading-relaxed font-medium ${
+                  isFreeTrack ? 'text-emerald-900/90' : 'text-blue-900/90'
+                }`}
+              >
+                {isFreeTrack
+                  ? 'Fill this quick Google Form to select your demo class timing and receive the direct Google Meet link.'
+                  : 'Upload your payment screenshot or UTR in the official form so our team can verify your seat instantly.'}
+              </p>
+
+              <a
+                href={GOOGLE_FORM_URL}
+                target="_blank"
+                rel="noreferrer"
+                className={`w-full py-2.5 px-3.5 rounded-xl text-white text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition-all shadow-md active:scale-[0.99] cursor-pointer ${
+                  isFreeTrack
+                    ? 'bg-emerald-600 hover:bg-emerald-700'
+                    : 'bg-blue-600 hover:bg-blue-700'
+                }`}
+              >
+                <span>{isFreeTrack ? 'Fill Demo Registration Form' : 'Submit Details on Google Form'}</span>
+                <ExternalLink className="w-4 h-4" />
+              </a>
+            </div>
+
+            {/* Step 2: WhatsApp Confirmation */}
+            <div className="mb-3.5 p-3 rounded-2xl bg-neutral-50 border border-neutral-200 text-left">
+              <div className="flex items-center gap-2 mb-1">
+                <MessageSquare className="w-4 h-4 text-emerald-600 shrink-0" />
+                <span className="text-xs font-bold text-neutral-900">
+                  Step 2: Get Confirmation on WhatsApp
+                </span>
               </div>
-            )}
+              <p className="text-[11px] text-neutral-600 mb-2 leading-relaxed">
+                {isFreeTrack
+                  ? 'Send your confirmation on WhatsApp to receive the direct Google Meet room link and calendar invite.'
+                  : 'Send confirmation message to Harsh with your Ticket ID.'}
+              </p>
+              <a
+                href={`https://api.whatsapp.com/send?text=${whatsappConfirmationText}`}
+                target="_blank"
+                rel="noreferrer"
+                className="w-full py-2.5 px-3 rounded-xl bg-[#25D366] hover:bg-[#20bd5a] text-black font-bold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-sm transition-all"
+              >
+                <MessageSquare className="w-4 h-4" />
+                <span>{isFreeTrack ? 'Get Google Meet Link on WhatsApp' : 'Send Confirmation to Harsh'}</span>
+              </a>
+            </div>
 
             {/* Community & Done Actions */}
             <div className="flex flex-col gap-2 mt-2">
