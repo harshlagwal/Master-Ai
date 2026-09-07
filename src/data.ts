@@ -721,13 +721,34 @@ export const AUDIENCE_PROFILES: AudienceProfile[] = [
 
 export const MENTOR_DATA = {
   name: "Harsh Lagwal",
-  role: "AI Educator • Freelancer • Digital Creator",
-  mainCopy: [
-    "I've spent a lot of time exploring AI tools, workflows and practical ways of using technology to create faster and work smarter.",
-    "MASTER AI was created with a simple philosophy: Education shouldn't be segmented by branch or trapped behind expensive walls. AI is an equalizer.",
-    "Whether you're from arts, engineering, commerce, or freelancing — the 7-day live experience gives you hands-on clarity to build, showcase, and apply.",
+  role: "IITian • AI Systems Educator • Full-Stack Builder",
+  image: "/assets/mentor-harsh.png",
+  tagline: "Bridging the gap between theory and high-impact AI execution",
+  quoteBadge: "Discipline Creates Freedom",
+  highlights: [
+    { label: "IITian Pedigree", value: "Elite Systems & Engineering Rigor" },
+    { label: "Personalized", value: "Strictly 20 Students / Batch" },
+    { label: "Zero Slides", value: "100% Live Practical MVP Building" },
+    { label: "Hackathon Strategy", value: "SIH & National Competitions" },
   ],
-  statement: "LEARN. BUILD. SHOW. APPLY.",
+  stats: [
+    { number: "9+", label: "Core AI Skills" },
+    { number: "100%", label: "Live Code & MVPs" },
+    { number: "20", label: "Max Batch Limit" },
+    { number: "1-on-1", label: "Doubt Resolution" },
+  ],
+  credentials: [
+    "IIT Kanpur Campus Ambassador Network & Internship Guidance",
+    "Smart India Hackathon (SIH) Winning Architecture & Pitch Defense",
+    "Production Modern AI Stack (Cursor, Bolt, Claude 3.5, Supabase)",
+    "Democratizing High-Income Tech for All Students & Non-Tech Streams",
+  ],
+  mainCopy: [
+    "I've spent years breaking down agentic AI tools, coding architectures, and creative workflows into practical, repeatable blueprints that anyone can master.",
+    "MASTER AI was built on a core IITian philosophy: Real education shouldn't be gated by branch barriers or trapped behind ₹5,000 corporate paywalls. AI is the universal multiplier.",
+    "Whether you're from arts, engineering, commerce, or freelancing — the 7-day live masterclass gives you the hands-on clarity to build functional MVPs, earn recognized credentials, and showcase verified proof of work.",
+  ],
+  statement: "DISCIPLINE CREATES FREEDOM // LEARN • BUILD • SHOW • APPLY",
 };
 
 export const WHY_MASTER_AI: WhyFeature[] = [
