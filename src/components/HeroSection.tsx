@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+ import React, { useState, useEffect } from 'react';
 import { useTypewriter } from '../hooks/useTypewriter';
 import { HERO_DATA } from '../data';
 import { Sparkles } from 'lucide-react';

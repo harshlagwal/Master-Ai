@@ -157,23 +157,6 @@ export const DOMAIN_TRACKS: DomainTrack[] = [
     ],
   },
   {
-    id: "flash-pass-60",
-    name: "Student Flash Grant • Complete 7-Day Live Masterclass",
-    shortName: "Student Flash Pass (₹60)",
-    badge: "Special Launch Grant • ₹60 Only",
-    price: "₹60",
-    amountNum: 60,
-    sessions: "All 7 Days (9:00 PM – 10:30 PM IST)",
-    idealFor: "College Freshers, Students & Early Tech Aspirants",
-    highlights: [
-      "Special ₹60 Launch Price (Regular ₹89)",
-      "Full 7-Day Live Interactive Zoom Training (All 9 Skills)",
-      "Skill India & upGrad Free Certificate Claim Roadmap",
-      "IIT Kanpur Campus Ambassador & Internship Guidance",
-      "Ready-to-use ATS Resume & AI Prompt Swipe Files",
-    ],
-  },
-  {
     id: "master-pass",
     name: "Complete 7-Day Live Masterclass (All 9 Skills)",
     shortName: "7-Day All 9 Skills (₹89)",
@@ -953,14 +936,14 @@ export const WORKSHOP_POPUP_DATA = {
   ],
 };
 
-// Launch Offer & Flash Promotion Data (₹60 Grant)
+// Launch Offer & Flash Promotion Data (₹89 Master Pass)
 export const PROMO_OFFER_DATA = {
-  badge: "LIMITED STUDENT FLASH GRANT",
-  headline: "Master AI in Just ₹60",
+  badge: "7-DAY LIVE MASTERCLASS",
+  headline: "Master AI in Just ₹89",
   subheadline: "7-Day Live Masterclass • Skill India & upGrad Free Certificate Guide • IIT Kanpur Internship Prep",
   originalPrice: "₹499",
-  offerPrice: "₹60",
-  spotsLeft: "Limited to 50 Students",
+  offerPrice: "₹89",
+  spotsLeft: "Strictly 20 Students / Batch",
   perks: [
     {
       title: "7-Day Live Zoom Masterclass",
@@ -975,7 +958,7 @@ export const PROMO_OFFER_DATA = {
       desc: "Eligibility criteria, SOP templates, student leadership roles & LOR guidance.",
     },
   ],
-  trackId: "flash-pass-60",
+  trackId: "master-pass",
 };
 
 // Verified Credentials & Elite Opportunities Data

@@ -191,7 +191,7 @@ export const PromoOfferPopup: React.FC<PromoOfferPopupProps> = ({
           }}
           className="w-full py-2.5 sm:py-3 px-4 rounded-xl bg-gradient-to-r from-amber-400 via-amber-300 to-amber-400 hover:from-amber-300 hover:to-amber-200 text-black font-semibold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-[0_6px_20px_rgba(245,158,11,0.25)] active:scale-[0.98] transition-all cursor-pointer mb-2"
         >
-          <span>Claim ₹60 Pass & Unlock Roadmap</span>
+          <span>Claim ₹89 Pass & Unlock Roadmap</span>
           <ArrowRight className="w-3.5 h-3.5" />
         </button>
 

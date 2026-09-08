@@ -187,6 +187,30 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3.5">
               <button
                 type="button"
+                onClick={() => setSelectedTrackId('master-pass')}
+                className={`p-2 sm:p-2.5 rounded-2xl border-2 text-left transition-all cursor-pointer ${
+                  selectedTrackId === 'master-pass'
+                    ? 'border-neutral-900 bg-neutral-900 text-white shadow-sm font-semibold'
+                    : 'border-neutral-300 bg-neutral-50 text-neutral-800 hover:border-neutral-400'
+                }`}
+              >
+                <div className="text-[11px] font-bold leading-snug flex items-center justify-between">
+                  <span>7-Day Master</span>
+                  <span className="text-[8px] font-extrabold bg-white/20 px-1 rounded uppercase">
+                    Pass
+                  </span>
+                </div>
+                <div
+                  className={`text-[11px] font-extrabold mt-0.5 ${
+                    selectedTrackId === 'master-pass' ? 'text-emerald-300' : 'text-emerald-700'
+                  }`}
+                >
+                  ₹89 Total
+                </div>
+              </button>
+
+              <button
+                type="button"
                 onClick={() => setSelectedTrackId('week-pass-299')}
                 className={`p-2 sm:p-2.5 rounded-2xl border-2 text-left transition-all cursor-pointer ${
                   selectedTrackId === 'week-pass-299'
@@ -211,54 +235,6 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
 
               <button
                 type="button"
-                onClick={() => setSelectedTrackId('demo-free')}
-                className={`p-2 sm:p-2.5 rounded-2xl border-2 text-left transition-all cursor-pointer ${
-                  selectedTrackId === 'demo-free'
-                    ? 'border-emerald-600 bg-emerald-600 text-white shadow-sm font-semibold'
-                    : 'border-neutral-300 bg-neutral-50 text-neutral-800 hover:border-emerald-400'
-                }`}
-              >
-                <div className="text-[11px] font-bold leading-snug flex items-center justify-between">
-                  <span>Free Demo</span>
-                  <span className="text-[8px] font-extrabold bg-white/25 px-1 rounded uppercase">
-                    30 Min
-                  </span>
-                </div>
-                <div
-                  className={`text-[11px] font-extrabold mt-0.5 ${
-                    selectedTrackId === 'demo-free' ? 'text-emerald-100' : 'text-emerald-700'
-                  }`}
-                >
-                  ₹0 Free
-                </div>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setSelectedTrackId('flash-pass-60')}
-                className={`p-2 sm:p-2.5 rounded-2xl border-2 text-left transition-all cursor-pointer ${
-                  selectedTrackId === 'flash-pass-60'
-                    ? 'border-neutral-900 bg-neutral-900 text-white shadow-sm font-semibold'
-                    : 'border-neutral-300 bg-neutral-50 text-neutral-800 hover:border-neutral-400'
-                }`}
-              >
-                <div className="text-[11px] font-bold leading-snug flex items-center justify-between">
-                  <span>Student Pass</span>
-                  <span className="text-[8px] font-extrabold bg-white/20 px-1 rounded uppercase">
-                    Grant
-                  </span>
-                </div>
-                <div
-                  className={`text-[11px] font-extrabold mt-0.5 ${
-                    selectedTrackId === 'flash-pass-60' ? 'text-emerald-300' : 'text-emerald-700'
-                  }`}
-                >
-                  ₹60 Total
-                </div>
-              </button>
-
-              <button
-                type="button"
                 onClick={() => setSelectedTrackId('sih-masterclass')}
                 className={`p-2 sm:p-2.5 rounded-2xl border-2 text-left transition-all cursor-pointer ${
                   selectedTrackId === 'sih-masterclass'
@@ -278,6 +254,30 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
                   }`}
                 >
                   ₹199 Team
+                </div>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setSelectedTrackId('demo-free')}
+                className={`p-2 sm:p-2.5 rounded-2xl border-2 text-left transition-all cursor-pointer ${
+                  selectedTrackId === 'demo-free'
+                    ? 'border-emerald-600 bg-emerald-600 text-white shadow-sm font-semibold'
+                    : 'border-neutral-300 bg-neutral-50 text-neutral-800 hover:border-emerald-400'
+                }`}
+              >
+                <div className="text-[11px] font-bold leading-snug flex items-center justify-between">
+                  <span>Free Demo</span>
+                  <span className="text-[8px] font-extrabold bg-white/25 px-1 rounded uppercase">
+                    30 Min
+                  </span>
+                </div>
+                <div
+                  className={`text-[11px] font-extrabold mt-0.5 ${
+                    selectedTrackId === 'demo-free' ? 'text-emerald-100' : 'text-emerald-700'
+                  }`}
+                >
+                  ₹0 Free
                 </div>
               </button>
             </div>

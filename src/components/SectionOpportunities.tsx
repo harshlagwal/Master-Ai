@@ -151,7 +151,7 @@ export const SectionOpportunities: React.FC<SectionOpportunitiesProps> = ({ onJo
                 {/* Bottom Action Button */}
                 <div>
                   <button
-                    onClick={() => onJoinClick(isSkillIndia || isIIT ? 'flash-pass-60' : 'master-pass')}
+                    onClick={() => onJoinClick('master-pass')}
                     className={`w-full py-3 sm:py-3.5 px-4 rounded-xl text-xs sm:text-sm font-semibold flex items-center justify-center gap-2 transition-all cursor-pointer ${
                       isSkillIndia
                         ? 'bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40'
@@ -169,7 +169,7 @@ export const SectionOpportunities: React.FC<SectionOpportunitiesProps> = ({ onJo
           })}
         </div>
 
-        {/* Bottom Banner with Verification Guarantee & ₹60 Flash Pass Access */}
+        {/* Bottom Banner with Verification Guarantee & ₹89 Masterclass Access */}
         <div className="mt-10 sm:mt-14 p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-amber-500/10 via-white/[0.04] to-emerald-500/10 border border-white/15 flex flex-col sm:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-4 text-left">
             <div className="w-12 h-12 rounded-2xl bg-amber-400/20 border border-amber-400/40 flex items-center justify-center shrink-0 text-amber-300">
@@ -177,7 +177,7 @@ export const SectionOpportunities: React.FC<SectionOpportunitiesProps> = ({ onJo
             </div>
             <div>
               <div className="text-base sm:text-lg font-semibold text-white tracking-tight">
-                Learn AI from Scratch in Just ₹60
+                Learn AI from Scratch for Just ₹89
               </div>
               <div className="text-xs sm:text-sm text-white/60 mt-0.5">
                 Complete 7-Day Live Zoom Masterclass • Free Certificate Claim Blueprints • IIT Kanpur Ambassador Prep
@@ -186,10 +186,10 @@ export const SectionOpportunities: React.FC<SectionOpportunitiesProps> = ({ onJo
           </div>
 
           <button
-            onClick={() => onJoinClick('flash-pass-60')}
+            onClick={() => onJoinClick('master-pass')}
             className="w-full sm:w-auto py-3 px-6 rounded-2xl bg-amber-400 hover:bg-amber-300 text-black font-semibold text-sm flex items-center justify-center gap-2 shrink-0 transition-all shadow-[0_4px_20px_rgba(245,158,11,0.25)] cursor-pointer"
           >
-            <span>Claim ₹60 Flash Pass</span>
+            <span>Claim ₹89 Pass</span>
             <ArrowRight className="w-4 h-4" />
           </button>
         </div>
