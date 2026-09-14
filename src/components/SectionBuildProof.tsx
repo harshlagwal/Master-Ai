@@ -10,29 +10,26 @@ interface SectionBuildProofProps {
 
 const slideVariants = {
   enter: (direction: number) => ({
-    x: direction > 0 ? 50 : -50,
+    x: direction > 0 ? 40 : -40,
     opacity: 0,
-    filter: 'blur(4px)',
     scale: 0.98,
   }),
   center: {
     x: 0,
     opacity: 1,
-    filter: 'blur(0px)',
     scale: 1,
     transition: {
-      duration: 0.35,
-      ease: [0.22, 1, 0.36, 1],
+      duration: 0.28,
+      ease: [0.25, 1, 0.5, 1],
     },
   },
   exit: (direction: number) => ({
-    x: direction < 0 ? 50 : -50,
+    x: direction < 0 ? 40 : -40,
     opacity: 0,
-    filter: 'blur(4px)',
     scale: 0.98,
     transition: {
-      duration: 0.25,
-      ease: [0.22, 1, 0.36, 1],
+      duration: 0.2,
+      ease: [0.25, 1, 0.5, 1],
     },
   }),
 };
@@ -43,48 +40,37 @@ export const SectionBuildProof: React.FC<SectionBuildProofProps> = ({
 }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [direction, setDirection] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(true);
-  const [progress, setProgress] = useState(0);
+  const [isPlaying] = useState(true);
   const [isHovered, setIsHovered] = useState(false);
 
   const duration = 5000; // 5 seconds per project
-  const intervalStep = 50;
 
-  // Auto-advance interval
+  // Auto-advance timer: only 1 timeout per slide (zero continuous re-renders!)
   useEffect(() => {
     if (!isPlaying || isHovered) return;
 
-    const timer = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 100) {
-          setDirection(1);
-          setActiveIndex((current) => (current + 1) % BUILD_PROOF_ITEMS.length);
-          return 0;
-        }
-        return prev + (intervalStep / duration) * 100;
-      });
-    }, intervalStep);
+    const timer = setTimeout(() => {
+      setDirection(1);
+      setActiveIndex((current) => (current + 1) % BUILD_PROOF_ITEMS.length);
+    }, duration);
 
-    return () => clearInterval(timer);
+    return () => clearTimeout(timer);
   }, [isPlaying, isHovered, activeIndex]);
 
   const handleSelect = (index: number) => {
     if (index === activeIndex) return;
     setDirection(index > activeIndex ? 1 : -1);
     setActiveIndex(index);
-    setProgress(0);
   };
 
   const handlePrev = () => {
     setDirection(-1);
     setActiveIndex((prev) => (prev === 0 ? BUILD_PROOF_ITEMS.length - 1 : prev - 1));
-    setProgress(0);
   };
 
   const handleNext = () => {
     setDirection(1);
     setActiveIndex((prev) => (prev + 1) % BUILD_PROOF_ITEMS.length);
-    setProgress(0);
   };
 
   const currentItem = BUILD_PROOF_ITEMS[activeIndex] || BUILD_PROOF_ITEMS[0];
@@ -131,12 +117,15 @@ export const SectionBuildProof: React.FC<SectionBuildProofProps> = ({
               : 'bg-white border-slate-200/90 text-slate-950 shadow-xl'
           }`}
         >
-          {/* Top Progress Bar for auto-transition */}
+          {/* Top Progress Bar for auto-transition (Hardware accelerated pure CSS animation) */}
           <div className="w-full h-1 bg-black/10 dark:bg-white/10 rounded-full overflow-hidden mb-6 sm:mb-8">
-            <motion.div
-              className="h-full bg-gradient-to-r from-emerald-400 to-teal-500 rounded-full"
-              style={{ width: `${progress}%` }}
-              transition={{ ease: 'linear' }}
+            <div
+              key={activeIndex}
+              className="h-full bg-gradient-to-r from-emerald-400 to-teal-500 rounded-full animate-progress-fill"
+              style={{
+                animationDuration: `${duration}ms`,
+                animationPlayState: isHovered ? 'paused' : 'running',
+              }}
             />
           </div>
 

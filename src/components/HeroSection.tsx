@@ -109,11 +109,37 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   const [showTools, setShowTools] = useState(false);
   const [showHeadline, setShowHeadline] = useState(false);
   const [showPills, setShowPills] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
+  const [isInView, setIsInView] = useState(true);
+  const heroRef = React.useRef<HTMLElement | null>(null);
 
   const typewriterText =
     "Build real AI apps, automate workflows & launch verifiable proof with mentor Harsh Lagwal (IIT Patna).";
   // Typewriter starts typing strictly after the headline arrives
   const { displayed, done } = useTypewriter(typewriterText, 26, 200, showHeadline);
+
+  // Screen size check for mobile vs desktop
+  useEffect(() => {
+    const checkIsDesktop = () => {
+      setIsDesktop(typeof window !== 'undefined' && window.innerWidth >= 1024);
+    };
+    checkIsDesktop();
+    window.addEventListener('resize', checkIsDesktop, { passive: true });
+    return () => window.removeEventListener('resize', checkIsDesktop);
+  }, []);
+
+  // Intersection observer: only run heavy 3D WebGL when hero is actually visible in viewport
+  useEffect(() => {
+    if (!heroRef.current || typeof IntersectionObserver === 'undefined') return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsInView(entry.isIntersecting);
+      },
+      { threshold: 0.05 }
+    );
+    observer.observe(heroRef.current);
+    return () => observer.disconnect();
+  }, []);
 
   // Called strictly when Spline 3D canvas finishes downloading & compiling WebGL
   const handleRobotLoaded = useCallback(() => {
@@ -142,6 +168,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   return (
     <section
       id="hero"
+      ref={heroRef}
       className="relative z-10 w-full min-h-[calc(100vh-60px)] flex items-center justify-center pt-24 sm:pt-28 pb-12 sm:pb-16 px-4 sm:px-6 md:px-10 lg:px-14 overflow-hidden"
     >
       {/* Ambient background glow - smooth zero-lag radial lighting */}
@@ -301,27 +328,59 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             </div>
           </div>
 
-          {/* Interactive 3D Model Hint */}
+          {/* Interactive 3D Model / Tools Hint */}
           <div
             className={`mt-3 text-[11px] flex items-center gap-2 select-none transition-colors ${
               isDark ? 'text-neutral-500' : 'text-slate-500'
             }`}
           >
             <Bot className="w-3.5 h-3.5 text-blue-500 animate-pulse" />
-            <span>Interactive 3D model: Rotate, drag or zoom right side</span>
+            <span>
+              {isDesktop
+                ? 'Interactive 3D Robot: Rotate, drag or zoom right side'
+                : 'Interactive AI Tools Ecosystem: 9 High-Demand Industry Tools'}
+            </span>
           </div>
         </div>
 
-        {/* Right Column: Open Interactive Spline 3D Scene */}
-        <div className="lg:col-span-5 relative w-full h-[360px] sm:h-[440px] md:h-[500px] lg:h-[580px] flex items-center justify-center">
-          <div className="w-full h-full relative rounded-3xl overflow-hidden">
-            <SplineScene
-              scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
-              className="w-full h-full"
-              onLoad={handleRobotLoaded}
-            />
+        {/* Right Column: Interactive 3D Scene on Desktop / Ultra-Fast Zero-Lag AI Hub on Mobile */}
+        <div className="lg:col-span-5 relative w-full h-[320px] sm:h-[400px] md:h-[460px] lg:h-[580px] flex items-center justify-center">
+          <div className="w-full h-full relative rounded-3xl overflow-hidden flex items-center justify-center">
+            {/* Desktop: Render live Spline 3D Scene when hero is in view */}
+            {isDesktop ? (
+              isInView ? (
+                <SplineScene
+                  scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
+                  className="w-full h-full"
+                  onLoad={handleRobotLoaded}
+                />
+              ) : (
+                <div className="w-full h-full flex flex-col items-center justify-center gap-2 text-neutral-500">
+                  <Bot className="w-10 h-10 opacity-30" />
+                  <span className="text-xs font-mono">3D Robot Idle (Power Saving)</span>
+                </div>
+              )
+            ) : (
+              /* Mobile/Tablet: Lightweight, zero-lag holographic AI core (pure CSS, no WebGL/wasm battery drain) */
+              <div className="w-full h-full flex items-center justify-center relative select-none">
+                {/* Ambient glow */}
+                <div className="absolute w-52 h-52 sm:w-64 sm:h-64 rounded-full bg-gradient-to-tr from-amber-400/20 via-blue-500/15 to-cyan-400/20 blur-3xl pointer-events-none" />
 
-            {/* 3D Holographic Orbit Ring centered snugly around Robot's Chest and Hands (Appears 2nd, after robot) */}
+                {/* Central Futuristic Hologram Hub */}
+                <div className="relative z-0 flex flex-col items-center justify-center">
+                  <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-3xl bg-black/60 border border-cyan-500/30 flex items-center justify-center relative overflow-hidden shadow-[0_0_35px_rgba(6,182,212,0.25)] backdrop-blur-md">
+                    <div className="absolute inset-0 bg-gradient-to-tr from-cyan-500/20 via-transparent to-amber-500/20 animate-pulse" />
+                    <Bot className="w-12 h-12 text-cyan-300 drop-shadow-[0_0_14px_rgba(34,211,238,0.8)]" />
+                  </div>
+                  <div className="mt-2.5 text-[11px] font-mono font-bold tracking-wider text-cyan-300/90 flex items-center gap-1.5 uppercase">
+                    <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping" />
+                    Master AI Hub
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* 3D Holographic Orbit Ring centered snugly around Robot / Central Hub */}
             <div
               className="absolute inset-0 pointer-events-none overflow-visible select-none flex items-center justify-center transition-all duration-700 ease-out"
               style={{
@@ -329,11 +388,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 transform: showTools ? 'scale(1)' : 'scale(0.82)',
               }}
             >
-              {/* Positioned right at chest/hands level (top: 57%, left: 50%) */}
+              {/* Positioned right at center (desktop top: 57%, mobile top: 50%) */}
               <div
                 className="absolute"
                 style={{
-                  top: '57%',
+                  top: isDesktop ? '57%' : '50%',
                   left: '50%',
                   transform: 'translate(-50%, -50%)',
                 }}
@@ -341,7 +400,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 {/* Energetic chest aura */}
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-36 h-36 sm:w-44 sm:h-44 rounded-full bg-cyan-500/15 blur-2xl animate-holo-glow" />
 
-                {/* Compact Orbit Ring: Flows right through hands & chest */}
+                {/* Compact Orbit Ring: Flows right through center */}
                 <div className="relative w-[210px] h-[210px] sm:w-[240px] sm:h-[240px] md:w-[260px] md:h-[260px] rounded-full border border-dashed border-cyan-400/25 dark:border-cyan-300/25 animate-orbit-ring">
                   {AI_ORBIT_TOOLS.map((tool, idx) => {
                     const angle = (idx * 60 * Math.PI) / 180;
@@ -383,7 +442,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               </div>
             </div>
 
-            {/* 3D control overlay pill */}
+            {/* Status overlay pill */}
             <div
               className={`absolute bottom-3 right-3 backdrop-blur-md px-3 py-1.5 rounded-full border text-[11px] font-medium pointer-events-none flex items-center gap-2 shadow-lg transition-colors duration-300 ${
                 isDark
@@ -391,8 +450,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                   : 'bg-white/90 border-slate-300 text-slate-800'
               }`}
             >
-              <span className="w-2 h-2 rounded-full bg-blue-500 animate-ping" />
-              <span>3D Robot • Drag to Rotate</span>
+              <span className={`w-2 h-2 rounded-full ${isDesktop ? 'bg-blue-500 animate-ping' : 'bg-cyan-400 animate-pulse'}`} />
+              <span>{isDesktop ? '3D Robot • Drag to Rotate' : '9 AI Tools Ecosystem'}</span>
             </div>
           </div>
         </div>

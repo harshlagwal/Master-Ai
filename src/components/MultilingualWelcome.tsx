@@ -19,11 +19,27 @@ const GREETINGS = [
 ];
 
 export const MultilingualWelcome: React.FC = () => {
+  const [isAlreadySeen] = useState(() => {
+    try {
+      return typeof window !== 'undefined' && sessionStorage.getItem('welcome_seen') === 'true';
+    } catch {
+      return false;
+    }
+  });
+
   const [index, setIndex] = useState(0);
   const [isSlidingOut, setIsSlidingOut] = useState(false);
-  const [isFinished, setIsFinished] = useState(false);
+  const [isFinished, setIsFinished] = useState(isAlreadySeen);
 
   useEffect(() => {
+    if (isAlreadySeen) return;
+
+    try {
+      sessionStorage.setItem('welcome_seen', 'true');
+    } catch {
+      // Storage unavailable or disabled
+    }
+
     const isLast = index === GREETINGS.length - 1;
     // Rhythmic progression through languages, holding on Hindi "नमस्ते" with lightning effect
     const displayDuration = isLast ? 800 : 130;
@@ -44,7 +60,7 @@ export const MultilingualWelcome: React.FC = () => {
     }, displayDuration);
 
     return () => clearTimeout(timer);
-  }, [index]);
+  }, [index, isAlreadySeen]);
 
   if (isFinished) return null;
 

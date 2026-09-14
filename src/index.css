@@ -232,6 +232,20 @@ body {
   will-change: transform, opacity;
 }
 
+@keyframes progressFill {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.animate-progress-fill {
+  animation: progressFill linear forwards;
+  will-change: width;
+}
+
 @keyframes heroPopIn {
   0% {
     opacity: 0;
