@@ -106,11 +106,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   isDark = true,
 }) => {
   const [isRobotLoaded, setIsRobotLoaded] = useState(false);
+  const [robotEntered, setRobotEntered] = useState(false);
   const [showTools, setShowTools] = useState(false);
   const [showHeadline, setShowHeadline] = useState(false);
   const [showPills, setShowPills] = useState(false);
-  const [isDesktop, setIsDesktop] = useState(false);
-  const [isInView, setIsInView] = useState(true);
   const heroRef = React.useRef<HTMLElement | null>(null);
 
   const typewriterText =
@@ -118,44 +117,27 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   // Typewriter starts typing strictly after the headline arrives
   const { displayed, done } = useTypewriter(typewriterText, 26, 200, showHeadline);
 
-  // Screen size check for mobile vs desktop
-  useEffect(() => {
-    const checkIsDesktop = () => {
-      setIsDesktop(typeof window !== 'undefined' && window.innerWidth >= 1024);
-    };
-    checkIsDesktop();
-    window.addEventListener('resize', checkIsDesktop, { passive: true });
-    return () => window.removeEventListener('resize', checkIsDesktop);
-  }, []);
-
-  // Intersection observer: only run heavy 3D WebGL when hero is actually visible in viewport
-  useEffect(() => {
-    if (!heroRef.current || typeof IntersectionObserver === 'undefined') return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsInView(entry.isIntersecting);
-      },
-      { threshold: 0.05 }
-    );
-    observer.observe(heroRef.current);
-    return () => observer.disconnect();
-  }, []);
-
   // Called strictly when Spline 3D canvas finishes downloading & compiling WebGL
   const handleRobotLoaded = useCallback(() => {
     setIsRobotLoaded(true);
+    setTimeout(() => {
+      setRobotEntered(true);
+    }, 100);
   }, []);
 
-  // Immediate smooth entrance so user never waits for heavy 3D assets to see content & data
+  // Entrance animations sequence when website opens
   useEffect(() => {
     const hTimer = setTimeout(() => setShowHeadline(true), 50);
     const pTimer = setTimeout(() => setShowPills(true), 140);
-    const tTimer = setTimeout(() => setShowTools(true), 240);
+    const tTimer = setTimeout(() => setShowTools(true), 350);
+    // Smooth cinematic entrance animation for 3D robot on both mobile & desktop
+    const rTimer = setTimeout(() => setRobotEntered(true), 500);
 
     return () => {
       clearTimeout(hTimer);
       clearTimeout(pTimer);
       clearTimeout(tTimer);
+      clearTimeout(rTimer);
     };
   }, []);
 
@@ -335,64 +317,50 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             }`}
           >
             <Bot className="w-3.5 h-3.5 text-blue-500 animate-pulse" />
-            <span>
-              {isDesktop
-                ? 'Interactive 3D Robot: Rotate, drag or zoom right side'
-                : 'Interactive AI Tools Ecosystem: 9 High-Demand Industry Tools'}
-            </span>
+            <span>Interactive 3D Robot: Rotate, drag or zoom to inspect in 360°</span>
           </div>
         </div>
 
-        {/* Right Column: Interactive 3D Scene on Desktop / Ultra-Fast Zero-Lag AI Hub on Mobile */}
-        <div className="lg:col-span-5 relative w-full h-[320px] sm:h-[400px] md:h-[460px] lg:h-[580px] flex items-center justify-center">
-          <div className="w-full h-full relative rounded-3xl overflow-hidden flex items-center justify-center">
-            {/* Desktop: Render live Spline 3D Scene when hero is in view */}
-            {isDesktop ? (
-              isInView ? (
-                <SplineScene
-                  scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
-                  className="w-full h-full"
-                  onLoad={handleRobotLoaded}
-                />
-              ) : (
-                <div className="w-full h-full flex flex-col items-center justify-center gap-2 text-neutral-500">
-                  <Bot className="w-10 h-10 opacity-30" />
-                  <span className="text-xs font-mono">3D Robot Idle (Power Saving)</span>
-                </div>
-              )
-            ) : (
-              /* Mobile/Tablet: Lightweight, zero-lag holographic AI core (pure CSS, no WebGL/wasm battery drain) */
-              <div className="w-full h-full flex items-center justify-center relative select-none">
-                {/* Ambient glow */}
-                <div className="absolute w-52 h-52 sm:w-64 sm:h-64 rounded-full bg-gradient-to-tr from-amber-400/20 via-blue-500/15 to-cyan-400/20 blur-3xl pointer-events-none" />
+        {/* Right Column: 3D Spline Scene with Entrance Animation for Both Mobile & Desktop UI */}
+        <div className="lg:col-span-5 relative w-full h-[360px] sm:h-[440px] md:h-[500px] lg:h-[580px] flex items-center justify-center">
+          {/* Futuristic entrance glow behind robot on arrival */}
+          <div
+            className={`absolute w-48 h-48 sm:w-64 sm:h-64 rounded-full bg-cyan-400/20 blur-3xl pointer-events-none transition-all duration-1000 ${
+              robotEntered ? 'scale-100 opacity-60' : 'scale-50 opacity-0'
+            }`}
+          />
 
-                {/* Central Futuristic Hologram Hub */}
-                <div className="relative z-0 flex flex-col items-center justify-center">
-                  <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-3xl bg-black/60 border border-cyan-500/30 flex items-center justify-center relative overflow-hidden shadow-[0_0_35px_rgba(6,182,212,0.25)] backdrop-blur-md">
-                    <div className="absolute inset-0 bg-gradient-to-tr from-cyan-500/20 via-transparent to-amber-500/20 animate-pulse" />
-                    <Bot className="w-12 h-12 text-cyan-300 drop-shadow-[0_0_14px_rgba(34,211,238,0.8)]" />
-                  </div>
-                  <div className="mt-2.5 text-[11px] font-mono font-bold tracking-wider text-cyan-300/90 flex items-center gap-1.5 uppercase">
-                    <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping" />
-                    Master AI Hub
-                  </div>
-                </div>
-              </div>
-            )}
+          {/* 3D Robot Container with Entrance Animation: Animates into place, then works normally */}
+          <div
+            className={`w-full h-full relative rounded-3xl overflow-hidden flex items-center justify-center transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] ${
+              robotEntered
+                ? 'opacity-100 scale-100 translate-y-0 filter-none'
+                : 'opacity-0 scale-90 translate-y-8'
+            }`}
+            style={{
+              touchAction: 'pan-y', // allows smooth vertical scrolling on mobile while enabling 3D drag
+            }}
+          >
+            {/* Live Interactive Spline 3D Robot on both Mobile and Desktop */}
+            <SplineScene
+              scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
+              className="w-full h-full"
+              onLoad={handleRobotLoaded}
+            />
 
-            {/* 3D Holographic Orbit Ring centered snugly around Robot / Central Hub */}
+            {/* 3D Holographic Orbit Ring centered snugly around Robot's Chest and Hands */}
             <div
               className="absolute inset-0 pointer-events-none overflow-visible select-none flex items-center justify-center transition-all duration-700 ease-out"
               style={{
-                opacity: showTools ? 1 : 0,
-                transform: showTools ? 'scale(1)' : 'scale(0.82)',
+                opacity: showTools && robotEntered ? 1 : 0,
+                transform: showTools && robotEntered ? 'scale(1)' : 'scale(0.82)',
               }}
             >
-              {/* Positioned right at center (desktop top: 57%, mobile top: 50%) */}
+              {/* Positioned right at chest/hands level (top: 57%, left: 50%) */}
               <div
                 className="absolute"
                 style={{
-                  top: isDesktop ? '57%' : '50%',
+                  top: '57%',
                   left: '50%',
                   transform: 'translate(-50%, -50%)',
                 }}
@@ -400,7 +368,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 {/* Energetic chest aura */}
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-36 h-36 sm:w-44 sm:h-44 rounded-full bg-cyan-500/15 blur-2xl animate-holo-glow" />
 
-                {/* Compact Orbit Ring: Flows right through center */}
+                {/* Compact Orbit Ring: Flows right through hands & chest */}
                 <div className="relative w-[210px] h-[210px] sm:w-[240px] sm:h-[240px] md:w-[260px] md:h-[260px] rounded-full border border-dashed border-cyan-400/25 dark:border-cyan-300/25 animate-orbit-ring">
                   {AI_ORBIT_TOOLS.map((tool, idx) => {
                     const angle = (idx * 60 * Math.PI) / 180;
@@ -442,7 +410,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               </div>
             </div>
 
-            {/* Status overlay pill */}
+            {/* 3D control overlay pill */}
             <div
               className={`absolute bottom-3 right-3 backdrop-blur-md px-3 py-1.5 rounded-full border text-[11px] font-medium pointer-events-none flex items-center gap-2 shadow-lg transition-colors duration-300 ${
                 isDark
@@ -450,8 +418,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                   : 'bg-white/90 border-slate-300 text-slate-800'
               }`}
             >
-              <span className={`w-2 h-2 rounded-full ${isDesktop ? 'bg-blue-500 animate-ping' : 'bg-cyan-400 animate-pulse'}`} />
-              <span>{isDesktop ? '3D Robot • Drag to Rotate' : '9 AI Tools Ecosystem'}</span>
+              <span className="w-2 h-2 rounded-full bg-blue-500 animate-ping" />
+              <span>3D Robot • Drag to Rotate</span>
             </div>
           </div>
         </div>
