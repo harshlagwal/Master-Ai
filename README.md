@@ -1,4 +1,4 @@
-# MASTER AI — 7-Day Live AI Masterclass Platform
+# MASTER AI — 7-Day Live AI + Career Masterclass
 
 <div align="center">
 
@@ -10,9 +10,11 @@
 
 <br />
 
-**A high-performance, responsive landing page and registration platform for the 7-Day Live AI Masterclass mentored by Harsh Lagwal.**
+**A high-performance, ultra-luxury live masterclass platform empowering students, developers, and creators to master 9 in-demand AI skills with tangible GitHub build proof.**
 
-[Live Demo](#deployment) • [Features](#key-features) • [Tech Stack](#tech-stack) • [Getting Started](#getting-started) • [Project Structure](#project-structure)
+Mentored by **Harsh Lagwal** (IIT Patna MBA in Generative AI & Data Science, IIT Roorkee Android App Development).
+
+[Live Platform](#getting-started) • [Curriculum](#-9-core-ai-skills) • [Pricing & Passes](#-pricing-tracks) • [Tech Stack](#-tech-stack) • [Project Structure](#-project-structure)
 
 </div>
 
@@ -20,32 +22,49 @@
 
 ## 🌟 Overview
 
-**MASTER AI** is a production-grade web platform built to showcase a comprehensive 7-day live masterclass focused on practical, high-income AI tools and workflows. Designed with modern developer ergonomics, it delivers an editorial, dark-mode visual experience reminiscent of Vercel and Linear, featuring ambient video backgrounds, zero-overflow responsive grids, and an optimized conversion funnel.
+**MASTER AI** is an edtech platform engineered with modern developer ergonomics. Designed with a luxury dark/light mode aesthetic reminiscent of Vercel and Linear, it features:
+- **Zero Perceived Latency:** Instant data presentation with GPU-accelerated entrance animations.
+- **Multilingual Indian Welcome Intro:** Authentic Indian language greetings cycling rhythmically and culminating in an electrified Hindi **नमस्ते ⚡** before seamlessly sliding up.
+- **Interactive 3D Spline Scene:** Real-time 3D interactive robot with orbiting official AI tool logos (ChatGPT, Claude, Cursor, Midjourney, Hugging Face, Gemini) tracking user mouse movements.
+- **Professional Smooth Scrolling:** Standardized scroll physics, custom 6px unobtrusive scrollbars, and header offset management.
+- **Direct UPI Checkout:** Zero-commission direct UPI payments with instant dynamic QR generation, one-tap mobile app triggers (GPay, PhonePe, Paytm), and instant ticket confirmation.
 
 ---
 
-## ✨ Key Features
+## ✨ 9 Core AI Skills
 
-- **⚡ Modern Dark Editorial Aesthetic:** Bespoke color palette, glassmorphism accents, subtle micro-animations, and ambient background video layers.
-- **📱 100% Fully Responsive:** Tested with 0px horizontal overflow across iPhone, Android viewports, tablets, and wide monitors.
-- **🗓️ Comprehensive 7-Day Syllabus:** Detailed breakdown of modules, practical projects, high-impact tool stacks (Cursor, Replit, Midjourney, ElevenLabs, Claude, etc.).
-- **💳 Instant Registration & UPI Integration:** Interactive modal checkout with automatic UPI deep-linking and dynamic QR generation.
-- **💬 Community Integration:** Direct WhatsApp Community links and interactive connection modals.
-- **📌 Sticky Quick-Enroll Capsule:** Floating smart CTA on scroll for frictionless conversion.
-- **⚖️ Why Choose Us & FAQs:** Structured comparison matrices and interactive accordion FAQ sections.
-- **🛡️ Secure & Lightweight:** Zero telemetry, optimized production bundle size (`< 150kB` gzipped assets), and clean separation of concerns.
+1. **Foundations of Modern AI & Prompt Engineering** (ChatGPT, Claude 3.5 Sonnet, DeepSeek)
+2. **AI-Powered Rapid Coding** (Cursor IDE, GitHub Copilot, v0.dev)
+3. **Generative Visuals & Graphic Production** (Midjourney v6, Flux.1, Magnific AI)
+4. **Voice Cloning, Podcasting & Audio AI** (ElevenLabs, Suno, Whisper)
+5. **No-Code AI Automation & Agentic Workflows** (Make.com, n8n, Zapier)
+6. **AI Prototyping & MVP Building** (Bolt.new, Replit Agent, Lovable)
+7. **Open-Source LLMs & Custom RAG Pipelines** (Hugging Face, Ollama, LangChain)
+8. **Smart India Hackathon (SIH) Winning Blueprint** (Problem Breakdown, Architecture & Pitch Defense)
+9. **AI Freelancing & Career Acceleration** (High-Ticket Client Acquisition, ATS Resumes, Portfolio Deployment)
+
+---
+
+## 💰 Pricing Tracks
+
+| Pass Tier | Price | Access / Duration | Key Inclusions |
+| :--- | :---: | :--- | :--- |
+| **7-Day Master Pass** *(Most Popular)* | **₹89** | 7 Days All-Inclusive (8:00 PM IST) | All 9 skills, daily recordings, code templates, Skill India verified certificate |
+| **1-Week VIP Pass** | **₹299** | Priority 1-on-1 Mentorship | Everything in Master Pass + 1-on-1 GitHub/Portfolio review, SIH blueprint, direct WhatsApp with Harsh |
+| **30-Min Live Demo** | **₹0 Free** | 2 Days Live Preview | 30-min live Google Meet session, LLM foundations, live Q&A |
+| **SIH 2-Hr Masterclass** | **₹199** | Intensive Hackathon Sprint | Problem statement breakdown, system architecture, winning jury pitch decks |
 
 ---
 
 ## 🛠️ Tech Stack
 
-- **Framework:** [React 18](https://react.dev/)
-- **Build Tool:** [Vite 6](https://vitejs.dev/)
-- **Language:** [TypeScript](https://www.typescriptlang.org/)
-- **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+- **Framework:** [React 18](https://react.dev/) + [Vite 6](https://vitejs.dev/)
+- **Language:** [TypeScript 5](https://www.typescriptlang.org/)
+- **Styling:** [Tailwind CSS](https://tailwindcss.com/) + Custom Design Tokens
+- **Typography:** [Plus Jakarta Sans](https://fonts.google.com/specimen/Plus+Jakarta+Sans) (Headings) & [Inter](https://fonts.google.com/specimen/Inter) (Body) via Google Fonts
+- **3D Engine:** [@splinetool/react-spline](https://spline.design/)
 - **Icons:** [Lucide React](https://lucide.dev/)
-- **Effects:** [Canvas Confetti](https://www.npmjs.com/package/canvas-confetti)
-- **Deployment Ready:** Vercel, Netlify, Cloudflare Pages, GitHub Pages
+- **Lead Capture & Verification:** Formspree Webhook Dispatch + Direct UPI Deep-linking
 
 ---
 
@@ -53,10 +72,10 @@
 
 ### Prerequisites
 
-- [Node.js](https://nodejs.org/) (version 18.0 or higher recommended)
+- [Node.js](https://nodejs.org/) (version 18.0 or higher)
 - [npm](https://www.npmjs.com/) or [pnpm](https://pnpm.io/) or [yarn](https://yarnpkg.com/)
 
-### Installation
+### Installation & Local Run
 
 1. **Clone the repository:**
    ```bash
@@ -69,73 +88,68 @@
    npm install
    ```
 
-3. **Set up Environment Variables (Optional):**
-   ```bash
-   cp .env.example .env.local
-   ```
-
-4. **Run the local development server:**
+3. **Start local development server:**
    ```bash
    npm run dev
    ```
    Open `http://localhost:3000` in your browser.
 
-5. **Build for production:**
+4. **Verify TypeScript build:**
    ```bash
    npm run build
    ```
-   The production-optimized static files will be generated in the `dist/` directory.
 
 ---
 
 ## 📁 Project Structure
 
 ```text
-├── public/                # Static assets (images, icons, video)
+master-ai/
+├── public/                     # Static assets & vectors
 ├── src/
-│   ├── components/        # Modular UI components
-│   │   ├── BackgroundVideo.tsx      # Ambient background video engine
-│   │   ├── Footer.tsx               # Sleek, compact developer footer
-│   │   ├── Header.tsx               # Floating pill navbar & drawer
-│   │   ├── RegistrationModal.tsx    # Modal checkout & UPI flow
-│   │   ├── SectionComparison.tsx    # Workshop comparison matrix
-│   │   ├── SectionCurriculum.tsx    # 7-Day syllabus breakdown
-│   │   ├── SectionDetails.tsx       # Workshop perks & highlights
-│   │   ├── SectionFAQ.tsx           # Accordion FAQ
-│   │   ├── SectionFinalCTA.tsx      # High-impact CTA banner
-│   │   ├── SectionHero.tsx          # Hero section with live badges
-│   │   ├── SectionMentor.tsx        # Mentor credentials & bio
-│   │   ├── SectionRegistration.tsx  # Pricing & instant checkout
-│   │   ├── StickyQuickEnrollBar.tsx # Floating bottom quick-enroll bar
-│   │   └── WhatsAppModal.tsx        # Direct community modal
-│   ├── data.ts            # Centralized brand, pricing & curriculum data
-│   ├── App.tsx            # Main application layout & state
-│   ├── index.css          # Custom styling tokens & Tailwind directives
-│   └── main.tsx           # Application entry point
-├── .gitignore             # Strict exclusion list (secrets, dist, node_modules)
-├── index.html             # SEO & meta configuration
-├── package.json           # Project manifest and scripts
-├── tsconfig.json          # TypeScript compiler configuration
-└── vite.config.ts         # Vite bundler configuration
+│   ├── components/             # Modular UI components
+│   │   ├── ui/
+│   │   │   └── splite.tsx              # 3D Spline interactive scene wrapper
+│   │   ├── Footer.tsx                  # Minimalist developer footer
+│   │   ├── HeroSection.tsx             # 3D interactive hero + orbiting AI tools + dynamic typewriter
+│   │   ├── MultilingualWelcome.tsx     # Authentic Indian greetings preloader with lightning finale
+│   │   ├── Navbar.tsx                  # Floating navigation pill + theme toggle + mobile drawer
+│   │   ├── RegistrationModal.tsx       # 2x2 luxury card pass checkout + direct UPI QR + confirmation
+│   │   ├── SectionBuildProof.tsx       # 6 tangible GitHub portfolio deliverables with interactive stepper
+│   │   ├── SectionCurriculumGrid.tsx   # 9 in-demand AI skills with interactive numeric stepper
+│   │   ├── SectionFAQAccordion.tsx     # Frequently asked questions accordion
+│   │   ├── SectionFinalBanner.tsx      # High-conversion closing banner with glowing CTA
+│   │   ├── SectionJourneyTimeline.tsx  # 7-day evening curriculum roadmap
+│   │   ├── SectionMentorProfile.tsx    # Harsh Lagwal (IIT Patna / IIT Roorkee) credentials & verified badges
+│   │   ├── SectionPricingCards.tsx     # Honest pricing grid (₹89 Master Pass, ₹299 VIP, ₹0 Demo, ₹199 SIH)
+│   │   ├── SectionStatsBar.tsx         # Interactive metric cards with hover micro-rotations
+│   │   └── WhatsAppModal.tsx           # Direct community access modal
+│   ├── hooks/
+│   │   ├── useTheme.ts                 # Light/Dark mode state with persistence
+│   │   └── useTypewriter.ts            # Dynamic typewriter hook with delayed-start support
+│   ├── data.ts                         # Centralized brand, pricing, curriculum & UPI configuration
+│   ├── types.ts                        # TypeScript interfaces & domain models
+│   ├── index.css                       # Subpixel antialiasing, custom scrollbar & animation keyframes
+│   ├── App.tsx                         # Root application orchestration
+│   └── main.tsx                        # Application mount point
+├── index.html                          # SEO meta tags, Google Search Console, Google Fonts
+├── package.json                        # Dependencies and build scripts
+├── tsconfig.json                       # TypeScript compiler configuration
+└── vite.config.ts                      # Vite build configuration with alias support
 ```
 
 ---
 
 ## 🌐 Deployment
 
-This application is ready for zero-config one-click deployments:
+Ready for zero-config one-click deployments on **Vercel**, **Netlify**, or **Cloudflare Pages**:
 
-### Deploy to Vercel
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new)
-1. Push your code to GitHub.
-2. Import the repository in [Vercel](https://vercel.com).
-3. Framework preset: **Vite**.
-4. Click **Deploy**.
-
-### Deploy to Netlify
-1. Connect your repository to [Netlify](https://netlify.com).
-2. Build command: `npm run build`
-3. Publish directory: `dist`
+### Vercel Deployment
+1. Connect your GitHub repository to [Vercel](https://vercel.com).
+2. Framework preset: **Vite**.
+3. Build command: `npm run build`
+4. Output directory: `dist`
+5. Click **Deploy**.
 
 ---
 

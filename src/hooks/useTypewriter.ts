@@ -8,12 +8,19 @@ interface UseTypewriterOptions {
 export function useTypewriter(
   text: string,
   speed: number = 38,
-  startDelay: number = 600
+  startDelay: number = 600,
+  enabled: boolean = true
 ): { displayed: string; done: boolean } {
   const [displayed, setDisplayed] = useState('');
   const [done, setDone] = useState(false);
 
   useEffect(() => {
+    if (!enabled) {
+      setDisplayed('');
+      setDone(false);
+      return;
+    }
+
     setDisplayed('');
     setDone(false);
 
@@ -36,7 +43,7 @@ export function useTypewriter(
       clearTimeout(timeoutId);
       if (intervalId) clearInterval(intervalId);
     };
-  }, [text, speed, startDelay]);
+  }, [text, speed, startDelay, enabled]);
 
   return { displayed, done };
 }

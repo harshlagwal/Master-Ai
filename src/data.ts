@@ -12,7 +12,7 @@ import {
 export const BRAND = {
   name: "MASTER AI",
   mentor: "Harsh Lagwal",
-  role: "AI Educator • Freelancer • Digital Creator",
+  role: "IIT Patna (MBA in Gen AI & Data Science) • AI Educator • Builder",
   coreMessage: "7-Day Live Masterclass: Master 9 High-Income AI Skills from Scratch",
   price: "₹89",
   priceDescription: "₹89 for Complete 7-Day Live Access",
@@ -704,32 +704,32 @@ export const AUDIENCE_PROFILES: AudienceProfile[] = [
 
 export const MENTOR_DATA = {
   name: "Harsh Lagwal",
-  role: "IITian • AI Systems Educator • Full-Stack Builder",
+  role: "IIT Patna (MBA in Gen AI & Data Science) • AI Systems Architect • Educator",
   image: "/assets/mentor-harsh.png",
-  tagline: "Bridging the gap between theory and high-impact AI execution",
-  quoteBadge: "Discipline Creates Freedom",
+  tagline: "Translating cutting-edge Generative AI & Data Science from IIT Patna into real-world student leverage",
+  quoteBadge: "IIT Patna • Gen AI & Data Science",
   highlights: [
-    { label: "IITian Pedigree", value: "Elite Systems & Engineering Rigor" },
+    { label: "IIT Patna Scholar", value: "MBA in Gen AI & Data Science" },
     { label: "Personalized", value: "Strictly 20 Students / Batch" },
     { label: "Zero Slides", value: "100% Live Practical MVP Building" },
     { label: "Hackathon Strategy", value: "SIH & National Competitions" },
   ],
   stats: [
+    { number: "IIT Patna", label: "MBA Gen AI & DS" },
     { number: "9+", label: "Core AI Skills" },
     { number: "100%", label: "Live Code & MVPs" },
     { number: "20", label: "Max Batch Limit" },
-    { number: "1-on-1", label: "Doubt Resolution" },
   ],
   credentials: [
-    "IIT Kanpur Campus Ambassador Network & Internship Guidance",
-    "Smart India Hackathon (SIH) Winning Architecture & Pitch Defense",
-    "Production Modern AI Stack (Cursor, Bolt, Claude 3.5, Supabase)",
-    "Democratizing High-Income Tech for All Students & Non-Tech Streams",
+    "IIT Patna — MBA in Generative AI & Data Science Scholar",
+    "IIT Roorkee Certified in Android App Development & Mobile Software Engineering",
+    "Skill India & NSDC Verified Educator & Systems Architect",
+    "Smart India Hackathon (SIH) National Mentor & Pitch Strategist",
   ],
   mainCopy: [
-    "I've spent years breaking down agentic AI tools, coding architectures, and creative workflows into practical, repeatable blueprints that anyone can master.",
-    "MASTER AI was built on a core IITian philosophy: Real education shouldn't be gated by branch barriers or trapped behind ₹5,000 corporate paywalls. AI is the universal multiplier.",
-    "Whether you're from arts, engineering, commerce, or freelancing — the 7-day live masterclass gives you the hands-on clarity to build functional MVPs, earn recognized credentials, and showcase verified proof of work.",
+    "Currently pursuing my MBA in Generative AI and Data Science at IIT Patna, I work daily with modern LLM architectures, multi-agent frameworks, and predictive data pipelines.",
+    "MASTER AI was built on a foundational IITian ethos: high-income technological mastery shouldn't be gated behind ₹25,000 corporate paywalls or restricted by degree branches. AI is the universal multiplier.",
+    "Across 7 live evenings on Google Meet, I personally mentor you through building real AI agents, deploying web apps, and producing portfolio-ready GitHub proofs with 1-on-1 doubt resolution.",
   ],
   statement: "DISCIPLINE CREATES FREEDOM // LEARN • BUILD • SHOW • APPLY",
 };

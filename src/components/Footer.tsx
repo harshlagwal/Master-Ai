@@ -1,88 +1,108 @@
 import React from 'react';
 import { BRAND, SOCIAL_LINKS } from '../data';
-import { MessageCircle } from 'lucide-react';
+import { MessageCircle, ShieldCheck, Heart } from 'lucide-react';
 
 interface FooterProps {
+  isDark?: boolean;
   onWhatsAppClick: () => void;
+  onEnrollClick: (trackId?: string) => void;
 }
 
-export const Footer: React.FC<FooterProps> = ({ onWhatsAppClick }) => {
+export const Footer: React.FC<FooterProps> = ({
+  isDark = true,
+  onWhatsAppClick,
+  onEnrollClick,
+}) => {
   return (
     <footer
       id="footer"
-      className="relative z-10 w-full py-8 sm:py-10 px-6 sm:px-10 md:px-16 lg:px-24 bg-[#0A0A0A] text-white border-t border-white/10"
+      className={`relative z-10 w-full py-10 sm:py-12 px-4 sm:px-6 md:px-10 lg:px-14 border-t transition-colors duration-300 ${
+        isDark
+          ? 'bg-[#070707] text-neutral-400 border-white/10'
+          : 'bg-white text-slate-600 border-slate-200'
+      }`}
     >
-      <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-6 sm:gap-8">
-        {/* Brand details */}
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
+        {/* Brand & Mentor details */}
         <div>
-          <div className="flex items-center gap-1.5 mb-1.5">
+          <div className="flex items-center gap-2 mb-2">
             <span
-              className="text-[20px] sm:text-[22px] font-semibold tracking-tight text-white"
+              className={`text-lg sm:text-xl font-bold tracking-tight ${
+                isDark ? 'text-white' : 'text-slate-900'
+              }`}
               style={{ fontFamily: 'var(--font-heading)' }}
             >
               {BRAND.name}
             </span>
-          </div>
-          <div className="text-[14px] text-white/90 font-medium tracking-tight">
-            {BRAND.mentor}{' '}
-            <span className="text-white/30 font-normal mx-1">·</span>{' '}
-            <span className="text-[12px] text-white/50 font-mono tracking-wide">
-              {BRAND.role}
+            <span className="text-amber-400 text-xs">✦</span>
+            <span className="text-xs font-mono px-2 py-0.5 rounded bg-white/5 border border-white/10">
+              7-Day Live Intensive
             </span>
           </div>
-          <p className="text-[12px] text-white/40 mt-1.5 max-w-md">
-            {BRAND.coreMessage}
+
+          <p className={`text-xs max-w-md leading-relaxed ${isDark ? 'text-neutral-400' : 'text-slate-600'}`}>
+            {BRAND.coreMessage}. Mentored by {BRAND.mentor} ({BRAND.role}).
           </p>
+
+          <div className={`mt-3 flex items-center gap-2 text-[11px] ${isDark ? 'text-neutral-400' : 'text-slate-600 font-medium'}`}>
+            <ShieldCheck className="w-3.5 h-3.5 text-emerald-500 dark:text-emerald-400" />
+            <span>Strictly 20 Students / Batch • 100% Zero-Commission UPI</span>
+          </div>
         </div>
 
-        {/* Links */}
-        <div className="flex flex-wrap items-center gap-5 sm:gap-6 text-[13px] font-medium text-white/70">
-          <a
-            href={SOCIAL_LINKS.instagram}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-white transition-colors"
-          >
-            Instagram
+        {/* Quick Nav Links */}
+        <div className="flex flex-wrap items-center gap-4 sm:gap-6 text-xs font-semibold">
+          <a href="#curriculum" className={`transition-colors ${isDark ? 'text-neutral-400 hover:text-white' : 'text-slate-600 hover:text-slate-950'}`}>
+            Curriculum
           </a>
-          <a
-            href={SOCIAL_LINKS.linkedin}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-white transition-colors"
-          >
-            LinkedIn
+          <a href="#journey" className={`transition-colors ${isDark ? 'text-neutral-400 hover:text-white' : 'text-slate-600 hover:text-slate-950'}`}>
+            7-Day Journey
           </a>
-          <a
-            href={SOCIAL_LINKS.whatsappCommunity}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-white transition-colors flex items-center gap-1.5 text-emerald-400 hover:text-emerald-300"
+          <a href="#projects" className={`transition-colors ${isDark ? 'text-neutral-400 hover:text-white' : 'text-slate-600 hover:text-slate-950'}`}>
+            Projects
+          </a>
+          <a href="#mentor" className={`transition-colors ${isDark ? 'text-neutral-400 hover:text-white' : 'text-slate-600 hover:text-slate-950'}`}>
+            Mentor
+          </a>
+          <a href="#pricing" className={`transition-colors ${isDark ? 'text-neutral-400 hover:text-white' : 'text-slate-600 hover:text-slate-950'}`}>
+            Pricing
+          </a>
+          <button
+            type="button"
+            onClick={onWhatsAppClick}
+            className="transition-colors flex items-center gap-1.5 text-emerald-500 dark:text-emerald-400 cursor-pointer hover:underline font-bold"
           >
             <MessageCircle className="w-3.5 h-3.5" />
-            <span>WhatsApp Community</span>
-          </a>
-          <a
-            href={SOCIAL_LINKS.contactEmail}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-white transition-colors"
+            <span>Community</span>
+          </button>
+        </div>
+
+        {/* Action Button */}
+        <div className="flex items-center gap-3">
+          <button
+            type="button"
+            onClick={() => onEnrollClick('master-pass')}
+            className={`px-4 py-2 rounded-full text-xs font-bold transition-all duration-200 cursor-pointer shadow-sm active:scale-95 ${
+              isDark
+                ? 'bg-white text-black hover:bg-neutral-200'
+                : 'bg-slate-950 text-white hover:bg-slate-800'
+            }`}
           >
-            Contact
-          </a>
+            Enroll Pass (₹89)
+          </button>
         </div>
       </div>
 
-      {/* Bottom Copyright & Disclaimer */}
-      <div className="max-w-6xl mx-auto mt-6 pt-5 border-t border-white/[0.08] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-[11px] font-mono text-white/40">
+      <div className="max-w-7xl mx-auto mt-8 pt-6 border-t border-black/5 dark:border-white/5 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-neutral-500">
         <div>
-          &copy; {new Date().getFullYear()} MASTER AI by Harsh Lagwal. All rights reserved.
+          © {new Date().getFullYear()} MASTER AI. All rights reserved.
         </div>
-        <div>
-          Live Online Learning • Not affiliated with third-party tool providers.
+        <div className="flex items-center gap-1">
+          <span>Crafted with</span>
+          <Heart className="w-3 h-3 text-red-500 fill-red-500" />
+          <span>for real AI builders.</span>
         </div>
       </div>
     </footer>
   );
 };
-

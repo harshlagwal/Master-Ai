@@ -1,11 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { BRAND } from '../data';
+import { Sun, Moon, MessageCircle, Menu, X, ArrowRight } from 'lucide-react';
 
 interface NavbarProps {
-  onJoinClick?: () => void;
+  onJoinClick: (trackId?: string) => void;
+  onWhatsAppClick: () => void;
+  theme: 'dark' | 'light';
+  toggleTheme: () => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ onJoinClick }) => {
+export const Navbar: React.FC<NavbarProps> = ({
+  onJoinClick,
+  onWhatsAppClick,
+  theme,
+  toggleTheme,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -24,244 +32,308 @@ export const Navbar: React.FC<NavbarProps> = ({ onJoinClick }) => {
   const toggleMenu = () => setIsOpen(!isOpen);
   const closeMenu = () => setIsOpen(false);
 
-  const handleJoinClick = (e: React.MouseEvent) => {
+  const scrollToSection = (e: React.MouseEvent, id: string) => {
     e.preventDefault();
     closeMenu();
-    if (onJoinClick) {
-      onJoinClick();
-    } else {
-      const el = document.getElementById('register') || document.getElementById('pricing');
-      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
+  const isDark = theme === 'dark';
+
   return (
     <>
-      {/* Floating Glassmorphism Navbar (Centered horizontally, top: 12px) */}
-      <header
-        className="fixed top-[10px] sm:top-[12px] left-1/2 -translate-x-1/2 z-40 w-auto max-w-[95%] sm:max-w-max transition-all duration-300"
-      >
+      {/* Floating Modern Header */}
+      <header className="fixed top-3 sm:top-4 left-1/2 -translate-x-1/2 z-40 w-[94%] max-w-6xl transition-all duration-300">
         <div
-          className={`flex items-center justify-between gap-3 sm:gap-4 md:gap-5 px-3 sm:px-3.5 h-[38px] sm:h-[42px] rounded-full border transition-all duration-300 ${
-            scrolled
-              ? 'bg-white/80 shadow-[0_8px_24px_rgba(0,0,0,0.08)] border-black/12'
-              : 'bg-white/55 shadow-[0_2px_12px_rgba(0,0,0,0.04)] border-black/8'
+          className={`flex items-center justify-between px-3.5 sm:px-6 h-12 sm:h-14 rounded-full border transition-all duration-300 ${
+            isDark
+              ? scrolled
+                ? 'bg-[#09090C]/85 shadow-[0_16px_40px_rgba(0,0,0,0.7),inset_0_1px_1px_rgba(255,255,255,0.15)] border-white/18 text-white'
+                : 'bg-[#09090C]/75 shadow-[0_8px_30px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.1)] border-white/12 text-white'
+              : scrolled
+                ? 'bg-white/90 shadow-[0_16px_36px_-6px_rgba(0,0,0,0.08),inset_0_1px_1px_rgba(255,255,255,0.9)] border-slate-200/90 text-slate-900'
+                : 'bg-white/80 shadow-[0_6px_20px_-4px_rgba(0,0,0,0.05),inset_0_1px_1px_rgba(255,255,255,0.8)] border-slate-200/80 text-slate-900'
           }`}
           style={{
-            backdropFilter: scrolled ? 'blur(24px)' : 'blur(16px)',
-            WebkitBackdropFilter: scrolled ? 'blur(24px)' : 'blur(16px)',
+            backdropFilter: 'blur(24px)',
+            WebkitBackdropFilter: 'blur(24px)',
           }}
         >
           {/* Left: Brand Logo */}
           <a
             href="#"
-            id="logo-link"
-            className="flex items-center gap-1.5 no-underline text-black group shrink-0 pl-1"
+            className="flex items-center gap-1.5 no-underline group shrink-0 select-none"
           >
             <span
-              className="text-[13px] sm:text-[14px] font-medium tracking-tight whitespace-nowrap"
+              className={`text-sm sm:text-base font-extrabold tracking-tight transition-colors ${
+                isDark ? 'text-white' : 'text-slate-950'
+              }`}
               style={{ fontFamily: 'var(--font-heading)' }}
             >
               MASTER AI
             </span>
-            <span className="text-[11px] sm:text-[12px] text-black/60 leading-none group-hover:rotate-45 transition-transform duration-300">
+            <span className="text-amber-400 text-xs drop-shadow-[0_0_8px_rgba(251,191,36,0.65)] group-hover:rotate-45 group-hover:scale-125 transition-all duration-300">
               ✦
             </span>
           </a>
 
-          <div className="hidden md:block h-3 w-px bg-black/10" />
-
-          {/* Center: Desktop Navigation Links */}
-          <nav
-            id="desktop-nav"
-            className="hidden md:flex items-center gap-1 text-[12px] font-medium text-black/70 tracking-tight"
-          >
+          {/* Center: Clean Professional Navigation Links */}
+          <nav className="hidden md:flex items-center gap-1 text-xs font-semibold">
             <a
-              href="#modules"
-              className="px-2.5 py-1 rounded-full hover:text-black hover:bg-black/5 transition-all whitespace-nowrap"
+              href="#curriculum"
+              onClick={(e) => scrollToSection(e, 'curriculum')}
+              className={`px-3.5 py-1.5 rounded-full transition-all duration-200 ${
+                isDark
+                  ? 'text-neutral-300 hover:text-white hover:bg-white/10'
+                  : 'text-slate-600 hover:text-slate-950 hover:bg-slate-100'
+              }`}
             >
-              9 Skills
+              Curriculum
             </a>
             <a
               href="#journey"
-              className="px-2.5 py-1 rounded-full hover:text-black hover:bg-black/5 transition-all whitespace-nowrap"
+              onClick={(e) => scrollToSection(e, 'journey')}
+              className={`px-3.5 py-1.5 rounded-full transition-all duration-200 ${
+                isDark
+                  ? 'text-neutral-300 hover:text-white hover:bg-white/10'
+                  : 'text-slate-600 hover:text-slate-950 hover:bg-slate-100'
+              }`}
             >
-              7 Days
+              7-Day Journey
             </a>
             <a
-              href="#sih"
-              className="px-2.5 py-1 rounded-full text-amber-800 bg-amber-400/20 border border-amber-400/40 hover:bg-amber-400/30 transition-all whitespace-nowrap font-semibold flex items-center gap-1"
+              href="#projects"
+              onClick={(e) => scrollToSection(e, 'projects')}
+              className={`px-3.5 py-1.5 rounded-full transition-all duration-200 ${
+                isDark
+                  ? 'text-neutral-300 hover:text-white hover:bg-white/10'
+                  : 'text-slate-600 hover:text-slate-950 hover:bg-slate-100'
+              }`}
             >
-              <span>SIH Special</span>
-              <span className="text-[10px] font-mono font-bold">₹199</span>
+              Projects
             </a>
             <a
-              href="#opportunities"
-              className="px-2.5 py-1 rounded-full hover:text-black hover:bg-black/5 transition-all whitespace-nowrap"
+              href="#mentor"
+              onClick={(e) => scrollToSection(e, 'mentor')}
+              className={`px-3.5 py-1.5 rounded-full transition-all duration-200 ${
+                isDark
+                  ? 'text-neutral-300 hover:text-white hover:bg-white/10'
+                  : 'text-slate-600 hover:text-slate-950 hover:bg-slate-100'
+              }`}
             >
-              Certificates & IIT
+              Mentor
             </a>
             <a
               href="#pricing"
-              className="px-2.5 py-1 rounded-full hover:text-black hover:bg-black/5 transition-all whitespace-nowrap"
+              onClick={(e) => scrollToSection(e, 'pricing')}
+              className={`px-3.5 py-1.5 rounded-full transition-all duration-200 ${
+                isDark
+                  ? 'text-neutral-300 hover:text-white hover:bg-white/10'
+                  : 'text-slate-600 hover:text-slate-950 hover:bg-slate-100'
+              }`}
             >
               Pricing
             </a>
             <a
-              href="#mentor"
-              className="px-2.5 py-1 rounded-full hover:text-black hover:bg-black/5 transition-all whitespace-nowrap"
-            >
-              About
-            </a>
-            <a
               href="#faq"
-              className="px-2.5 py-1 rounded-full hover:text-black hover:bg-black/5 transition-all whitespace-nowrap"
+              onClick={(e) => scrollToSection(e, 'faq')}
+              className={`px-3.5 py-1.5 rounded-full transition-all duration-200 ${
+                isDark
+                  ? 'text-neutral-300 hover:text-white hover:bg-white/10'
+                  : 'text-slate-600 hover:text-slate-950 hover:bg-slate-100'
+              }`}
             >
               FAQ
             </a>
           </nav>
 
-          {/* Right: Compact JOIN NOW CTA Button (Desktop) */}
-          <div className="hidden md:flex items-center shrink-0">
+          {/* Right: Theme Toggle, WhatsApp & CTA */}
+          <div className="flex items-center gap-2 sm:gap-2.5">
+            {/* Theme Toggle Button */}
             <button
               type="button"
-              onClick={handleJoinClick}
-              id="desktop-cta"
-              className="h-[28px] px-3.5 rounded-full bg-[#0A0A0A] text-white text-[11px] font-medium tracking-wider uppercase hover:bg-neutral-800 transition-all cursor-pointer shadow-xs active:scale-95 whitespace-nowrap flex items-center justify-center gap-1"
+              onClick={toggleTheme}
+              aria-label="Toggle theme mode"
+              title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
+              className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer ${
+                isDark
+                  ? 'bg-white/10 hover:bg-white/20 text-amber-300 hover:ring-2 hover:ring-amber-400/30'
+                  : 'bg-slate-100 hover:bg-slate-200 text-slate-700 hover:ring-2 hover:ring-slate-300'
+              }`}
             >
-              <span>Join</span>
-              <span className="opacity-60 text-[10px]">&bull;</span>
-              <span>₹89</span>
+              {isDark ? (
+                <Sun className="w-4 h-4 transition-transform duration-300 hover:rotate-90" />
+              ) : (
+                <Moon className="w-4 h-4 transition-transform duration-300 hover:-rotate-45" />
+              )}
+            </button>
+
+            {/* Community WhatsApp Button (Desktop) */}
+            <button
+              type="button"
+              onClick={onWhatsAppClick}
+              title="Join WhatsApp Community"
+              className={`hidden sm:flex w-8 h-8 rounded-full items-center justify-center transition-all duration-200 cursor-pointer ${
+                isDark
+                  ? 'bg-white/10 hover:bg-white/20 text-emerald-400 hover:ring-2 hover:ring-emerald-400/30'
+                  : 'bg-emerald-50 hover:bg-emerald-100 text-emerald-600 border border-emerald-200'
+              }`}
+            >
+              <MessageCircle className="w-4 h-4" />
+            </button>
+
+            {/* Main CTA: Gold Shimmer Accent Button */}
+            <button
+              type="button"
+              onClick={() => onJoinClick('master-pass')}
+              className="h-8 sm:h-9 px-3.5 sm:px-4 rounded-full font-bold text-[11px] sm:text-xs transition-all duration-200 cursor-pointer shadow-md active:scale-95 whitespace-nowrap flex items-center gap-1.5 bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 text-slate-950 hover:brightness-105 hover:shadow-[0_4px_18px_rgba(245,158,11,0.45)] border border-amber-500/30"
+            >
+              <span>Enroll</span>
+              <span className="opacity-40">•</span>
+              <span className="font-extrabold">₹89</span>
+            </button>
+
+            {/* Mobile Hamburger Menu Toggle */}
+            <button
+              type="button"
+              onClick={toggleMenu}
+              aria-label="Toggle navigation menu"
+              className={`md:hidden w-8 h-8 rounded-full flex items-center justify-center transition-colors cursor-pointer ${
+                isDark
+                  ? 'bg-white/10 text-white/80 hover:text-white'
+                  : 'bg-slate-100 text-slate-800 hover:text-black border border-slate-200'
+              }`}
+            >
+              {isOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
             </button>
           </div>
-
-          {/* Mobile Hamburger Button */}
-          <button
-            onClick={toggleMenu}
-            id="mobile-hamburger-btn"
-            type="button"
-            aria-label="Toggle navigation menu"
-            aria-expanded={isOpen}
-            className="md:hidden flex flex-col justify-center items-center gap-[3.5px] w-7 h-7 p-1 z-50 cursor-pointer rounded-full bg-black/5 hover:bg-black/10 transition-colors focus:outline-hidden"
-          >
-            <span
-              className={`w-3.5 h-[1.25px] bg-black transform transition-all duration-300 origin-center ${
-                isOpen ? 'rotate-45 translate-y-[4.75px]' : ''
-              }`}
-            />
-            <span
-              className={`w-3.5 h-[1.25px] bg-black transition-all duration-300 ${
-                isOpen ? 'opacity-0' : 'opacity-100'
-              }`}
-            />
-            <span
-              className={`w-3.5 h-[1.25px] bg-black transform transition-all duration-300 origin-center ${
-                isOpen ? '-rotate-45 -translate-y-[4.75px]' : ''
-              }`}
-            />
-          </button>
         </div>
       </header>
 
-      {/* Mobile Overlay Menu */}
-      <div
-        id="mobile-nav-overlay"
-        className={`fixed inset-0 z-35 bg-white/95 backdrop-blur-xl flex flex-col justify-center px-8 sm:px-12 gap-7 md:hidden transition-all duration-300 ${
-          isOpen
-            ? 'opacity-100 pointer-events-auto'
-            : 'opacity-0 pointer-events-none'
-        }`}
-      >
-        <div className="flex items-center gap-2 mb-2">
-          <span
-            className="text-[20px] font-medium tracking-tight text-black"
-            style={{ fontFamily: 'var(--font-heading)' }}
+      {/* Mobile Drawer Menu */}
+      {isOpen && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          className="md:hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-md animate-in fade-in duration-200 flex flex-col p-4"
+          onClick={closeMenu}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className={`w-full max-w-sm mx-auto mt-16 border rounded-3xl p-5 shadow-2xl flex flex-col gap-3 transition-colors ${
+              isDark
+                ? 'bg-[#111111] border-white/15 text-white'
+                : 'bg-white border-slate-200 text-slate-900'
+            }`}
           >
-            {BRAND.name}
-          </span>
-        </div>
+            <div className="flex items-center justify-between pb-3 border-b border-white/10">
+              <span className="text-sm font-bold">MASTER AI ✦</span>
+              <button
+                type="button"
+                onClick={closeMenu}
+                className="w-7 h-7 rounded-full bg-black/5 dark:bg-white/10 flex items-center justify-center"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
 
-        <a
-          href="#journey"
-          onClick={closeMenu}
-          className="text-[32px] sm:text-[36px] font-medium text-black hover:opacity-60 transition-opacity tracking-tight"
-          style={{ fontFamily: 'var(--font-heading)' }}
-        >
-          7 Days
-        </a>
-        <a
-          href="#sih"
-          onClick={closeMenu}
-          className="text-[30px] sm:text-[34px] font-bold text-amber-600 hover:opacity-80 transition-opacity tracking-tight flex items-center justify-between"
-          style={{ fontFamily: 'var(--font-heading)' }}
-        >
-          <span>🏆 SIH 2-Hr Sprint</span>
-          <span className="text-xs font-mono font-bold px-2.5 py-1 rounded-full bg-amber-100 text-amber-800 border border-amber-300">
-            ₹199
-          </span>
-        </a>
-        <a
-          href="#audience"
-          onClick={closeMenu}
-          className="text-[32px] sm:text-[36px] font-medium text-black hover:opacity-60 transition-opacity tracking-tight"
-          style={{ fontFamily: 'var(--font-heading)' }}
-        >
-          All Fields
-        </a>
-        <a
-          href="#curriculum"
-          onClick={closeMenu}
-          className="text-[32px] sm:text-[36px] font-medium text-black hover:opacity-60 transition-opacity tracking-tight"
-          style={{ fontFamily: 'var(--font-heading)' }}
-        >
-          Curriculum
-        </a>
-        <a
-          href="#opportunities"
-          onClick={closeMenu}
-          className="text-[32px] sm:text-[36px] font-medium text-emerald-600 hover:opacity-80 transition-opacity tracking-tight flex items-center justify-between"
-          style={{ fontFamily: 'var(--font-heading)' }}
-        >
-          <span>Free Certs & IIT</span>
-          <span className="text-xs font-mono font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300">
-            ₹0
-          </span>
-        </a>
-        <a
-          href="#pricing"
-          onClick={closeMenu}
-          className="text-[32px] sm:text-[36px] font-medium text-black hover:opacity-60 transition-opacity tracking-tight"
-          style={{ fontFamily: 'var(--font-heading)' }}
-        >
-          Pricing (₹89)
-        </a>
-        <a
-          href="#mentor"
-          onClick={closeMenu}
-          className="text-[32px] sm:text-[36px] font-medium text-black hover:opacity-60 transition-opacity tracking-tight"
-          style={{ fontFamily: 'var(--font-heading)' }}
-        >
-          About
-        </a>
-        <a
-          href="#faq"
-          onClick={closeMenu}
-          className="text-[32px] sm:text-[36px] font-medium text-black hover:opacity-60 transition-opacity tracking-tight"
-          style={{ fontFamily: 'var(--font-heading)' }}
-        >
-          FAQ
-        </a>
+            <div className="flex flex-col gap-1.5 py-1">
+              <a
+                href="#curriculum"
+                onClick={(e) => scrollToSection(e, 'curriculum')}
+                className="w-full text-left px-3.5 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/10 text-xs font-medium flex items-center justify-between"
+              >
+                <span>Curriculum (9 Skills)</span>
+                <ArrowRight className="w-3.5 h-3.5 opacity-50" />
+              </a>
 
-        <div className="pt-6 border-t border-black/10">
-          <button
-            type="button"
-            onClick={handleJoinClick}
-            className="w-full py-4 rounded-full bg-[#0A0A0A] text-white text-[15px] font-bold uppercase tracking-wider text-center cursor-pointer shadow-lg active:scale-98 transition-all"
-          >
-            JOIN NOW — ₹89
-          </button>
+              <a
+                href="#journey"
+                onClick={(e) => scrollToSection(e, 'journey')}
+                className="w-full text-left px-3.5 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/10 text-xs font-medium flex items-center justify-between"
+              >
+                <span>7-Day Journey</span>
+                <ArrowRight className="w-3.5 h-3.5 opacity-50" />
+              </a>
+
+              <a
+                href="#projects"
+                onClick={(e) => scrollToSection(e, 'projects')}
+                className="w-full text-left px-3.5 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/10 text-xs font-medium flex items-center justify-between"
+              >
+                <span>What You Will Build</span>
+                <ArrowRight className="w-3.5 h-3.5 opacity-50" />
+              </a>
+
+              <a
+                href="#mentor"
+                onClick={(e) => scrollToSection(e, 'mentor')}
+                className="w-full text-left px-3.5 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/10 text-xs font-medium flex items-center justify-between"
+              >
+                <span>Meet Mentor (Harsh)</span>
+                <ArrowRight className="w-3.5 h-3.5 opacity-50" />
+              </a>
+
+              <a
+                href="#pricing"
+                onClick={(e) => scrollToSection(e, 'pricing')}
+                className="w-full text-left px-3.5 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/10 text-xs font-medium flex items-center justify-between"
+              >
+                <span>Pricing Plans</span>
+                <ArrowRight className="w-3.5 h-3.5 opacity-50" />
+              </a>
+
+              <a
+                href="#faq"
+                onClick={(e) => scrollToSection(e, 'faq')}
+                className="w-full text-left px-3.5 py-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/10 text-xs font-medium flex items-center justify-between"
+              >
+                <span>FAQ</span>
+                <ArrowRight className="w-3.5 h-3.5 opacity-50" />
+              </a>
+            </div>
+
+            <div className="pt-2 border-t border-black/5 dark:border-white/10 flex items-center justify-between gap-2">
+              <button
+                type="button"
+                onClick={toggleTheme}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium border border-black/10 dark:border-white/15"
+              >
+                {isDark ? <Sun className="w-3.5 h-3.5 text-amber-300" /> : <Moon className="w-3.5 h-3.5 text-slate-700" />}
+                <span>{isDark ? "Light Mode" : "Dark Mode"}</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  closeMenu();
+                  onWhatsAppClick();
+                }}
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium text-emerald-600 dark:text-emerald-400 border border-emerald-500/20"
+              >
+                <MessageCircle className="w-3.5 h-3.5" />
+                <span>Community</span>
+              </button>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => {
+                closeMenu();
+                onJoinClick('master-pass');
+              }}
+              className={`w-full py-2.5 rounded-full font-bold text-xs shadow-lg text-center ${
+                isDark ? 'bg-white text-black hover:bg-neutral-200' : 'bg-slate-950 text-white hover:bg-slate-800'
+              }`}
+            >
+              Enroll Full Pass • ₹89
+            </button>
+          </div>
         </div>
-      </div>
+      )}
     </>
   );
 };

@@ -1,34 +1,24 @@
 import React, { useState } from 'react';
-import { BackgroundVideo } from './components/BackgroundVideo';
+import { useTheme } from './hooks/useTheme';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
-import { FlowingTopicsTicker } from './components/FlowingTopicsTicker';
-import { SectionCoreModules } from './components/SectionCoreModules';
-import { SectionBigIdea } from './components/SectionBigIdea';
-import { Section7DayJourney } from './components/Section7DayJourney';
-import { SectionWhatYouWillBuild } from './components/SectionWhatYouWillBuild';
-import { SectionToolkit } from './components/SectionToolkit';
-import { SectionAudience } from './components/SectionAudience';
-import { SectionMentor } from './components/SectionMentor';
-import { SectionWhy } from './components/SectionWhy';
-import { SectionPricing } from './components/SectionPricing';
-import { SectionSIHSpecial } from './components/SectionSIHSpecial';
-import { SectionDetails } from './components/SectionDetails';
-import { SectionRegistration } from './components/SectionRegistration';
-import { SectionFAQ } from './components/SectionFAQ';
-import { SectionFinalCTA } from './components/SectionFinalCTA';
+import { SectionStatsBar } from './components/SectionStatsBar';
+import { SectionCurriculumGrid } from './components/SectionCurriculumGrid';
+import { SectionJourneyTimeline } from './components/SectionJourneyTimeline';
+import { SectionBuildProof } from './components/SectionBuildProof';
+import { SectionMentorProfile } from './components/SectionMentorProfile';
+import { SectionPricingCards } from './components/SectionPricingCards';
+import { SectionFAQAccordion } from './components/SectionFAQAccordion';
+import { SectionFinalBanner } from './components/SectionFinalBanner';
 import { Footer } from './components/Footer';
 import { RegistrationModal } from './components/RegistrationModal';
 import { WhatsAppModal } from './components/WhatsAppModal';
-import { StickyQuickEnrollBar } from './components/StickyQuickEnrollBar';
-import { NamasteIntro } from './components/NamasteIntro';
-import { WorkshopOfferPopup } from './components/WorkshopOfferPopup';
-import { SectionOpportunities } from './components/SectionOpportunities';
+import { MultilingualWelcome } from './components/MultilingualWelcome';
 
 export default function App() {
+  const { theme, toggleTheme, isDark } = useTheme();
   const [isRegistrationOpen, setIsRegistrationOpen] = useState(false);
   const [isWhatsAppOpen, setIsWhatsAppOpen] = useState(false);
-  const [isPromoPopupOpen, setIsPromoPopupOpen] = useState(false);
   const [selectedTrackId, setSelectedTrackId] = useState<string>('master-pass');
 
   const openRegistration = (trackId?: string) => {
@@ -42,131 +32,93 @@ export default function App() {
     setIsWhatsAppOpen(true);
   };
 
-  // Trigger launch offer popup smoothly after intro finishes (or if already completed)
-  const handleIntroComplete = () => {
-    try {
-      const dismissed = sessionStorage.getItem('master_ai_promo_dismissed');
-      if (!dismissed) {
-        window.setTimeout(() => {
-          setIsPromoPopupOpen(true);
-        }, 1100);
-      }
-    } catch {
-      window.setTimeout(() => {
-        setIsPromoPopupOpen(true);
-      }, 1100);
-    }
-  };
-
-  const handleClosePromo = () => {
-    setIsPromoPopupOpen(false);
-    try {
-      sessionStorage.setItem('master_ai_promo_dismissed', 'true');
-    } catch {
-      // ignore
-    }
-  };
-
   return (
     <div
-      className="relative w-full min-h-screen overflow-x-hidden text-[#0A0A0A] selection:bg-[#0A0A0A] selection:text-white"
+      className={`relative w-full min-h-screen overflow-x-hidden transition-colors duration-300 ${
+        isDark ? 'bg-[#070707] text-[#F3F4F6]' : 'bg-[#F8F9FA] text-[#0F172A]'
+      }`}
       style={{ fontFamily: 'var(--font-body)' }}
     >
-      {/* Background Video (mouse-scrub controlled, fixed z-0) */}
-      <BackgroundVideo />
+      {/* Luxury Multilingual Indian Welcome Overlay (Finishing on Hindi Namaste) */}
+      <MultilingualWelcome />
 
-      {/* Floating Glassmorphism Navbar (Fixed top: 14px, centered, z-40) */}
-      <Navbar onJoinClick={openRegistration} />
-
-      {/* Hero Section (z-10, minimal editorial with scrubbed video canvas behind) */}
-      <HeroSection
+      {/* Floating Modern Header with Theme Toggle & Clean Navigation */}
+      <Navbar
         onJoinClick={openRegistration}
         onWhatsAppClick={openWhatsApp}
+        theme={theme}
+        toggleTheme={toggleTheme}
       />
 
-      {/* Infinite Continuous Flowing Strip: All 9 Core Skills moving endlessly (No Emojis) */}
-      <FlowingTopicsTicker />
+      {/* Main Content Sections */}
+      <main className="relative z-10 w-full flex flex-col">
+        {/* 1. Hero: 3D Spline Interactive Experience + Typewriter & CTAs */}
+        <HeroSection
+          onJoinClick={openRegistration}
+          onWhatsAppClick={openWhatsApp}
+          isDark={isDark}
+        />
 
-      {/* Solid Editorial Content Flow (Sliding naturally over the video canvas) */}
-      <main className="relative z-10">
-        {/* 01 // The 9 Core Skills Curriculum Breakdown */}
-        <SectionCoreModules onJoinClick={() => openRegistration()} />
+        {/* 2. Key Metrics Bar (9 Skills, 7 Days, Live on Meet, 20 Seats) */}
+        <SectionStatsBar isDark={isDark} />
 
-        {/* 02 // The Big Idea */}
-        <SectionBigIdea />
+        {/* 3. The 9 Core Skills (Clean 3-Col Responsive Card Grid) */}
+        <SectionCurriculumGrid
+          isDark={isDark}
+          onEnrollClick={openRegistration}
+        />
 
-        {/* 03 // 7-Day Journey (Vertical Editorial Timeline) */}
-        <Section7DayJourney />
+        {/* 4. 7-Day Roadmap (Interactive Milestone Stepper) */}
+        <SectionJourneyTimeline
+          isDark={isDark}
+          onEnrollClick={openRegistration}
+        />
 
-        {/* 04 // What You Will Build (Horizontal / Asymmetric Deliverables Showcase) */}
-        <div className="content-auto">
-          <SectionWhatYouWillBuild />
-        </div>
+        {/* 5. What You Will Build (Tangible Portfolio Proofs) */}
+        <SectionBuildProof
+          isDark={isDark}
+          onEnrollClick={openRegistration}
+        />
 
-        {/* SPECIAL // Smart India Hackathon (SIH) 2-Hour Intensive Masterclass */}
-        <div className="content-auto">
-          <SectionSIHSpecial
-            onJoinClick={(trackId) => openRegistration(trackId || 'sih-masterclass')}
-          />
-        </div>
+        {/* 6. Meet The Mentor (Harsh Lagwal • Bio & Verified Credentials) */}
+        <SectionMentorProfile
+          isDark={isDark}
+          onWhatsAppClick={openWhatsApp}
+        />
 
-        {/* 05 // AI Toolkit (THINK, RESEARCH, CREATE, BUILD, AUTOMATE) */}
-        <div className="content-auto">
-          <SectionToolkit />
-        </div>
+        {/* 7. Transparent Pricing & Passes (₹89 Full Pass, ₹299 VIP, Free Demo, SIH) */}
+        <SectionPricingCards
+          isDark={isDark}
+          onEnrollClick={openRegistration}
+        />
 
-        {/* 06 // Who Is This For? (6 Minimal Profiles) */}
-        <div className="content-auto">
-          <SectionAudience />
-        </div>
+        {/* 8. Frequently Asked Questions Accordion */}
+        <SectionFAQAccordion
+          isDark={isDark}
+          onWhatsAppClick={openWhatsApp}
+        />
 
-        {/* 07 // Meet Harsh (Grounded Bio & Philosophy) */}
-        <div className="content-auto">
-          <SectionMentor />
-        </div>
-
-        {/* 08 // Why MASTER AI? (01 to 08 Editorial Grid) */}
-        <div className="content-auto">
-          <SectionWhy />
-        </div>
-
-        {/* 09 // Verified Credentials & Elite Opportunities (Skill India, upGrad, IIT Kanpur) */}
-        <div className="content-auto">
-          <SectionOpportunities onJoinClick={openRegistration} />
-        </div>
-
-        {/* 10 // Why Only ₹89? (Honest Value Philosophy • 20 Seats Daily) */}
-        <SectionPricing onJoinClick={openRegistration} />
-
-        {/* 11 // The Details (Dates, Time, Format & Legitimate Credential Clarity) */}
-        <div className="content-auto">
-          <SectionDetails />
-        </div>
-
-        {/* 12 // Registration & Instant Checkout */}
-        <div className="content-auto">
-          <SectionRegistration />
-        </div>
-
-        {/* 13 // Frequently Asked Questions */}
-        <div className="content-auto">
-          <SectionFAQ />
-        </div>
-
-        {/* 14 // Final Magnetic Call to Action */}
-        <div className="content-auto">
-          <SectionFinalCTA onJoinClick={openRegistration} />
-        </div>
-
-        {/* 15 // Minimal Editorial Footer */}
-        <Footer onWhatsAppClick={openWhatsApp} />
+        {/* 9. Final Magnetic Conversion CTA Banner */}
+        <SectionFinalBanner
+          isDark={isDark}
+          onEnrollClick={openRegistration}
+          onWhatsAppClick={openWhatsApp}
+        />
       </main>
+
+      {/* 10. Minimalist Footer */}
+      <Footer
+        isDark={isDark}
+        onWhatsAppClick={openWhatsApp}
+        onEnrollClick={openRegistration}
+      />
 
       {/* Interactive Modals */}
       <RegistrationModal
         isOpen={isRegistrationOpen}
         onClose={() => setIsRegistrationOpen(false)}
         initialTrackId={selectedTrackId}
+        isDark={isDark}
       />
 
       <WhatsAppModal
@@ -177,21 +129,6 @@ export default function App() {
           setIsRegistrationOpen(true);
         }}
       />
-
-      {/* Live Interactive Workshop Offer Popup (Free Demo & ₹299 1-Week Pass on Google Meet) */}
-      <WorkshopOfferPopup
-        isOpen={isPromoPopupOpen}
-        onClose={handleClosePromo}
-        onSelectTrack={(trackId) => {
-          openRegistration(trackId || 'week-pass-299');
-        }}
-      />
-
-      {/* Floating Sticky Quick-Enroll Capsule Bar on Scroll */}
-      <StickyQuickEnrollBar onJoinClick={() => openRegistration()} />
-
-      {/* Cinematic Full-Screen Multilingual Namaste Intro Experience */}
-      <NamasteIntro onComplete={handleIntroComplete} />
     </div>
   );
 }
