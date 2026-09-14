@@ -542,6 +542,9 @@ export const BUILD_PROOF_ITEMS: BuildProofItem[] = [
     tag: "Pitch Decks & Seminars",
     description:
       "Structured slide decks complete with custom typography, clean outlines, and visual diagrams generated in minutes.",
+    deliverable: "15-Slide Executive Pitch Deck with Auto-Generated Charts & Diagrams",
+    tools: ["Gamma AI", "Claude 3.5 Sonnet", "Beautiful.ai"],
+    outcome: "Ready to present in college seminars, startup pitch competitions, or client discovery meetings.",
   },
   {
     id: "handwritten-notes",
@@ -550,6 +553,9 @@ export const BUILD_PROOF_ITEMS: BuildProofItem[] = [
     tag: "Textbook to Ink",
     description:
       "Digital textbook PDFs converted into realistic, human-style handwritten notes with margin rules and paper textures.",
+    deliverable: "Realistic Ink-Rendered Handwritten Notes with Paper Grain & Margin Notes",
+    tools: ["Handwriting AI", "OCR Engine", "Canvas Texture Gen"],
+    outcome: "Convert 50-page textbooks and research PDFs into human-style revision notes in 60 seconds.",
   },
   {
     id: "ai-photo",
@@ -558,6 +564,9 @@ export const BUILD_PROOF_ITEMS: BuildProofItem[] = [
     tag: "Studio Lighting",
     description:
       "Cinematic portraits and product photography staged with customized aperture, focal depth, and commercial styling.",
+    deliverable: "Cinematic 8K Studio Portraits & Commercial E-Commerce Product Staging",
+    tools: ["Midjourney v6", "Magnific AI", "Photoshop Generative Fill"],
+    outcome: "Deliver professional creative assets for brand campaigns, LinkedIn headshots, and freelance clients.",
   },
   {
     id: "ai-video",
@@ -566,6 +575,9 @@ export const BUILD_PROOF_ITEMS: BuildProofItem[] = [
     tag: "Short-Form Production",
     description:
       "Engaging vertical reels with synthetic narration, auto-aligned captions, and cinematic visual transitions.",
+    deliverable: "Viral 60-Sec Vertical Video Reel with Studio AI Voiceover & Synchronized Captions",
+    tools: ["ElevenLabs", "HeyGen / Kling AI", "CapCut AI Engine"],
+    outcome: "Launch faceless YouTube shorts, Instagram reels, or high-converting promotional video ads.",
   },
   {
     id: "ai-poster",
@@ -574,6 +586,9 @@ export const BUILD_PROOF_ITEMS: BuildProofItem[] = [
     tag: "Event & Print Ready",
     description:
       "Editorial event posters and brand artwork created with high-resolution visual layouts and typographic hierarchy.",
+    deliverable: "High-Resolution Exhibition & Event Poster with Layered Typographic System",
+    tools: ["Midjourney v6", "Figma AI", "Canva Magic Studio"],
+    outcome: "Sell print-ready poster designs on freelance platforms or produce official college festival & brand creative.",
   },
   {
     id: "ai-website",
@@ -582,6 +597,9 @@ export const BUILD_PROOF_ITEMS: BuildProofItem[] = [
     tag: "Web Experience",
     description:
       "Functional, responsive web pages and landing pages authored through natural language instructions.",
+    deliverable: "Fully Responsive Modern Web Application Deployed with Public Live Domain",
+    tools: ["v0.dev", "Bolt.new", "React + Tailwind", "Vercel"],
+    outcome: "Build and deploy working websites and client MVPs in under 30 minutes without writing manual CSS.",
   },
   {
     id: "ai-chatbot",
@@ -590,6 +608,9 @@ export const BUILD_PROOF_ITEMS: BuildProofItem[] = [
     tag: "Custom Knowledge",
     description:
       "Specialized AI assistants indexed on custom documents, notes, or course syllabi to answer queries instantly.",
+    deliverable: "Custom Knowledge Base RAG Assistant Trained on Private PDFs & Syllabi",
+    tools: ["OpenAI Assistants API", "LangChain", "Vector DB"],
+    outcome: "Deploy an intelligent 24/7 assistant for customer support, exam preparation, or client websites.",
   },
   {
     id: "ai-research-assistant",
@@ -598,6 +619,9 @@ export const BUILD_PROOF_ITEMS: BuildProofItem[] = [
     tag: "Synthesized Citations",
     description:
       "Multi-source academic summaries and audio briefs that digest dense research papers without losing key nuances.",
+    deliverable: "Multi-Source Academic Digest with Verified Citations & 5-Minute Audio Brief",
+    tools: ["Perplexity Pro", "NotebookLM", "Consensus AI"],
+    outcome: "Synthesize 10+ research papers into structured thesis insights and audio explainers instantly.",
   },
   {
     id: "ai-automation",
@@ -606,6 +630,9 @@ export const BUILD_PROOF_ITEMS: BuildProofItem[] = [
     tag: "Self-Running Workflows",
     description:
       "Connected background tasks that process spreadsheets, draft email responses, and automate repetitive busywork.",
+    deliverable: "3 Production-Grade Business Automation Workflows (Email, Sheet & Alerts)",
+    tools: ["Make.com", "Zapier", "Webhooks", "OpenAI API"],
+    outcome: "Save 15+ hours weekly by automating lead capture, email replies, and data synchronization.",
   },
   {
     id: "portfolio-website",
@@ -614,6 +641,9 @@ export const BUILD_PROOF_ITEMS: BuildProofItem[] = [
     tag: "Proof of Work",
     description:
       "A personalized developer or creator showcase linking your projects, GitHub repositories, and live demos.",
+    deliverable: "Interactive Dark-Mode Developer Showcase with GitHub Repo Feed & Live Demos",
+    tools: ["Cursor IDE", "Next.js / Vite", "Tailwind CSS", "GitHub Pages / Vercel"],
+    outcome: "Stand out to hiring managers and international clients with a verified proof-of-work link.",
   },
 ];
 

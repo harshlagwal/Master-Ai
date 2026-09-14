@@ -16,7 +16,7 @@ export const SectionFinalBanner: React.FC<SectionFinalBannerProps> = ({
   return (
     <section className="relative z-10 w-full px-4 sm:px-6 md:px-10 lg:px-14 py-16">
       <div
-        className={`max-w-7xl mx-auto rounded-3xl p-8 sm:p-12 md:p-16 border text-center relative overflow-hidden transition-all duration-300 ${
+        className={`max-w-7xl mx-auto rounded-3xl p-6 sm:p-12 md:p-16 border text-center relative overflow-hidden transition-all duration-300 ${
           isDark
             ? 'bg-gradient-to-b from-white/[0.08] to-white/[0.02] border-white/15 text-white shadow-2xl'
             : 'bg-gradient-to-b from-slate-900 to-slate-950 text-white border-slate-800 shadow-2xl'
@@ -38,23 +38,23 @@ export const SectionFinalBanner: React.FC<SectionFinalBannerProps> = ({
             Join Harsh Lagwal for 7 evenings of hands-on artificial intelligence, agentic automation, and real build proof. All for just ₹89.
           </p>
 
-          <div className="flex flex-wrap items-center justify-center gap-3.5">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3.5">
             <button
               type="button"
               onClick={() => onEnrollClick('master-pass')}
-              className="px-7 py-3.5 rounded-full bg-white text-black font-bold text-xs sm:text-sm hover:bg-neutral-200 transition-all shadow-xl active:scale-95 cursor-pointer flex items-center gap-2"
+              className="w-full sm:w-auto px-7 py-3.5 rounded-full bg-white text-black font-extrabold text-xs sm:text-sm hover:bg-neutral-200 transition-all shadow-xl active:scale-95 cursor-pointer flex items-center justify-center gap-2"
             >
-              <span>Enroll for Full 7 Days (₹89)</span>
-              <ArrowRight className="w-4 h-4" />
+              <span>Enroll for Full 7 Days • ₹89</span>
+              <ArrowRight className="w-4 h-4 shrink-0" />
             </button>
 
             <button
               type="button"
               onClick={() => onEnrollClick('week-pass-299')}
-              className="px-6 py-3.5 rounded-full bg-gradient-to-r from-amber-400 via-amber-300 to-yellow-400 text-black font-bold text-xs sm:text-sm hover:opacity-90 transition-all shadow-lg active:scale-95 cursor-pointer flex items-center gap-1.5"
+              className="w-full sm:w-auto px-6 py-3.5 rounded-full bg-gradient-to-r from-amber-400 via-amber-300 to-yellow-400 text-black font-extrabold text-xs sm:text-sm hover:opacity-90 transition-all shadow-lg active:scale-95 cursor-pointer flex items-center justify-center gap-2"
             >
-              <Zap className="w-4 h-4" />
-              <span>1-Week VIP Pass (₹299)</span>
+              <Zap className="w-4 h-4 shrink-0" />
+              <span>Claim 1-Week VIP Pass • ₹299</span>
             </button>
           </div>
 

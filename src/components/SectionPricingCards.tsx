@@ -25,7 +25,7 @@ export const SectionPricingCards: React.FC<SectionPricingCardsProps> = ({
         'Live Q&A with Harsh Lagwal',
         'Zero payment required',
       ],
-      ctaText: 'Join Free Demo',
+      ctaText: 'Join Free 30-Min Demo • ₹0',
       popular: false,
       buttonStyle: isDark ? 'bg-white/10 hover:bg-white/20 text-white' : 'bg-slate-100 hover:bg-slate-200 text-slate-800',
     },
@@ -45,7 +45,7 @@ export const SectionPricingCards: React.FC<SectionPricingCardsProps> = ({
         'Direct Doubt Clearing on Google Meet',
         'Lifetime Community Access',
       ],
-      ctaText: 'Enroll Full Pass • ₹89',
+      ctaText: 'Get Full 7-Day Access • ₹89',
       popular: true,
       buttonStyle: isDark ? 'bg-white text-black hover:bg-neutral-200' : 'bg-slate-950 text-white hover:bg-slate-800',
     },
@@ -64,7 +64,7 @@ export const SectionPricingCards: React.FC<SectionPricingCardsProps> = ({
         'Freelancing Pitch Decks & Client Contracts',
         'Exclusive Agentic Automation Templates',
       ],
-      ctaText: 'Get VIP Pass • ₹299',
+      ctaText: 'Claim VIP Mentorship • ₹299',
       popular: false,
       buttonStyle: 'bg-gradient-to-r from-amber-400 via-amber-300 to-yellow-400 text-black hover:opacity-90 font-bold',
     },
@@ -99,7 +99,7 @@ export const SectionPricingCards: React.FC<SectionPricingCardsProps> = ({
             return (
               <div
                 key={tier.id}
-                className={`rounded-3xl p-7 sm:p-8 transition-all duration-300 flex flex-col justify-between relative group hover:-translate-y-2 will-change-transform ${
+                className={`rounded-3xl p-6 sm:p-8 transition-all duration-300 flex flex-col justify-between relative group hover:-translate-y-2 will-change-transform ${
                   isMaster
                     ? isDark
                       ? 'bg-neutral-900/90 border-2 border-amber-400/50 shadow-2xl shadow-amber-500/15 lg:scale-105 z-20 backdrop-blur-xl'
@@ -145,7 +145,7 @@ export const SectionPricingCards: React.FC<SectionPricingCardsProps> = ({
                   </p>
 
                   {/* Price Display */}
-                  <div className={`flex items-baseline gap-2 mb-6 pb-6 border-b ${isDark ? 'border-white/10' : 'border-slate-200'}`}>
+                  <div className={`flex flex-wrap items-baseline gap-2 mb-6 pb-6 border-b ${isDark ? 'border-white/10' : 'border-slate-200'}`}>
                     <span className={`text-4xl sm:text-5xl font-black tracking-tight ${
                       isMaster 
                         ? 'bg-gradient-to-r from-amber-400 via-amber-200 to-yellow-300 bg-clip-text text-transparent' 
@@ -153,7 +153,7 @@ export const SectionPricingCards: React.FC<SectionPricingCardsProps> = ({
                     }`}>
                       {tier.price}
                     </span>
-                    <span className={`text-xs font-medium ${isDark ? 'text-neutral-400' : 'text-slate-500'}`}>
+                    <span className={`text-xs font-semibold ${isMaster ? 'text-amber-400' : isDark ? 'text-neutral-400' : 'text-slate-500'}`}>
                       / {tier.period}
                     </span>
                   </div>

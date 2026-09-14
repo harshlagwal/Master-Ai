@@ -29,7 +29,9 @@ export const SectionStatsBar: React.FC<SectionStatsBarProps> = ({ isDark = true 
             return (
               <div
                 key={i}
-                className="flex items-center gap-3 p-2 rounded-xl transition-all duration-200 hover:-translate-y-1 hover:bg-black/5 dark:hover:bg-white/5 cursor-default group"
+                className={`flex items-center gap-3 p-2 rounded-xl transition-all duration-200 hover:-translate-y-1 hover:bg-black/5 dark:hover:bg-white/5 cursor-default group ${
+                  i === 4 ? 'col-span-2 sm:col-span-1 justify-center sm:justify-start' : ''
+                }`}
               >
                 <div
                   className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-transform duration-200 group-hover:scale-110 ${

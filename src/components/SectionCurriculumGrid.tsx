@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { WORKSHOP_TOPICS } from '../data';
 import { Sparkles, CheckCircle2, ArrowRight, ChevronLeft, ChevronRight, Cpu } from 'lucide-react';
 
@@ -7,17 +8,47 @@ interface SectionCurriculumGridProps {
   onEnrollClick: (trackId?: string) => void;
 }
 
+const slideVariants = {
+  enter: (direction: number) => ({
+    x: direction > 0 ? 50 : -50,
+    opacity: 0,
+    filter: 'blur(4px)',
+    scale: 0.98,
+  }),
+  center: {
+    x: 0,
+    opacity: 1,
+    filter: 'blur(0px)',
+    scale: 1,
+    transition: {
+      duration: 0.35,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  },
+  exit: (direction: number) => ({
+    x: direction < 0 ? 50 : -50,
+    opacity: 0,
+    filter: 'blur(4px)',
+    scale: 0.98,
+    transition: {
+      duration: 0.25,
+      ease: [0.22, 1, 0.36, 1],
+    },
+  }),
+};
+
 export const SectionCurriculumGrid: React.FC<SectionCurriculumGridProps> = ({
   isDark = true,
   onEnrollClick,
 }) => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [direction, setDirection] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
   const [progress, setProgress] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
 
   const duration = 5000; // 5 seconds per skill
-  const intervalStep = 50; // update progress every 50ms
+  const intervalStep = 50;
 
   // Auto-advance interval
   useEffect(() => {
@@ -26,6 +57,7 @@ export const SectionCurriculumGrid: React.FC<SectionCurriculumGridProps> = ({
     const timer = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
+          setDirection(1);
           setActiveIndex((current) => (current + 1) % WORKSHOP_TOPICS.length);
           return 0;
         }
@@ -37,16 +69,20 @@ export const SectionCurriculumGrid: React.FC<SectionCurriculumGridProps> = ({
   }, [isPlaying, isHovered, activeIndex]);
 
   const handleSelect = (index: number) => {
+    if (index === activeIndex) return;
+    setDirection(index > activeIndex ? 1 : -1);
     setActiveIndex(index);
     setProgress(0);
   };
 
   const handlePrev = () => {
+    setDirection(-1);
     setActiveIndex((prev) => (prev === 0 ? WORKSHOP_TOPICS.length - 1 : prev - 1));
     setProgress(0);
   };
 
   const handleNext = () => {
+    setDirection(1);
     setActiveIndex((prev) => (prev + 1) % WORKSHOP_TOPICS.length);
     setProgress(0);
   };
@@ -81,7 +117,7 @@ export const SectionCurriculumGrid: React.FC<SectionCurriculumGridProps> = ({
                   : 'bg-white hover:bg-slate-100 text-slate-900 border-slate-300 shadow-sm'
               }`}
             >
-              <span>Claim 1-Week Pass (₹299)</span>
+              <span>Claim 1-Week Pass • ₹299</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>
@@ -99,34 +135,29 @@ export const SectionCurriculumGrid: React.FC<SectionCurriculumGridProps> = ({
         >
           {/* Top Progress Bar for auto-transition */}
           <div className="w-full h-1 bg-black/10 dark:bg-white/10 rounded-full overflow-hidden mb-6 sm:mb-8">
-            <div
-              className="h-full bg-gradient-to-r from-amber-400 to-amber-500 transition-all duration-75 ease-linear rounded-full"
+            <motion.div
+              className="h-full bg-gradient-to-r from-amber-400 to-amber-500 rounded-full"
               style={{ width: `${progress}%` }}
+              transition={{ ease: 'linear' }}
             />
           </div>
 
-          {/* Card Controls & Counter Strip */}
-          <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
-            <div className="flex items-center gap-2.5">
-              <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-amber-400/15 border border-amber-400/30 text-amber-500 dark:text-amber-400">
-                Skill 0{activeIndex + 1} of 0{WORKSHOP_TOPICS.length}
-              </span>
-              <span className={`text-xs font-mono uppercase tracking-wider px-2.5 py-0.5 rounded border ${
-                isDark ? 'bg-white/5 border-white/10 text-neutral-300' : 'bg-slate-100 border-slate-200 text-slate-700 font-semibold'
-              }`}>
-                {currentTopic.category}
-              </span>
-            </div>
+          {/* Card Controls & Counter Strip: Simple "Skill 01", "Skill 02" without clunky popup text */}
+          <div className="flex items-center justify-between gap-2 mb-3">
+            <span className="px-3.5 py-1 rounded-full text-xs font-mono font-bold whitespace-nowrap bg-amber-400/15 border border-amber-400/30 text-amber-500 dark:text-amber-400 flex items-center gap-2 shadow-sm">
+              <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse shrink-0" />
+              <span>Skill {String(activeIndex + 1).padStart(2, '0')}</span>
+            </span>
 
             {/* Slider Next / Prev Controls */}
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1.5 shrink-0">
               <button
                 type="button"
                 onClick={handlePrev}
                 title="Previous skill"
                 aria-label="Previous skill"
-                className={`w-9 h-9 rounded-full flex items-center justify-center border transition-all cursor-pointer ${
-                  isDark ? 'border-white/15 text-white hover:bg-white/10 active:scale-95' : 'border-slate-300 text-slate-800 hover:bg-slate-100 active:scale-95 shadow-sm'
+                className={`w-9 h-9 rounded-full flex items-center justify-center border transition-all cursor-pointer active:scale-90 hover:scale-105 ${
+                  isDark ? 'border-white/15 text-white hover:bg-white/10' : 'border-slate-300 text-slate-800 hover:bg-slate-100 shadow-sm'
                 }`}
               >
                 <ChevronLeft className="w-4 h-4" />
@@ -137,8 +168,8 @@ export const SectionCurriculumGrid: React.FC<SectionCurriculumGridProps> = ({
                 onClick={handleNext}
                 title="Next skill"
                 aria-label="Next skill"
-                className={`w-9 h-9 rounded-full flex items-center justify-center border transition-all cursor-pointer ${
-                  isDark ? 'border-white/15 text-white hover:bg-white/10 active:scale-95' : 'border-slate-300 text-slate-800 hover:bg-slate-100 active:scale-95 shadow-sm'
+                className={`w-9 h-9 rounded-full flex items-center justify-center border transition-all cursor-pointer active:scale-90 hover:scale-105 ${
+                  isDark ? 'border-white/15 text-white hover:bg-white/10' : 'border-slate-300 text-slate-800 hover:bg-slate-100 shadow-sm'
                 }`}
               >
                 <ChevronRight className="w-4 h-4" />
@@ -146,82 +177,125 @@ export const SectionCurriculumGrid: React.FC<SectionCurriculumGridProps> = ({
             </div>
           </div>
 
-          {/* Active Skill Content (Animated keyframe) */}
-          <div key={currentTopic.id || activeIndex} className="animate-fade-in-up">
-            <h3 className={`text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight mb-4 ${
-              isDark ? 'text-white' : 'text-slate-950'
+          {/* Badges Strip */}
+          <div className="flex flex-wrap items-center gap-2 mb-5">
+            <span className={`text-xs font-mono uppercase tracking-wider px-2.5 py-0.5 rounded border whitespace-nowrap ${
+              isDark ? 'bg-white/5 border-white/10 text-neutral-300' : 'bg-slate-100 border-slate-200 text-slate-700 font-semibold'
             }`}>
-              {currentTopic.title}
-            </h3>
+              {currentTopic.category}
+            </span>
+          </div>
 
-            <p className={`text-sm sm:text-base leading-relaxed max-w-3xl mb-8 ${
-              isDark ? 'text-neutral-300' : 'text-slate-700'
-            }`}>
-              {currentTopic.description}
-            </p>
-
-            {/* Two Column Deliverable & Tools Box */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4 border-t border-black/5 dark:border-white/10 mb-8">
-              {/* Deliverable Proof */}
-              <div className={`p-4 sm:p-5 rounded-2xl border ${
-                isDark ? 'bg-black/30 border-white/10' : 'bg-emerald-50/60 border-emerald-200'
-              }`}>
-                <div className="flex items-center gap-2 text-emerald-500 font-bold text-xs uppercase tracking-wider mb-2">
-                  <CheckCircle2 className="w-4 h-4" />
-                  <span>Tangible Deliverable Proof</span>
-                </div>
-                <p className={`text-xs sm:text-sm font-semibold leading-relaxed ${
-                  isDark ? 'text-neutral-100' : 'text-slate-900'
-                }`}>
-                  {currentTopic.deliverable}
-                </p>
-              </div>
-
-              {/* Tools Stack */}
-              <div className={`p-4 sm:p-5 rounded-2xl border ${
-                isDark ? 'bg-black/30 border-white/10' : 'bg-slate-50 border-slate-200'
-              }`}>
-                <div className="flex items-center gap-2 text-amber-500 dark:text-amber-400 font-bold text-xs uppercase tracking-wider mb-2">
-                  <Cpu className="w-4 h-4" />
-                  <span>Tools & Frameworks Taught</span>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  {currentTopic.tools.map((tool, tIdx) => (
-                    <span
-                      key={tIdx}
-                      className={`text-xs font-mono font-medium px-3 py-1 rounded-full border ${
-                        isDark ? 'bg-white/10 border-white/15 text-white' : 'bg-white border-slate-300 text-slate-800 shadow-sm'
-                      }`}
-                    >
-                      {tool}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Quick Action in Card */}
-            <div className="flex flex-wrap items-center justify-between gap-4 pt-2">
-              <div className={`text-xs font-medium ${isDark ? 'text-neutral-400' : 'text-slate-500'}`}>
-                <span>Included in all passes • Live interactive build demo</span>
-              </div>
-
-              <button
-                type="button"
-                onClick={() => onEnrollClick('master-pass')}
-                className={`px-5 py-2.5 rounded-full font-bold text-xs shadow-md transition-all duration-200 cursor-pointer active:scale-95 flex items-center gap-1.5 ${
-                  isDark ? 'bg-white text-black hover:bg-neutral-200' : 'bg-slate-950 text-white hover:bg-slate-800'
+          {/* Active Skill Content with Fluid Framer Motion & Swipe Support */}
+          <AnimatePresence mode="wait" custom={direction}>
+            <motion.div
+              key={activeIndex}
+              custom={direction}
+              variants={slideVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              drag="x"
+              dragConstraints={{ left: 0, right: 0 }}
+              dragElastic={0.2}
+              onDragEnd={(_, info) => {
+                if (info.offset.x < -40) handleNext();
+                else if (info.offset.x > 40) handlePrev();
+              }}
+              className="touch-pan-y"
+            >
+              <motion.h3
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+                className={`text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight mb-3 sm:mb-4 ${
+                  isDark ? 'text-white' : 'text-slate-950'
                 }`}
               >
-                <span>Enroll in Full Course • ₹89</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </button>
-            </div>
-          </div>
+                {currentTopic.title}
+              </motion.h3>
+
+              <motion.p
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: 0.05 }}
+                className={`text-xs sm:text-sm md:text-base leading-relaxed max-w-3xl mb-6 sm:mb-8 ${
+                  isDark ? 'text-neutral-300' : 'text-slate-700'
+                }`}
+              >
+                {currentTopic.description}
+              </motion.p>
+
+              {/* Two Column Deliverable & Tools Box */}
+              <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: 0.1 }}
+                className="grid grid-cols-1 md:grid-cols-2 gap-3.5 sm:gap-4 pt-4 border-t border-black/5 dark:border-white/10 mb-6 sm:mb-8"
+              >
+                {/* Deliverable Proof */}
+                <div className={`p-4 sm:p-5 rounded-2xl border ${
+                  isDark ? 'bg-black/30 border-white/10' : 'bg-emerald-50/60 border-emerald-200'
+                }`}>
+                  <div className="flex items-center gap-2 text-emerald-500 font-bold text-xs uppercase tracking-wider mb-2">
+                    <CheckCircle2 className="w-4 h-4 shrink-0" />
+                    <span>Tangible Deliverable Proof</span>
+                  </div>
+                  <p className={`text-xs sm:text-sm font-semibold leading-relaxed ${
+                    isDark ? 'text-neutral-100' : 'text-slate-900'
+                  }`}>
+                    {currentTopic.deliverable}
+                  </p>
+                </div>
+
+                {/* Tools Stack */}
+                <div className={`p-4 sm:p-5 rounded-2xl border ${
+                  isDark ? 'bg-black/30 border-white/10' : 'bg-slate-50 border-slate-200'
+                }`}>
+                  <div className="flex items-center gap-2 text-amber-500 dark:text-amber-400 font-bold text-xs uppercase tracking-wider mb-2">
+                    <Cpu className="w-4 h-4 shrink-0" />
+                    <span>Tools & Frameworks Taught</span>
+                  </div>
+                  <div className="flex flex-wrap gap-1.5 sm:gap-2">
+                    {currentTopic.tools.map((tool, tIdx) => (
+                      <span
+                        key={tIdx}
+                        className={`text-xs font-mono font-medium px-2.5 sm:px-3 py-1 rounded-full border whitespace-nowrap transition-transform hover:scale-105 ${
+                          isDark ? 'bg-white/10 border-white/15 text-white' : 'bg-white border-slate-300 text-slate-800 shadow-sm'
+                        }`}
+                      >
+                        {tool}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* Quick Action in Card */}
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-2">
+                <div className={`text-xs font-medium ${isDark ? 'text-neutral-400' : 'text-slate-500'}`}>
+                  <span>Included in all passes • Live interactive build demo</span>
+                </div>
+
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.97 }}
+                  type="button"
+                  onClick={() => onEnrollClick('master-pass')}
+                  className={`w-full sm:w-auto px-6 py-3.5 rounded-full font-bold text-xs sm:text-sm shadow-md transition-all duration-200 cursor-pointer flex items-center justify-center gap-2 ${
+                    isDark ? 'bg-white text-black hover:bg-neutral-200' : 'bg-slate-950 text-white hover:bg-slate-800'
+                  }`}
+                >
+                  <span>Master All 9 Skills • Enroll for ₹89</span>
+                  <ArrowRight className="w-4 h-4 shrink-0" />
+                </motion.button>
+              </div>
+            </motion.div>
+          </AnimatePresence>
         </div>
 
-        {/* Clean Numeric Stepper (1, 2, 3... 9) */}
-        <div className="mt-8 flex items-center justify-center gap-2 sm:gap-3 flex-wrap">
+        {/* Sleek Minimalist Skill Indicator (Clean expanding dots, replacing bulky clunky button grid) */}
+        <div className="mt-6 flex items-center justify-center gap-2">
           {WORKSHOP_TOPICS.map((_, idx) => {
             const isSelected = activeIndex === idx;
             return (
@@ -230,16 +304,14 @@ export const SectionCurriculumGrid: React.FC<SectionCurriculumGridProps> = ({
                 type="button"
                 onClick={() => handleSelect(idx)}
                 aria-label={`Go to skill ${idx + 1}`}
-                className={`w-9 h-9 sm:w-10 sm:h-10 rounded-full text-xs sm:text-sm font-mono font-bold transition-all duration-200 cursor-pointer flex items-center justify-center border ${
+                className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
                   isSelected
-                    ? 'bg-amber-400 text-slate-950 border-amber-400 shadow-lg scale-110 ring-2 ring-amber-400/40'
+                    ? 'w-7 bg-amber-400 shadow-md shadow-amber-400/30 scale-105'
                     : isDark
-                      ? 'bg-white/5 hover:bg-white/15 text-neutral-300 border-white/10'
-                      : 'bg-white hover:bg-slate-100 text-slate-700 border-slate-200 shadow-sm'
+                      ? 'w-2 bg-white/20 hover:bg-white/40'
+                      : 'w-2 bg-slate-300 hover:bg-slate-400'
                 }`}
-              >
-                {idx + 1}
-              </button>
+              />
             );
           })}
         </div>
@@ -247,4 +319,3 @@ export const SectionCurriculumGrid: React.FC<SectionCurriculumGridProps> = ({
     </section>
   );
 };
-

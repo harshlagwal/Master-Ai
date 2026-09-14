@@ -48,6 +48,9 @@ export interface BuildProofItem {
   category: string;
   description: string;
   tag: string;
+  deliverable?: string;
+  tools?: string[];
+  outcome?: string;
 }
 
 export interface ToolCategory {
