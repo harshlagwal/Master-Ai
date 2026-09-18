@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import Lenis from 'lenis';
+import 'lenis/dist/lenis.css';
 import { useTheme } from './hooks/useTheme';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
@@ -20,6 +22,46 @@ export default function App() {
   const [isRegistrationOpen, setIsRegistrationOpen] = useState(false);
   const [isWhatsAppOpen, setIsWhatsAppOpen] = useState(false);
   const [selectedTrackId, setSelectedTrackId] = useState<string>('master-pass');
+  const lenisRef = useRef<Lenis | null>(null);
+
+  // Initialize Apple/Google-grade buttery smooth momentum scrolling
+  useEffect(() => {
+    const lenis = new Lenis({
+      duration: 1.1,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Apple-like exponential decay curve
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: true,
+      wheelMultiplier: 1.0,
+      touchMultiplier: 1.5,
+    });
+
+    lenisRef.current = lenis;
+
+    let rafId: number;
+    function raf(time: number) {
+      lenis.raf(time);
+      rafId = requestAnimationFrame(raf);
+    }
+    rafId = requestAnimationFrame(raf);
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      lenis.destroy();
+      lenisRef.current = null;
+    };
+  }, []);
+
+  // Lock background momentum scroll when registration or whatsapp modal opens
+  useEffect(() => {
+    if (lenisRef.current) {
+      if (isRegistrationOpen || isWhatsAppOpen) {
+        lenisRef.current.stop();
+      } else {
+        lenisRef.current.start();
+      }
+    }
+  }, [isRegistrationOpen, isWhatsAppOpen]);
 
   const openRegistration = (trackId?: string) => {
     if (trackId) {

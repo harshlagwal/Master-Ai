@@ -264,15 +264,19 @@ body {
 
 @keyframes glowShift {
   0%, 100% {
-    filter: drop-shadow(0 0 10px rgba(251, 191, 36, 0.2));
+    opacity: 0.92;
+    transform: translateZ(0);
   }
   50% {
-    filter: drop-shadow(0 0 18px rgba(245, 158, 11, 0.45));
+    opacity: 1;
+    transform: translateZ(0);
   }
 }
 
 .animate-glow-shift {
+  filter: drop-shadow(0 0 12px rgba(251, 191, 36, 0.35));
   animation: glowShift 3.5s ease-in-out infinite;
+  will-change: opacity;
 }
 
 @keyframes floatSlow {
@@ -302,32 +306,59 @@ body {
   animation: pulseGlow 3s ease-in-out infinite;
 }
 
-/* 3D AI Tools Orbit Animations around Robot Hands */
+/* 3D AI Tools Orbit Animations around Robot Hands (GPU-accelerated rotate3d) */
 @keyframes orbitRing {
   0% {
-    transform: rotate(0deg);
+    transform: rotate3d(0, 0, 1, 0deg);
   }
   100% {
-    transform: rotate(360deg);
+    transform: rotate3d(0, 0, 1, 360deg);
   }
 }
 
 @keyframes counterOrbit {
   0% {
-    transform: rotate(0deg);
+    transform: rotate3d(0, 0, 1, 0deg);
   }
   100% {
-    transform: rotate(-360deg);
+    transform: rotate3d(0, 0, 1, -360deg);
   }
 }
 
 .animate-orbit-ring {
   animation: orbitRing 22s linear infinite;
   transform-origin: center center;
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .animate-counter-orbit {
   animation: counterOrbit 22s linear infinite;
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Apple-grade Lenis Smooth Momentum Scrolling Rules */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
 }
 
 @keyframes floatBob1 {

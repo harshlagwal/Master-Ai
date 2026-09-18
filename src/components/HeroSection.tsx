@@ -369,7 +369,10 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-36 h-36 sm:w-44 sm:h-44 rounded-full bg-cyan-500/15 blur-2xl animate-holo-glow" />
 
                 {/* Compact Orbit Ring: Flows right through hands & chest */}
-                <div className="relative w-[210px] h-[210px] sm:w-[240px] sm:h-[240px] md:w-[260px] md:h-[260px] rounded-full border border-dashed border-cyan-400/25 dark:border-cyan-300/25 animate-orbit-ring">
+                <div 
+                  className="relative w-[210px] h-[210px] sm:w-[240px] sm:h-[240px] md:w-[260px] md:h-[260px] rounded-full border border-dashed border-cyan-400/25 dark:border-cyan-300/25 animate-orbit-ring"
+                  style={{ willChange: 'transform', transform: 'translate3d(0, 0, 0)' }}
+                >
                   {AI_ORBIT_TOOLS.map((tool, idx) => {
                     const angle = (idx * 60 * Math.PI) / 180;
                     const xPercent = 50 + 50 * Math.cos(angle);
@@ -383,18 +386,23 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                           top: `${yPercent}%`,
                           left: `${xPercent}%`,
                           transform: 'translate(-50%, -50%)',
+                          willChange: 'transform',
                         }}
                       >
                         {/* Counter-rotating badge: Stays upright, compact single-line */}
-                        <div className="animate-counter-orbit pointer-events-auto group cursor-pointer">
+                        <div 
+                          className="animate-counter-orbit pointer-events-auto group cursor-pointer"
+                          style={{ willChange: 'transform' }}
+                        >
                           <div
-                            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full backdrop-blur-md border shadow-md transition-all duration-200 group-hover:scale-110 ${
+                            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full border shadow-md transition-all duration-200 group-hover:scale-110 ${
                               isDark
-                                ? 'bg-black/85 border-white/20 text-white group-hover:border-white/40'
+                                ? 'bg-[#0A0A0F]/90 border-white/20 text-white group-hover:border-white/50 group-hover:bg-[#14141E]'
                                 : 'bg-white/95 border-slate-300 text-slate-900 shadow-sm group-hover:border-slate-400'
                             }`}
                             style={{
                               boxShadow: `0 2px 12px -1px ${tool.accent}30`,
+                              transform: 'translateZ(0)',
                             }}
                           >
                             {tool.icon}
@@ -412,11 +420,12 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
             {/* 3D control overlay pill */}
             <div
-              className={`absolute bottom-3 right-3 backdrop-blur-md px-3 py-1.5 rounded-full border text-[11px] font-medium pointer-events-none flex items-center gap-2 shadow-lg transition-colors duration-300 ${
+              className={`absolute bottom-3 right-3 px-3 py-1.5 rounded-full border text-[11px] font-medium pointer-events-none flex items-center gap-2 shadow-lg transition-colors duration-300 ${
                 isDark
-                  ? 'bg-black/60 border-white/15 text-white/90'
+                  ? 'bg-black/75 border-white/15 text-white/90'
                   : 'bg-white/90 border-slate-300 text-slate-800'
               }`}
+              style={{ transform: 'translateZ(0)' }}
             >
               <span className="w-2 h-2 rounded-full bg-blue-500 animate-ping" />
               <span>3D Robot • Drag to Rotate</span>
