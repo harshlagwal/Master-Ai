@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { Sparkles, ArrowRight, ShieldCheck, Zap } from 'lucide-react';
 import { BRAND } from '../data';
 
@@ -15,7 +16,11 @@ export const SectionFinalBanner: React.FC<SectionFinalBannerProps> = ({
 }) => {
   return (
     <section className="relative z-10 w-full px-4 sm:px-6 md:px-10 lg:px-14 py-16">
-      <div
+      <motion.div
+        initial={{ opacity: 0, scale: 0.96, y: 24 }}
+        whileInView={{ opacity: 1, scale: 1, y: 0 }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
         className={`max-w-7xl mx-auto rounded-3xl p-6 sm:p-12 md:p-16 border text-center relative overflow-hidden transition-all duration-300 ${
           isDark
             ? 'bg-gradient-to-b from-white/[0.08] to-white/[0.02] border-white/15 text-white shadow-2xl'
@@ -69,7 +74,7 @@ export const SectionFinalBanner: React.FC<SectionFinalBannerProps> = ({
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 };

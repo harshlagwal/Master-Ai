@@ -40,7 +40,7 @@ Mentored by **Harsh Lagwal** (IIT Patna MBA in Generative AI & Data Science, IIT
 5. **No-Code AI Automation & Agentic Workflows** (Make.com, n8n, Zapier)
 6. **AI Prototyping & MVP Building** (Bolt.new, Replit Agent, Lovable)
 7. **Open-Source LLMs & Custom RAG Pipelines** (Hugging Face, Ollama, LangChain)
-8. **Smart India Hackathon (SIH) Winning Blueprint** (Problem Breakdown, Architecture & Pitch Defense)
+8. **Competitive AI Hackathon Winning Blueprint** (Problem Breakdown, Architecture & Pitch Defense)
 9. **AI Freelancing & Career Acceleration** (High-Ticket Client Acquisition, ATS Resumes, Portfolio Deployment)
 
 ---
@@ -50,9 +50,8 @@ Mentored by **Harsh Lagwal** (IIT Patna MBA in Generative AI & Data Science, IIT
 | Pass Tier | Price | Access / Duration | Key Inclusions |
 | :--- | :---: | :--- | :--- |
 | **7-Day Master Pass** *(Most Popular)* | **₹89** | 7 Days All-Inclusive (8:00 PM IST) | All 9 skills, daily recordings, code templates, Skill India verified certificate |
-| **1-Week VIP Pass** | **₹299** | Priority 1-on-1 Mentorship | Everything in Master Pass + 1-on-1 GitHub/Portfolio review, SIH blueprint, direct WhatsApp with Harsh |
+| **1-Week VIP Pass** | **₹299** | Priority 1-on-1 Mentorship | Everything in Master Pass + 1-on-1 GitHub/Portfolio review, AI project blueprint, direct WhatsApp with Harsh |
 | **30-Min Live Demo** | **₹0 Free** | 2 Days Live Preview | 30-min live Google Meet session, LLM foundations, live Q&A |
-| **SIH 2-Hr Masterclass** | **₹199** | Intensive Hackathon Sprint | Problem statement breakdown, system architecture, winning jury pitch decks |
 
 ---
 
@@ -121,7 +120,7 @@ master-ai/
 │   │   ├── SectionFinalBanner.tsx      # High-conversion closing banner with glowing CTA
 │   │   ├── SectionJourneyTimeline.tsx  # 7-day evening curriculum roadmap
 │   │   ├── SectionMentorProfile.tsx    # Harsh Lagwal (IIT Patna / IIT Roorkee) credentials & verified badges
-│   │   ├── SectionPricingCards.tsx     # Honest pricing grid (₹89 Master Pass, ₹299 VIP, ₹0 Demo, ₹199 SIH)
+│   │   ├── SectionPricingCards.tsx     # Honest pricing grid (₹89 Master Pass, ₹299 VIP, ₹0 Demo)
 │   │   ├── SectionStatsBar.tsx         # Interactive metric cards with hover micro-rotations
 │   │   └── WhatsAppModal.tsx           # Direct community access modal
 │   ├── hooks/

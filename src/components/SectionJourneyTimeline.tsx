@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { JOURNEY_DAYS } from '../data';
 import { Calendar, Clock, CheckCircle2, ArrowRight, Sparkles } from 'lucide-react';
 
@@ -17,17 +18,23 @@ export const SectionJourneyTimeline: React.FC<SectionJourneyTimelineProps> = ({
   return (
     <section id="journey" className="relative z-10 w-full px-4 sm:px-6 md:px-10 lg:px-14 py-16 sm:py-20">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4">
+        {/* Header with Google Antigravity scroll entrance */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4"
+        >
           <div>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-mono uppercase tracking-wider mb-3">
               <Calendar className="w-3.5 h-3.5" />
               <span>Day-by-Day Progression</span>
             </div>
-            <h2 className={`text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight ${isDark ? 'text-white' : 'text-slate-950'}`}>
+            <h2 className={`text-2xl sm:text-3xl md:text-4xl font-normal sm:font-medium tracking-tight ${isDark ? 'text-white' : 'text-slate-950'}`}>
               The 7-Day Action Roadmap
             </h2>
-            <p className={`mt-2 text-xs sm:text-sm max-w-xl ${isDark ? 'text-neutral-400' : 'text-slate-600 font-medium'}`}>
+            <p className={`mt-2.5 text-sm sm:text-base leading-relaxed max-w-xl ${isDark ? 'text-neutral-400' : 'text-slate-600'}`}>
               From absolute fundamentals to building autonomous multi-agent systems and real-world deployment.
             </p>
           </div>
@@ -36,7 +43,7 @@ export const SectionJourneyTimeline: React.FC<SectionJourneyTimelineProps> = ({
             <Clock className="w-4 h-4 text-amber-500 dark:text-amber-400" />
             <span>Daily 8:00 PM IST • Live Interactive Sessions</span>
           </div>
-        </div>
+        </motion.div>
 
         {/* Day Selector Pills (Scrollable horizontally on mobile) */}
         <div className="flex items-center gap-2 overflow-x-auto pb-4 mb-8 custom-scrollbar">
@@ -47,30 +54,43 @@ export const SectionJourneyTimeline: React.FC<SectionJourneyTimelineProps> = ({
                 key={idx}
                 type="button"
                 onClick={() => setActiveDayIndex(idx)}
-                className={`px-4 py-2.5 rounded-full text-xs font-semibold whitespace-nowrap transition-all duration-200 cursor-pointer flex items-center gap-2 shrink-0 border ${
+                className={`relative px-4 py-2.5 rounded-full text-xs font-semibold whitespace-nowrap transition-colors duration-200 cursor-pointer flex items-center gap-2 shrink-0 border ${
                   isActive
                     ? isDark
-                      ? 'bg-white text-black border-white shadow-lg'
-                      : 'bg-slate-950 text-white border-slate-950 shadow-md'
+                      ? 'text-black border-transparent'
+                      : 'text-white border-transparent'
                     : isDark
                       ? 'bg-white/5 hover:bg-white/10 text-neutral-300 border-white/10'
                       : 'bg-white hover:bg-slate-100 text-slate-800 border-slate-300 shadow-sm'
                 }`}
               >
-                <span className="font-mono font-bold">{day.dayNumber}</span>
-                <span className="opacity-60">•</span>
-                <span>{day.dayName}</span>
+                {isActive && (
+                  <motion.div
+                    layoutId="activeTimelineDayPill"
+                    transition={{ type: "spring", stiffness: 450, damping: 35 }}
+                    className={`absolute inset-0 rounded-full shadow-md z-0 ${
+                      isDark ? 'bg-white' : 'bg-slate-950'
+                    }`}
+                  />
+                )}
+                <span className="relative z-10 font-mono font-bold">{day.dayNumber}</span>
+                <span className="relative z-10 opacity-60">•</span>
+                <span className="relative z-10">{day.dayName}</span>
               </button>
             );
           })}
         </div>
 
-        {/* Active Day Detail Card */}
+        {/* Active Day Detail Card with Google Antigravity Crossfade Transition */}
         {activeDay && (
-          <div
+          <motion.div
+            key={activeDayIndex}
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
             className={`rounded-3xl p-5 sm:p-8 md:p-10 border transition-all duration-300 relative overflow-hidden ${
               isDark
-                ? 'bg-white/[0.03] border-white/15 text-white'
+                ? 'bg-[#0A0A0C]/80 border-white/[0.08] backdrop-blur-xl text-white shadow-[0_8px_32px_rgba(0,0,0,0.6)]'
                 : 'bg-white border-slate-200/90 shadow-xl text-slate-900'
             }`}
           >
@@ -167,7 +187,7 @@ export const SectionJourneyTimeline: React.FC<SectionJourneyTimelineProps> = ({
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
         )}
       </div>
     </section>

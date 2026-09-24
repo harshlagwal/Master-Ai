@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { MENTOR_DATA, SOCIAL_LINKS } from '../data';
 import { GraduationCap, Award, ShieldCheck, MessageCircle, ExternalLink, Smartphone } from 'lucide-react';
 
@@ -14,10 +15,14 @@ export const SectionMentorProfile: React.FC<SectionMentorProfileProps> = ({
   return (
     <section id="mentor" className="relative z-10 w-full px-4 sm:px-6 md:px-10 lg:px-14 py-16 sm:py-20">
       <div className="max-w-7xl mx-auto">
-        <div
+        <motion.div
+          initial={{ opacity: 0, y: 28 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
           className={`rounded-3xl p-6 sm:p-10 md:p-12 border transition-all duration-300 relative overflow-hidden ${
             isDark
-              ? 'bg-white/[0.03] border-white/10 text-white'
+              ? 'bg-[#0A0A0C]/85 border-white/[0.08] backdrop-blur-xl text-white shadow-[0_8px_32px_rgba(0,0,0,0.6)]'
               : 'bg-white border-slate-200/90 shadow-xl text-slate-900'
           }`}
         >
@@ -52,16 +57,16 @@ export const SectionMentorProfile: React.FC<SectionMentorProfileProps> = ({
                   <GraduationCap className="w-3.5 h-3.5" />
                   <span>IIT Patna Scholar • MBA in Gen AI & Data Science</span>
                 </div>
-                <h2 className={`text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight ${isDark ? 'text-white' : 'text-slate-950'}`}>
+                <h2 className={`text-2xl sm:text-3xl md:text-4xl font-normal sm:font-medium tracking-tight ${isDark ? 'text-white' : 'text-slate-950'}`}>
                   Meet Harsh Lagwal
                 </h2>
-                <p className={`mt-2.5 text-xs sm:text-sm font-semibold ${isDark ? 'text-amber-400' : 'text-amber-600'}`}>
+                <p className={`mt-2.5 text-sm sm:text-base font-medium ${isDark ? 'text-amber-400' : 'text-amber-600'}`}>
                   "{MENTOR_DATA.tagline}"
                 </p>
-                <p className={`mt-3 text-xs sm:text-sm leading-relaxed ${isDark ? 'text-neutral-400' : 'text-slate-600'}`}>
+                <p className={`mt-3 text-sm sm:text-base leading-relaxed ${isDark ? 'text-neutral-400' : 'text-slate-600'}`}>
                   {MENTOR_DATA.mainCopy[0]}
                 </p>
-                <p className={`mt-2 text-xs sm:text-sm leading-relaxed ${isDark ? 'text-neutral-400' : 'text-slate-600'}`}>
+                <p className={`mt-2 text-sm sm:text-base leading-relaxed ${isDark ? 'text-neutral-400' : 'text-slate-600'}`}>
                   {MENTOR_DATA.mainCopy[1]}
                 </p>
               </div>
@@ -106,10 +111,10 @@ export const SectionMentorProfile: React.FC<SectionMentorProfileProps> = ({
                 >
                   <div className="flex items-center gap-2 mb-1.5">
                     <ShieldCheck className="w-4 h-4 text-emerald-500 shrink-0" />
-                    <h4 className={`text-xs font-bold ${isDark ? 'text-white' : 'text-slate-950'}`}>Skill India & SIH</h4>
+                    <h4 className={`text-xs font-bold ${isDark ? 'text-white' : 'text-slate-950'}`}>Skill India & NSDC</h4>
                   </div>
                   <p className={`text-[11px] leading-snug ${isDark ? 'text-neutral-400' : 'text-slate-600'}`}>
-                    NSDC accredited mentor & SIH hackathon strategist.
+                    NSDC accredited mentor & national hackathon strategist.
                   </p>
                 </div>
               </div>
@@ -143,7 +148,7 @@ export const SectionMentorProfile: React.FC<SectionMentorProfileProps> = ({
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

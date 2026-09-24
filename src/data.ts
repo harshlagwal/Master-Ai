@@ -120,7 +120,7 @@ export const WORKSHOP_TOPICS: WorkshopTopic[] = [
   },
 ];
 
-// Domain Tracks: 7-Day Live Masterclass and SIH 2-Hour Intensive Masterclass
+// Domain Tracks: 7-Day Live Masterclass and 1-Week VIP Mentoring
 export const DOMAIN_TRACKS: DomainTrack[] = [
   {
     id: "demo-free",
@@ -172,122 +172,7 @@ export const DOMAIN_TRACKS: DomainTrack[] = [
       "ATS Resume, Freelance Client Playbook & Templates",
     ],
   },
-  {
-    id: "sih-masterclass",
-    name: "Smart India Hackathon (SIH) 2-Hour Project Sprint",
-    shortName: "SIH 2-Hr Masterclass (₹199)",
-    badge: "Special 2-Hour Live Masterclass",
-    price: "₹199",
-    amountNum: 199,
-    sessions: "2-Hour Live Intensive Masterclass on Zoom + Q&A",
-    idealFor: "SIH Teams, First-time Hackathon Builders, Tech & Non-Tech College Students",
-    highlights: [
-      "SIH Problem Statement Selection & Detailing Blueprint",
-      "Live Working MVP Prototype Building using Modern AI Tools",
-      "SIH-Approved Winning PPT Pitch Deck Template (.pptx)",
-      "Jury Pitch Mastery: How to Speak, Present & Defend Questions",
-    ],
-  },
 ];
-
-// Smart India Hackathon (SIH) Masterclass Complete Data
-export const SIH_WORKSHOP_DATA = {
-  id: "sih",
-  badge: "SPECIAL INTENSIVE EDITION • 2-HOUR LIVE SPRINT",
-  headline: "Smart India Hackathon (SIH): From Idea to Winning Project",
-  subheadline:
-    "Want to know how to build a winning SIH project? In this 2-hour live masterclass, master comprehensive detailing, AI-powered prototype building, winning presentation architecture, and confident jury defense.",
-  price: "₹199",
-  originalPrice: "₹1,999",
-  duration: "2 Hours Live Intensive Session",
-  format: "Live on Zoom + Instant Doubt Resolution",
-  pillars: [
-    {
-      number: "01",
-      title: "Comprehensive Detailing & PS Selection",
-      tagline: "Problem Statement Decoding & Feasibility",
-      description:
-        "Learn how to dissect official SIH problem statements to 10x your selection probability. Master category selection, evaluate technical constraints, and follow the exact blueprint to clear your college's internal screening round.",
-      keyPoints: [
-        "Software vs. Hardware PS: Which one to pick and why",
-        "Jury evaluation rubrics and scoring weightage breakdown",
-        "Feasibility & novelty matrix (what judges look for immediately)",
-        "Step-by-step checklist to clear the college internal hackathon round",
-      ],
-      icon: "Target",
-    },
-    {
-      number: "02",
-      title: "AI-Powered Project Build (Live MVP)",
-      tagline: "Zero to Working Prototype with Modern AI",
-      description:
-        "No prior coding barriers! Build a working, full-stack prototype in under 2 hours using Cursor, Bolt.new, v0, and modern AI tools — complete with responsive UI, integrated database, and functional core logic.",
-      keyPoints: [
-        "Convert plain English prompts into functional web apps and dashboards",
-        "Rapid, bug-free development with modern AI coding IDEs (Cursor & Bolt)",
-        "Integrate Supabase backend and authentication in under 15 minutes",
-        "Deploy live working prototypes on Vercel with a shareable public URL",
-      ],
-      icon: "Code2",
-    },
-    {
-      number: "03",
-      title: "SIH-Approved Winning Presentation",
-      tagline: "High-Impact Pitch Deck Architecture",
-      description:
-        "Structure a high-converting presentation deck that stands out to evaluators. Master the exact slide-by-slide sequence, AI-generated architecture diagrams, novelty differentiation, and commercial viability highlights.",
-      keyPoints: [
-        "Official SIH presentation guidelines & recommended slide sequence",
-        "System architecture & data flow diagrams generated with AI tools",
-        "Novelty factor breakdown & existing solution comparison matrix",
-        "Visualizing scalability, technical stack, and social impact metrics",
-      ],
-      icon: "Presentation",
-    },
-    {
-      number: "04",
-      title: "Jury Pitching & Viva Defense",
-      tagline: "Stage Confidence, Presentation & Q&A Mastery",
-      description:
-        "Even the best project fails if not presented effectively. Master the 3-minute elevator pitch, handle tough jury counter-questions with calm confidence, and communicate with authority.",
-      keyPoints: [
-        "3-Minute elevator pitch blueprint (Problem → Solution → Live Demo → Impact)",
-        "Jury cross-examination: How to answer tricky technical questions calmly",
-        "Team coordination: Defining roles on who speaks when for maximum impact",
-        "Live demo disaster recovery: Fail-safe backup strategies if WiFi drops",
-      ],
-      icon: "Mic",
-    },
-  ],
-  deliverables: [
-    {
-      title: "Winning SIH PPT Template",
-      desc: "Ready-to-use professional slide deck (.pptx & Canva) designed to meet official SIH evaluation standards.",
-      icon: "FileCheck",
-    },
-    {
-      title: "AI Hackathon Prompt Swipe File",
-      desc: "50+ tested prompts to generate prototypes, architectures, and database schemas in minutes.",
-      icon: "Sparkles",
-    },
-    {
-      title: "Jury Q&A & Pitch Script Sheet",
-      desc: "Word-for-word 3-minute pitch template and response guide for the 15 most common jury questions.",
-      icon: "MessageSquare",
-    },
-    {
-      title: "Full 2-Hour Session Recording",
-      desc: "Re-watch the entire live walkthrough with your team whenever needed before your hackathon submission.",
-      icon: "Video",
-    },
-  ],
-  timingInfo: {
-    durationText: "2 Hours Live Interactive Workshop",
-    timeText: "Weekend Special Live Stream • Zoom Link via WhatsApp & Email",
-    languageText: "English (Clear, Practical & Beginner-Friendly)",
-    seatsText: "Limited to 30 Teams / Students for Direct Mentoring",
-  },
-};
 
 
 // Replace with external checkout link if desired. When empty, opens the sleek built-in enrollment modal.
@@ -742,7 +627,7 @@ export const MENTOR_DATA = {
     { label: "IIT Patna Scholar", value: "MBA in Gen AI & Data Science" },
     { label: "Personalized", value: "Strictly 20 Students / Batch" },
     { label: "Zero Slides", value: "100% Live Practical MVP Building" },
-    { label: "Hackathon Strategy", value: "SIH & National Competitions" },
+    { label: "Hackathon Strategy", value: "National & Global Competitions" },
   ],
   stats: [
     { number: "IIT Patna", label: "MBA Gen AI & DS" },
@@ -754,7 +639,7 @@ export const MENTOR_DATA = {
     "IIT Patna — MBA in Generative AI & Data Science Scholar",
     "IIT Roorkee Certified in Android App Development & Mobile Software Engineering",
     "Skill India & NSDC Verified Educator & Systems Architect",
-    "Smart India Hackathon (SIH) National Mentor & Pitch Strategist",
+    "National Hackathon Mentor & Pitch Strategist",
   ],
   mainCopy: [
     "Currently pursuing my MBA in Generative AI and Data Science at IIT Patna, I work daily with modern LLM architectures, multi-agent frameworks, and predictive data pipelines.",
@@ -862,9 +747,9 @@ export const FAQ_ITEMS: FAQItem[] = [
       "Yes! You pick any 1 domain track of your choice — Non-Tech & Commerce, Creative & Design, Tech & Coding, or Career & Internships — and pay only ₹89 for that track. You don't have to pay for tracks you don't need.",
   },
   {
-    question: "Can I access all domains together?",
+    question: "Can I access all skills together?",
     answer:
-      "If you want full access to all 4 domains across the entire curriculum, you can select the Complete All-Domains Master Pass for ₹199. However, if you only need training in your specific branch, you can choose that single domain track for just ₹89.",
+      "Yes! The Complete 7-Day Master Pass gives you full hands-on access to all 9 core AI skills for just ₹89. For personalized 1-on-1 portfolio review, client contracts, and direct mentorship, you can select the 1-Week VIP Pass for ₹299.",
   },
   {
     question: "I am from a non-tech / commerce / arts background. Which track should I pick?",

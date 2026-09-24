@@ -1,35 +1,37 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --font-heading: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-body: 'Inter', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --card: 0 0% 8%;
+  --font-heading: 'Google Sans Flex', 'Google Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-body: 'Google Sans Flex', 'Google Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --card: 0 0% 5%;
   --card-foreground: 0 0% 98%;
-  --muted-foreground: 0 0% 63.9%;
-  --bg-primary: #070707;
+  --muted-foreground: 0 0% 65%;
+  --bg-primary: #050506;
   --text-primary: #F3F4F6;
-  --card-bg: #0C0C0E;
-  --card-border: rgba(255, 255, 255, 0.12);
+  --card-bg: #0A0A0C;
+  --card-border: rgba(255, 255, 255, 0.08);
 }
 
 html.light {
   --card: 0 0% 100%;
   --card-foreground: 222.2 84% 4.9%;
   --muted-foreground: 215.4 16.3% 46.9%;
-  --bg-primary: #F8FAFC;
-  --text-primary: #0F172A;
+  --bg-primary: #FAFAFA;
+  --text-primary: #0A0A0A;
   --card-bg: #FFFFFF;
-  --card-border: #E2E8F0;
+  --card-border: #E5E7EB;
 }
 
 html.dark {
-  --card: 0 0% 8%;
+  --card: 0 0% 4%;
   --card-foreground: 0 0% 98%;
-  --muted-foreground: 0 0% 63.9%;
-  --bg-primary: #070707;
+  --muted-foreground: 0 0% 65%;
+  --bg-primary: #050506;
   --text-primary: #F3F4F6;
-  --card-bg: #0C0C0E;
-  --card-border: rgba(255, 255, 255, 0.12);
+  --card-bg: #0A0A0C;
+  --card-border: rgba(255, 255, 255, 0.08);
 }
 
 .bg-card {
@@ -44,23 +46,97 @@ html.dark {
   color: hsl(var(--muted-foreground));
 }
 
+/* Lenis Butter-Smooth 60-120fps Scrolling Engine Standards */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
 html {
-  scroll-behavior: smooth;
+  /* Crucial: Lenis handles smooth momentum scrolling; native smooth scroll MUST be auto to prevent conflict */
+  scroll-behavior: auto !important;
   scroll-padding-top: 84px;
   -webkit-overflow-scrolling: touch;
 }
 
 body {
   font-family: var(--font-body);
+  font-optical-sizing: auto;
   margin: 0;
   padding: 0;
   background-color: var(--bg-primary);
   color: var(--text-primary);
   overflow-x: hidden;
-  text-rendering: optimizeLegibility;
+  text-rendering: optimizeSpeed;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  cursor: default;
+}
+
+/* Hardware accelerated smooth compositing for sections */
+section {
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  will-change: auto;
+}
+
+/* Google-style Underline on Hover matching reference image */
+.google-link {
+  text-decoration: none;
+  transition: color 0.18s ease;
+  cursor: pointer;
+}
+
+html.light .google-link {
+  color: #1f2937 !important; /* High-contrast dark charcoal in light mode */
+}
+
+html.light .google-link:hover {
+  color: #000000 !important;
+  text-decoration: underline !important;
+  text-underline-offset: 4px !important;
+  text-decoration-thickness: 1.5px !important;
+}
+
+html.dark .google-link {
+  color: #a3a3a3;
+}
+
+html.dark .google-link:hover {
+  color: #ffffff;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1px;
+}
+
+/* Safeguard selection and text visibility in light and dark mode */
+html.light ::selection {
+  background-color: rgba(0, 0, 0, 0.15);
+  color: #000000;
+}
+
+html.dark ::selection {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+}
+
+a, button, [role="button"] {
+  cursor: pointer;
 }
 
 .font-heading {
@@ -69,6 +145,60 @@ body {
 
 .font-body {
   font-family: var(--font-body);
+}
+
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+/* Antigravity Signature Icon Container (matches code editor/artifact UI) */
+.antigravity-icon-box {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.03);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.antigravity-icon-box:hover {
+  border-color: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.07);
+  transform: translateY(-1px);
+}
+
+/* Antigravity Glass & Obsidian Card */
+.antigravity-card {
+  background: rgba(10, 10, 12, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  backdrop-filter: blur(16px);
+  transition: border-color 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.antigravity-card:hover {
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7), 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+/* Antigravity Levitation Floating Physics */
+@keyframes antigravity-float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(0.4deg);
+  }
+}
+
+.animate-antigravity-float {
+  animation: antigravity-float 6s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+  will-change: transform;
 }
 
 /* Subtle architectural grid pattern */
@@ -177,6 +307,45 @@ body {
   display: flex;
   width: max-content;
   animation: marquee-flow 38s linear infinite reverse;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Synchronized AI Tools Marquee (Smooth Barabar Speeds, Opposing Alternating Flow) */
+@keyframes tools-marquee-left {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes tools-marquee-right {
+  0% {
+    transform: translate3d(-50%, 0, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.animate-tools-marquee-left {
+  display: flex;
+  width: max-content;
+  animation: tools-marquee-left 36s linear infinite;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.animate-tools-marquee-right {
+  display: flex;
+  width: max-content;
+  animation: tools-marquee-right 36s linear infinite;
   will-change: transform;
   transform: translate3d(0, 0, 0);
   backface-visibility: hidden;

@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { Zap, Calendar, Award, Users, Video } from 'lucide-react';
 
 interface SectionStatsBarProps {
@@ -16,37 +17,41 @@ export const SectionStatsBar: React.FC<SectionStatsBarProps> = ({ isDark = true 
 
   return (
     <section className="relative z-10 w-full px-4 sm:px-6 md:px-10 lg:px-14 py-4">
-      <div
-        className={`max-w-7xl mx-auto rounded-2xl border p-4 sm:p-6 transition-all duration-300 shadow-md ${
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-40px" }}
+        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+        className={`max-w-7xl mx-auto rounded-2xl border p-4 sm:p-5 transition-all duration-300 ${
           isDark
-            ? 'bg-neutral-900/60 border-white/10 text-white backdrop-blur-md'
+            ? 'bg-[#0A0A0C]/80 border-white/[0.08] text-white backdrop-blur-xl shadow-[0_4px_24px_rgba(0,0,0,0.6)]'
             : 'bg-white border-slate-200/90 shadow-sm text-slate-950'
         }`}
       >
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-5">
           {stats.map((stat, i) => {
             const Icon = stat.icon;
             return (
               <div
                 key={i}
-                className={`flex items-center gap-3 p-2 rounded-xl transition-all duration-200 hover:-translate-y-1 hover:bg-black/5 dark:hover:bg-white/5 cursor-default group ${
+                className={`flex items-center gap-3 p-2.5 rounded-xl transition-all duration-200 hover:bg-white/[0.04] cursor-default group ${
                   i === 4 ? 'col-span-2 sm:col-span-1 justify-center sm:justify-start' : ''
                 }`}
               >
                 <div
-                  className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-transform duration-200 group-hover:scale-110 ${
+                  className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 border transition-all duration-200 ${
                     isDark
-                      ? 'bg-amber-400/10 text-amber-400 border border-amber-400/20 group-hover:border-amber-400/40'
-                      : 'bg-amber-50 text-amber-600 border border-amber-200 group-hover:border-amber-300'
+                      ? 'border-white/10 bg-white/[0.03] text-neutral-200 group-hover:border-white/25 group-hover:text-white group-hover:scale-105'
+                      : 'border-slate-200 bg-slate-50 text-slate-700 group-hover:border-slate-300 group-hover:scale-105'
                   }`}
                 >
-                  <Icon className="w-5 h-5 transition-transform duration-200 group-hover:rotate-6" />
+                  <Icon className="w-4 h-4" />
                 </div>
                 <div>
-                  <h4 className={`text-xs sm:text-sm font-bold tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                  <h4 className={`text-xs sm:text-sm font-semibold tracking-tight ${isDark ? 'text-white' : 'text-slate-900'}`}>
                     {stat.label}
                   </h4>
-                  <p className={`text-[10px] sm:text-xs line-clamp-1 ${isDark ? 'text-neutral-400' : 'text-slate-600 font-medium'}`}>
+                  <p className={`text-[10px] sm:text-xs font-mono line-clamp-1 ${isDark ? 'text-neutral-400' : 'text-slate-500'}`}>
                     {stat.sub}
                   </p>
                 </div>
@@ -54,7 +59,7 @@ export const SectionStatsBar: React.FC<SectionStatsBarProps> = ({ isDark = true 
             );
           })}
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 };

@@ -64,9 +64,9 @@ export function SectionInteractive3D({
               <div className="flex flex-col gap-1">
                 <div className="flex items-center gap-1.5 text-sky-400 text-xs font-medium">
                   <Cpu className="w-3.5 h-3.5" />
-                  <span>SIH Ready</span>
+                  <span>MVP Ready</span>
                 </div>
-                <span className="text-[11px] text-neutral-400">Hackathon sprints</span>
+                <span className="text-[11px] text-neutral-400">Production sprints</span>
               </div>
             </div>
 

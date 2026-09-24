@@ -1,10 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import Lenis from 'lenis';
 import 'lenis/dist/lenis.css';
 import { useTheme } from './hooks/useTheme';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
 import { SectionStatsBar } from './components/SectionStatsBar';
+import { SectionAiToolsMarquee } from './components/SectionAiToolsMarquee';
 import { SectionCurriculumGrid } from './components/SectionCurriculumGrid';
 import { SectionJourneyTimeline } from './components/SectionJourneyTimeline';
 import { SectionBuildProof } from './components/SectionBuildProof';
@@ -15,25 +17,49 @@ import { SectionFinalBanner } from './components/SectionFinalBanner';
 import { Footer } from './components/Footer';
 import { RegistrationModal } from './components/RegistrationModal';
 import { WhatsAppModal } from './components/WhatsAppModal';
-import { MultilingualWelcome } from './components/MultilingualWelcome';
+import { AiLoader } from './components/ui/ai-loader';
 
 export default function App() {
   const { theme, toggleTheme, isDark } = useTheme();
+  const [isLoading, setIsLoading] = useState(true);
   const [isRegistrationOpen, setIsRegistrationOpen] = useState(false);
   const [isWhatsAppOpen, setIsWhatsAppOpen] = useState(false);
   const [selectedTrackId, setSelectedTrackId] = useState<string>('master-pass');
   const lenisRef = useRef<Lenis | null>(null);
 
-  // Initialize Apple/Google-grade buttery smooth momentum scrolling
+  const mountTimeRef = useRef(Date.now());
+  const MIN_LOADER_DURATION = 3200; // 3.2 seconds minimum so users experience the full glowing portal
+
+  // Smoothly dismiss preloader once 3D robot scene compiles and minimum time has passed
+  const handleRobotReady = useCallback(() => {
+    const elapsed = Date.now() - mountTimeRef.current;
+    const remainingTime = Math.max(0, MIN_LOADER_DURATION - elapsed);
+
+    setTimeout(() => {
+      setIsLoading(false);
+    }, remainingTime);
+  }, []);
+
+  useEffect(() => {
+    // Safety fallback: reveal page after 3.8s max even on slow network
+    const fallbackTimer = setTimeout(() => {
+      setIsLoading(false);
+    }, 3800);
+
+    return () => clearTimeout(fallbackTimer);
+  }, []);
+
+  // Initialize Google Antigravity buttery smooth 60-120fps momentum scrolling
   useEffect(() => {
     const lenis = new Lenis({
-      duration: 1.1,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Apple-like exponential decay curve
+      duration: 1.0,
+      easing: (t) => 1 - Math.pow(1 - t, 3), // Signature Google Antigravity cubic ease-out curve
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
-      wheelMultiplier: 1.0,
-      touchMultiplier: 1.5,
+      wheelMultiplier: 0.95,
+      touchMultiplier: 1.2,
+      syncTouch: false,
     });
 
     lenisRef.current = lenis;
@@ -52,16 +78,16 @@ export default function App() {
     };
   }, []);
 
-  // Lock background momentum scroll when registration or whatsapp modal opens
+  // Lock background momentum scroll during initial load or modal overlay
   useEffect(() => {
     if (lenisRef.current) {
-      if (isRegistrationOpen || isWhatsAppOpen) {
+      if (isLoading || isRegistrationOpen || isWhatsAppOpen) {
         lenisRef.current.stop();
       } else {
         lenisRef.current.start();
       }
     }
-  }, [isRegistrationOpen, isWhatsAppOpen]);
+  }, [isLoading, isRegistrationOpen, isWhatsAppOpen]);
 
   const openRegistration = (trackId?: string) => {
     if (trackId) {
@@ -77,12 +103,46 @@ export default function App() {
   return (
     <div
       className={`relative w-full min-h-screen overflow-x-hidden transition-colors duration-300 ${
-        isDark ? 'bg-[#070707] text-[#F3F4F6]' : 'bg-[#F8F9FA] text-[#0F172A]'
+        isDark ? 'bg-[#050506] text-[#EDEDED]' : 'bg-[#FAFAFA] text-[#0A0A0A]'
       }`}
       style={{ fontFamily: 'var(--font-body)' }}
     >
-      {/* Luxury Multilingual Indian Welcome Overlay (Finishing on Hindi Namaste) */}
-      <MultilingualWelcome />
+      {/* Initial Website Preloader: Glowing Open Master AI portal */}
+      <AnimatePresence>
+        {isLoading && (
+          <motion.div
+            key="app-ai-preloader"
+            initial={{ opacity: 1 }}
+            exit={{
+              opacity: 0,
+              scale: 1.04,
+              transition: { duration: 0.65, ease: [0.16, 1, 0.3, 1] },
+            }}
+            className="fixed inset-0 z-[99999] flex flex-col items-center justify-center bg-[#050506] text-white select-none pointer-events-auto"
+            style={{ overscrollBehavior: 'contain' }}
+          >
+            <div className="relative flex flex-col items-center justify-center p-6 text-center">
+              {/* Radial ambient glow behind portal */}
+              <div className="absolute w-[360px] h-[360px] rounded-full bg-gradient-to-tr from-purple-600/25 via-indigo-500/15 to-transparent blur-[80px] pointer-events-none" />
+
+              {/* Glowing Open Master AI circular ring loader */}
+              <AiLoader text="Open Master AI" size={195} />
+
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.25, duration: 0.5 }}
+                className="mt-8 flex flex-col items-center gap-2"
+              >
+                <div className="flex items-center gap-2 px-3.5 py-1 rounded-full border border-white/10 bg-white/[0.03] text-[11px] font-mono uppercase tracking-widest text-neutral-300">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                  <span>Loading 3D Proving Ground</span>
+                </div>
+              </motion.div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* Floating Modern Header with Theme Toggle & Clean Navigation */}
       <Navbar
@@ -99,10 +159,14 @@ export default function App() {
           onJoinClick={openRegistration}
           onWhatsAppClick={openWhatsApp}
           isDark={isDark}
+          onRobotLoaded={handleRobotReady}
         />
 
         {/* 2. Key Metrics Bar (9 Skills, 7 Days, Live on Meet, 20 Seats) */}
         <SectionStatsBar isDark={isDark} />
+
+        {/* 2.5 3-Row Infinite Real AI Tools & LLM Vector Logos (Apple/Google Physics) */}
+        <SectionAiToolsMarquee isDark={isDark} />
 
         {/* 3. The 9 Core Skills (Clean 3-Col Responsive Card Grid) */}
         <SectionCurriculumGrid
@@ -128,7 +192,7 @@ export default function App() {
           onWhatsAppClick={openWhatsApp}
         />
 
-        {/* 7. Transparent Pricing & Passes (₹89 Full Pass, ₹299 VIP, Free Demo, SIH) */}
+        {/* 7. Transparent Pricing & Passes (₹89 Master Pass, ₹299 VIP, Free Demo) */}
         <SectionPricingCards
           isDark={isDark}
           onEnrollClick={openRegistration}
