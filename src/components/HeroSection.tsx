@@ -1,61 +1,10 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTypewriter } from '../hooks/useTypewriter';
 import { HERO_DATA } from '../data';
-import { Sparkles, Bot, Zap, ArrowRight, ShieldCheck, Users } from 'lucide-react';
-import { SplineScene } from '@/components/ui/splite';
+import { Zap, ArrowRight, ShieldCheck, Users } from 'lucide-react';
+import { AiProvingGround } from '@/components/ui/AiProvingGround';
 
-const AI_ORBIT_TOOLS = [
-  {
-    name: 'ChatGPT',
-    icon: (
-      <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 shrink-0 opacity-80" fill="currentColor">
-        <path d="M22.28 9.82a5.98 5.98 0 0 0-.51-4.91 6.05 6.05 0 0 0-6.51-2.9A6.06 6.06 0 0 0 4.98 4.18a5.98 5.98 0 0 0-4 2.9 6.05 6.05 0 0 0 .74 7.1 5.98 5.98 0 0 0 .51 4.91 6.05 6.05 0 0 0 6.52 2.9A5.98 5.98 0 0 0 13.26 24a6.06 6.06 0 0 0 5.77-4.2 5.99 5.99 0 0 0 4-2.9 6.06 6.06 0 0 0-.75-7.08zM13.26 22.43a4.48 4.48 0 0 1-2.88-1.04l.14-.08 4.78-2.76a.8.8 0 0 0 .39-.68v-6.74l2.02 1.17a.07.07 0 0 1 .04.05v5.59a4.5 4.5 0 0 1-4.49 4.49zm-9.66-4.29a4.48 4.48 0 0 1-.54-3.01l.15.08 4.78 2.76a.77.77 0 0 0 .78 0l5.84-3.37v2.33a.08.08 0 0 1-.03.06L9.74 19.95a4.5 4.5 0 0 1-6.14-1.81zm-1.07-9.52a4.46 4.46 0 0 1 2.34-1.97v5.68a.79.79 0 0 0 .4.68l5.84 3.37-2.02 1.17a.08.08 0 0 1-.07 0l-4.84-2.8a4.5 4.5 0 0 1-1.65-6.13zm16.55 3.38l-5.85-3.37 2.02-1.17a.08.08 0 0 1 .07 0l4.84 2.8a4.5 4.5 0 0 1-.68 8.09v-5.67a.79.79 0 0 0-.4-.68zm2.02-3.14l-.14-.08-4.78-2.76a.77.77 0 0 0-.78 0L9.55 9.2V6.87a.08.08 0 0 1 .03-.06L14.42 3.95a4.5 4.5 0 0 1 6.68 4.86zM8.7 14.83v-5.66a.79.79 0 0 0-.39-.68L6.3 7.32a.07.07 0 0 1-.04-.05V1.68a4.5 4.5 0 0 1 4.5-4.49c1.06 0 2.07.38 2.87 1.04l-.14.08-4.78 2.76zm1.1-2.32l2.2-1.27 2.2 1.27v2.55l-2.2 1.27-2.2-1.27z" />
-      </svg>
-    ),
-  },
-  {
-    name: 'Claude',
-    icon: (
-      <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 shrink-0 opacity-80" fill="currentColor">
-        <path d="M12 2a1 1 0 0 1 1 1v2.1a1 1 0 0 1-2 0V3a1 1 0 0 1 1-1zm0 15.8a1 1 0 0 1 1 1V21a1 1 0 0 1-2 0v-2.2a1 1 0 0 1 1-1zm8.5-7.8a1 1 0 0 1 1 1 1 1 0 0 1-1 1h-2.1a1 1 0 0 1 0-2H20.5zm-14.8 0a1 1 0 0 1 0 2H3.5a1 1 0 0 1 0-2h2.2zm11.37-4.96a1 1 0 0 1 1.41 0 1 1 0 0 1 0 1.41l-1.55 1.56a1 1 0 0 1-1.42-1.42l1.56-1.55zm-8.94 8.94a1 1 0 0 1 1.41 0 1 1 0 0 1 0 1.41l-1.56 1.56a1 1 0 1 1-1.41-1.42l1.56-1.55zm0-8.94l1.56 1.55a1 1 0 0 1-1.42 1.42L4.93 6.45a1 1 0 0 1 0-1.41 1 1 0 0 1 1.41 0zm8.94 8.94l1.55 1.55a1 1 0 0 1-1.41 1.42l-1.56-1.56a1 1 0 0 1 1.42-1.41zM12 7.5a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9z" />
-      </svg>
-    ),
-  },
-  {
-    name: 'Cursor',
-    icon: (
-      <svg
-        viewBox="0 0 24 24"
-        className="w-3.5 h-3.5 shrink-0 opacity-80"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      >
-        <polygon points="12 2 2 7 12 12 22 7 12 2" />
-        <polyline points="2 17 12 22 22 17" />
-        <polyline points="2 12 12 17 22 12" />
-      </svg>
-    ),
-  },
-  {
-    name: 'Midjourney',
-    icon: (
-      <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 shrink-0 opacity-80" fill="currentColor">
-        <path d="M12 2L4 7v10l8 5 8-5V7l-8-5zm0 2.2l6 3.75v3.2L12 7.4 6 11.15v-3.2l6-3.75zM6 13.1l5 3.1v4.2l-5-3.1v-4.2zm12 4.2l-5 3.1v-4.2l5-3.1v4.2z" />
-      </svg>
-    ),
-  },
-  {
-    name: 'Gemini',
-    icon: (
-      <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 shrink-0 opacity-80" fill="currentColor">
-        <path d="M12 2C12 7.52 7.52 12 2 12C7.52 12 12 16.48 12 22C12 16.48 16.48 12 22 12C16.48 12 12 7.52 12 2Z" />
-      </svg>
-    ),
-  },
-];
+
 
 interface HeroSectionProps {
   onJoinClick: (trackId?: string) => void;
@@ -94,38 +43,29 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   isDark = true,
   onRobotLoaded,
 }) => {
-  const [isRobotLoaded, setIsRobotLoaded] = useState(false);
-  const [robotEntered, setRobotEntered] = useState(false);
-  const [showTools, setShowTools] = useState(false);
   const [showHeadline, setShowHeadline] = useState(false);
   const [showPills, setShowPills] = useState(false);
+  const [dashboardVisible, setDashboardVisible] = useState(false);
   const heroRef = React.useRef<HTMLElement | null>(null);
 
   const typewriterText =
     "Build real AI apps, automate workflows & launch verifiable proof with mentor Harsh Lagwal (IIT Patna).";
 
-  // Called strictly when Spline 3D canvas finishes downloading & compiling WebGL
-  const handleRobotLoaded = useCallback(() => {
-    setIsRobotLoaded(true);
-    setRobotEntered(true);
-    onRobotLoaded?.();
-  }, [onRobotLoaded]);
-
   // Entrance animations sequence when website opens
   useEffect(() => {
     const hTimer = setTimeout(() => setShowHeadline(true), 50);
     const pTimer = setTimeout(() => setShowPills(true), 140);
-    const tTimer = setTimeout(() => setShowTools(true), 350);
-    // Smooth cinematic entrance animation for 3D robot on both mobile & desktop
-    const rTimer = setTimeout(() => setRobotEntered(true), 500);
+    const dTimer = setTimeout(() => {
+      setDashboardVisible(true);
+      onRobotLoaded?.(); // Signal loader immediately — no WebGL wait
+    }, 300);
 
     return () => {
       clearTimeout(hTimer);
       clearTimeout(pTimer);
-      clearTimeout(tTimer);
-      clearTimeout(rTimer);
+      clearTimeout(dTimer);
     };
-  }, []);
+  }, [onRobotLoaded]);
 
   const scrollToCurriculum = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -283,135 +223,45 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             </div>
           </div>
 
-          {/* Interactive 3D Model / Tools Hint */}
+          {/* AI Proving Ground hint */}
           <div
             className={`mt-3.5 text-[11px] font-mono flex items-center gap-2 select-none transition-colors ${
               isDark ? 'text-neutral-500' : 'text-slate-500'
             }`}
           >
             <div className="w-5 h-5 rounded border border-white/10 bg-white/[0.02] flex items-center justify-center shrink-0">
-              <Bot className="w-3 h-3 text-neutral-400" />
+              <Zap className="w-3 h-3 text-neutral-400" />
             </div>
-            <span>Interactive 3D Surface: 360° drag & zoom enabled</span>
+            <span>Live AI Studio • Hover to interact</span>
           </div>
         </div>
 
-        {/* Right Column: 3D Spline Scene with Entrance Animation for Both Mobile & Desktop UI */}
-        <div className="lg:col-span-5 relative w-full h-[360px] sm:h-[440px] md:h-[500px] lg:h-[580px] flex items-center justify-center">
-          {/* Futuristic entrance glow behind robot on arrival - zero blur cost */}
+        {/* Right Column: AI Proving Ground — Zero-lag interactive dashboard */}
+        <div
+          className="lg:col-span-5 relative w-full h-[480px] sm:h-[520px] md:h-[540px] lg:h-[600px] flex items-center justify-center"
+        >
+          {/* Ambient glow behind dashboard */}
           <div
-            className={`absolute w-48 h-48 sm:w-64 sm:h-64 rounded-full pointer-events-none transition-all duration-1000 ${
-              robotEntered ? 'scale-100 opacity-60' : 'scale-50 opacity-0'
-            }`}
+            className="absolute inset-0 pointer-events-none -z-10"
             style={{
-              background: 'radial-gradient(circle, rgba(34,211,238,0.25) 0%, rgba(34,211,238,0.08) 45%, transparent 70%)',
+              background: isDark
+                ? 'radial-gradient(ellipse 60% 50% at 50% 50%, rgba(99,102,241,0.12) 0%, rgba(6,182,212,0.07) 50%, transparent 80%)'
+                : 'radial-gradient(ellipse 60% 50% at 50% 50%, rgba(99,102,241,0.10) 0%, rgba(6,182,212,0.06) 50%, transparent 80%)',
             }}
           />
 
-          {/* 3D Robot Container with Entrance Animation and Antigravity Smooth Floating */}
+          {/* Dashboard with entrance animation */}
           <div
-            className={`w-full h-full relative rounded-3xl overflow-hidden flex items-center justify-center transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-              robotEntered
-                ? 'opacity-100 scale-100 translate-y-0 filter-none animate-antigravity-float'
-                : 'opacity-0 scale-90 translate-y-8'
-            }`}
+            className="w-full h-full relative flex items-center justify-center transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]"
             style={{
-              touchAction: 'pan-y', // allows smooth vertical scrolling on mobile while enabling 3D drag
-              transform: 'translate3d(0, 0, 0)',
-              backfaceVisibility: 'hidden',
-              contain: 'paint layout',
+              opacity: dashboardVisible ? 1 : 0,
+              transform: dashboardVisible ? 'translateY(0) scale(1)' : 'translateY(20px) scale(0.97)',
             }}
           >
-            {/* Live Interactive Spline 3D Robot on both Mobile and Desktop */}
-            <SplineScene
-              scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
-              className="w-full h-full"
-              onLoad={handleRobotLoaded}
+            <AiProvingGround
+              isDark={isDark}
+              onLoad={() => onRobotLoaded?.()}
             />
-
-            {/* 3D Holographic Orbit Ring centered snugly around Robot's Chest and Hands */}
-            <div
-              className="absolute inset-0 pointer-events-none overflow-visible select-none flex items-center justify-center transition-all duration-700 ease-out"
-              style={{
-                opacity: showTools && robotEntered ? 1 : 0,
-                transform: showTools && robotEntered ? 'scale(1)' : 'scale(0.82)',
-              }}
-            >
-              {/* Positioned right at chest/hands level (top: 57%, left: 50%) */}
-              <div
-                className="absolute"
-                style={{
-                  top: '57%',
-                  left: '50%',
-                  transform: 'translate(-50%, -50%)',
-                }}
-              >
-                {/* Energetic chest aura */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-36 h-36 sm:w-44 sm:h-44 rounded-full bg-cyan-500/15 blur-2xl animate-holo-glow" />
-
-                {/* Compact Orbit Ring: Flows right through hands & chest */}
-                <div 
-                  className="relative w-[210px] h-[210px] sm:w-[240px] sm:h-[240px] md:w-[260px] md:h-[260px] rounded-full border border-dashed border-cyan-400/25 dark:border-cyan-300/25 animate-orbit-ring"
-                  style={{ willChange: 'transform', transform: 'translate3d(0, 0, 0)' }}
-                >
-                  {AI_ORBIT_TOOLS.map((tool, idx) => {
-                    const angle = (idx * 60 * Math.PI) / 180;
-                    const xPercent = 50 + 50 * Math.cos(angle);
-                    const yPercent = 50 + 50 * Math.sin(angle);
-
-                    return (
-                      <div
-                        key={tool.name}
-                        className="absolute"
-                        style={{
-                          top: `${yPercent}%`,
-                          left: `${xPercent}%`,
-                          transform: 'translate(-50%, -50%)',
-                          willChange: 'transform',
-                        }}
-                      >
-                        {/* Counter-rotating badge: Stays upright, compact single-line */}
-                        <div 
-                          className="animate-counter-orbit pointer-events-auto group cursor-pointer"
-                          style={{ willChange: 'transform' }}
-                        >
-                          <div
-                            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full border transition-all duration-200 group-hover:scale-105 ${
-                              isDark
-                                ? 'bg-[#0A0A0C]/90 border-white/10 text-neutral-300 group-hover:border-white/30 group-hover:text-white'
-                                : 'bg-white/95 border-slate-200 text-slate-800 shadow-sm group-hover:border-slate-400 group-hover:text-black'
-                            }`}
-                            style={{
-                              transform: 'translateZ(0)',
-                            }}
-                          >
-                            <span className="w-3.5 h-3.5 flex items-center justify-center opacity-85 group-hover:opacity-100">
-                              {tool.icon}
-                            </span>
-                            <span className="text-[10.5px] sm:text-[11px] font-normal sm:font-medium tracking-tight whitespace-nowrap leading-none">
-                              {tool.name}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
-
-            {/* 3D control overlay pill */}
-            <div
-              className={`absolute bottom-3 right-3 px-3 py-1.5 rounded-full border text-[11px] font-medium pointer-events-none flex items-center gap-2 shadow-lg transition-colors duration-300 ${
-                isDark
-                  ? 'bg-black/75 border-white/15 text-white/90'
-                  : 'bg-white/90 border-slate-300 text-slate-800'
-              }`}
-              style={{ transform: 'translateZ(0)' }}
-            >
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              <span>3D Robot • Drag to Rotate</span>
-            </div>
           </div>
         </div>
       </div>
