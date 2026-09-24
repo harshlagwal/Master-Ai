@@ -58,6 +58,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
     phone: '',
   });
   const [utrNumber, setUtrNumber] = useState('');
+  const [utrError, setUtrError] = useState('');
   const [copied, setCopied] = useState(false);
   const [isProceeding, setIsProceeding] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -72,6 +73,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
       setStep('form');
       setIsProceeding(false);
       setIsProcessing(false);
+      setUtrError('');
     }
   }, [initialTrackId, isOpen]);
 
@@ -154,6 +156,19 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
 
   const handleConfirmPayment = (e: React.FormEvent) => {
     e.preventDefault();
+
+    const cleanUtr = utrNumber.trim();
+    if (!cleanUtr) {
+      setUtrError('UPI Transaction ID / 12-digit UTR is required to verify your payment.');
+      return;
+    }
+
+    if (cleanUtr.length < 6) {
+      setUtrError('Please enter a valid UPI Transaction ID / UTR (at least 6 characters).');
+      return;
+    }
+
+    setUtrError('');
     setIsProcessing(true);
 
     // Formspree payment confirmation dispatch
@@ -164,8 +179,8 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
       trackName: selectedTrack.name,
       category: `PAID WORKSHOP CONFIRMED (₹${amountStr})`,
       ticketId: ticketId || `MAI-${Math.floor(100000 + Math.random() * 900000)}`,
-      utrNumber: utrNumber || 'Completed via UPI',
-      additionalNote: 'User submitted payment confirmation & UTR',
+      utrNumber: cleanUtr,
+      additionalNote: 'User submitted verified payment confirmation & UTR',
     });
 
     setTimeout(() => {
@@ -619,23 +634,39 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
                 {/* UTR Reference Input & Confirmation */}
                 <form onSubmit={handleConfirmPayment} className="space-y-3.5 pb-4">
                   <div>
-                    <label className={`block text-xs font-medium mb-1.5 ${isDark ? 'text-neutral-300' : 'text-slate-700'}`}>
-                      12-Digit UTR / UPI Transaction ID (Optional)
+                    <label className={`block text-xs font-medium mb-1.5 flex items-center justify-between ${isDark ? 'text-neutral-300' : 'text-slate-700'}`}>
+                      <span>
+                        12-Digit UTR / Transaction ID <span className="text-red-500 font-bold">*</span>
+                      </span>
+                      <span className="text-[10px] text-amber-500 font-normal">Required to confirm seat</span>
                     </label>
                     <input
                       type="text"
-                      placeholder="e.g. 423589123456"
+                      required
+                      placeholder="e.g. 423589123456 or UPI Ref No"
                       value={utrNumber}
-                      onChange={(e) => setUtrNumber(e.target.value)}
+                      onChange={(e) => {
+                        setUtrNumber(e.target.value);
+                        if (utrError) setUtrError('');
+                      }}
                       className={`w-full px-4 py-2.5 sm:py-3 rounded-xl border text-xs sm:text-sm font-mono outline-hidden transition-all ${
-                        isDark
+                        utrError
+                          ? 'border-red-500/80 bg-red-500/10 text-white focus:border-red-400 focus:ring-1 focus:ring-red-400'
+                          : isDark
                           ? 'bg-white/[0.03] border-white/10 focus:border-white/30 text-white placeholder:text-neutral-600 focus:bg-white/[0.06]'
                           : 'bg-white border-slate-200 focus:border-slate-400 text-slate-900 placeholder:text-slate-400 focus:bg-slate-50/50'
                       }`}
                     />
-                    <p className={`text-[10px] mt-1 ${isDark ? 'text-neutral-500' : 'text-slate-500'}`}>
-                      Found on your UPI app's payment receipt screen.
-                    </p>
+                    {utrError ? (
+                      <p className="text-[11px] mt-1.5 text-red-400 font-medium flex items-center gap-1">
+                        <span>⚠️</span>
+                        <span>{utrError}</span>
+                      </p>
+                    ) : (
+                      <p className={`text-[10px] mt-1 ${isDark ? 'text-neutral-500' : 'text-slate-500'}`}>
+                        Found on your GPay, PhonePe, Paytm, or BHIM payment receipt screen.
+                      </p>
+                    )}
                   </div>
 
                   <button

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 
 /* ══════════════════════════════════════════════════════════════════════════════
-   MASTER AI LOGO — matches Navbar brand SVG exactly
+   MASTER AI LOGO
 ══════════════════════════════════════════════════════════════════════════════ */
 const MasterAILogo: React.FC<{ size?: number }> = ({ size = 18 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -18,50 +18,93 @@ const MasterAILogo: React.FC<{ size?: number }> = ({ size = 18 }) => (
 );
 
 /* ══════════════════════════════════════════════════════════════════════════════
-   SCRIPTED EXCHANGES
+   GEMINI 4-POINT SPARKLE STAR
 ══════════════════════════════════════════════════════════════════════════════ */
-interface Exchange { id: number; chipLabel: string; question: string; answer: string; }
+const GeminiSparkle: React.FC<{ size?: number }> = ({ size = 18 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path
+      d="M12 0C12 6.627 6.627 12 0 12C6.627 12 12 17.373 12 24C12 17.373 17.373 12 24 12C17.373 12 12 6.627 12 0Z"
+      fill="url(#gemini-sparkle-grad)"
+    />
+    <defs>
+      <linearGradient id="gemini-sparkle-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stopColor="#4285F4" />
+        <stop offset="35%" stopColor="#9B72CF" />
+        <stop offset="70%" stopColor="#D96570" />
+        <stop offset="100%" stopColor="#FBBC05" />
+      </linearGradient>
+    </defs>
+  </svg>
+);
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   SCRIPTED EXCHANGES: MENTOR, POPULAR TOOLS, PROJECTS, ZERO CODING, FEE
+══════════════════════════════════════════════════════════════════════════════ */
+interface Exchange {
+  id: number;
+  topic: string;
+  question: string;
+  answer: string;
+}
 
 const EXCHANGES: Exchange[] = [
   {
-    id: 0, chipLabel: 'Benefits?',
-    question: 'Why should I join Master AI?',
-    answer: 'In 7 live days you master the 9 highest-income AI skills — from prompt engineering to AI automation — by building real projects, not watching slides. Live on Google Meet at 8:00\u00a0PM\u00a0IST with Harsh Lagwal (IIT Patna).',
+    id: 0,
+    topic: 'Mentor',
+    question: 'Who is the mentor leading Master AI?',
+    answer: 'Mentored by Harsh Lagwal (IIT Patna alumni) — an AI product engineer who has trained 5,000+ students. You learn live directly on Google Meet at 8:00 PM IST with real-time screen sharing, interactive doubt solving, and 1-on-1 mentorship.',
   },
   {
-    id: 1, chipLabel: 'What will I build?',
-    question: 'What will I actually build?',
-    answer: 'Real portfolio proofs: an AI chatbot, an automation workflow, a resume that passes ATS filters, and your first AI side-hustle plan — everything verified live in class.',
+    id: 1,
+    topic: 'Popular AI Tools',
+    question: 'Which popular AI tools will I learn?',
+    answer: 'You master top industry AI tools: ChatGPT-4o, Claude 3.5 Sonnet, Cursor AI, Midjourney v6, Perplexity Pro, ElevenLabs, and n8n / Make for automations — building real-world workflows from scratch.',
   },
   {
-    id: 2, chipLabel: 'Beginner friendly?',
-    question: 'Is it beginner friendly?',
-    answer: 'Yes. Day 1 starts from zero — no coding background needed. Every tool is taught hands-on, step by step, and you leave with working projects you built yourself.',
+    id: 2,
+    topic: 'Projects',
+    question: 'What projects will I actually build?',
+    answer: 'You build 4 verifiable portfolio proofs: a custom AI chatbot, end-to-end automation workflows, an ATS-bypassing AI resume engine, and your first monetizable AI agency offering — all tested and verified live.',
   },
   {
-    id: 3, chipLabel: 'Cost?',
-    question: 'What does the Master Pass cost?',
-    answer: 'Just \u20b989 for the full 7-day live workshop — strictly 20 seats daily, zero-commission direct UPI. Your career upgrade costs less than a pizza.',
+    id: 3,
+    topic: 'Beginner Friendly',
+    question: 'I have zero coding background, can I join?',
+    answer: 'Absolutely yes! Day 1 starts from ground zero — no tech experience needed. Every AI tool is taught hands-on with visual step-by-step guidance and mentor support.',
+  },
+  {
+    id: 4,
+    topic: 'Pass Fee',
+    question: 'What does the full 7-day pass cost?',
+    answer: 'Just ₹89 for the complete 7-day live intensive — strictly 20 seats daily with zero-commission direct UPI. Your complete career transformation costs less than a cup of coffee!',
   },
 ];
 
 const AMBER_PHRASES = [
-  '9 highest-income AI skills', 'Google Meet', '8:00\u00a0PM\u00a0IST', 'IIT Patna',
-  'AI chatbot', 'AI side-hustle plan', '\u20b989', '20 seats daily',
-  'zero-commission direct UPI', 'Day 1',
+  'Harsh Lagwal (IIT Patna alumni)',
+  '5,000+ students',
+  'Google Meet at 8:00 PM IST',
+  '1-on-1 mentorship',
+  'ChatGPT-4o',
+  'Claude 3.5 Sonnet',
+  'Cursor AI',
+  'Midjourney v6',
+  'Perplexity Pro',
+  'ElevenLabs',
+  'n8n / Make',
+  '4 verifiable portfolio proofs',
+  'custom AI chatbot',
+  'ground zero',
+  'no tech experience needed',
+  '₹89',
+  'strictly 20 seats daily',
+  'zero-commission direct UPI',
 ];
 
-const TYPOS: Record<number, { afterIdx: number; wrongChar: string }> = {
-  0: { afterIdx: 6, wrongChar: 'r' },
-  1: { afterIdx: 9, wrongChar: 'y' },
-  2: { afterIdx: 4, wrongChar: 'n' },
-  3: { afterIdx: 8, wrongChar: 's' },
-};
-
-/* ══════════════════════════════════════════════════════════════════════════════
-   WORD TOKEN — with amber markup
-══════════════════════════════════════════════════════════════════════════════ */
-interface WordToken { text: string; amber: boolean; }
+interface WordToken {
+  text: string;
+  amber: boolean;
+}
 
 function tokenizeAnswer(answer: string): WordToken[] {
   const marks = new Array(answer.length).fill(false);
@@ -76,425 +119,535 @@ function tokenizeAnswer(answer: string): WordToken[] {
   const wordRe = /\S+\s*/g;
   let m: RegExpExecArray | null;
   while ((m = wordRe.exec(answer)) !== null) {
-    const start = m.index;
-    const end = start + m[0].length;
-    tokens.push({ text: m[0], amber: marks.slice(start, end).some(Boolean) });
+    const s = m.index, e = s + m[0].length;
+    tokens.push({ text: m[0], amber: marks.slice(s, e).some(Boolean) });
   }
   return tokens;
 }
 
 /* ══════════════════════════════════════════════════════════════════════════════
-   STATE MACHINE
+   FAMOUS GEMINI SHIMMER LOADER
 ══════════════════════════════════════════════════════════════════════════════ */
-type Phase = 'userTyping' | 'sending' | 'thinking' | 'streaming' | 'hold' | 'clearing';
+const GeminiLoader: React.FC<{ isDark: boolean }> = ({ isDark }) => {
+  const barBg = isDark
+    ? 'linear-gradient(90deg, rgba(255,255,255,0.06) 20%, rgba(66,133,244,0.35) 45%, rgba(155,114,207,0.35) 55%, rgba(255,255,255,0.06) 80%)'
+    : 'linear-gradient(90deg, rgba(0,0,0,0.06) 20%, rgba(66,133,244,0.22) 45%, rgba(155,114,207,0.22) 55%, rgba(0,0,0,0.06) 80%)';
 
-interface ChatMessage {
-  role: 'user' | 'ai';
-  text?: string;
-  tokens?: WordToken[];
-  visibleTokens?: number;
-  visible: boolean;
-}
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', padding: '4px 2px', minWidth: '220px' }}>
+      {/* Sparkle Header with Gemini Gradient Text */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <div style={{ animation: 'geminiPulse 2s ease-in-out infinite', display: 'flex', alignItems: 'center' }}>
+          <GeminiSparkle size={18} />
+        </div>
+        <span
+          style={{
+            fontFamily: 'var(--font-mono, monospace)',
+            fontSize: '12px',
+            fontWeight: 600,
+            background: 'linear-gradient(90deg, #4285F4 0%, #9B72CF 30%, #D96570 60%, #FBBC05 85%, #4285F4 100%)',
+            backgroundSize: '200% auto',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            animation: 'geminiShimmer 2.2s linear infinite',
+            letterSpacing: '0.02em',
+          }}
+        >
+          Master AI is thinking...
+        </span>
+      </div>
+
+      {/* Iconic Google Gemini Shimmer Skeleton Bars */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', paddingTop: '2px' }}>
+        <div
+          style={{
+            width: '92%',
+            height: '11px',
+            borderRadius: '6px',
+            background: barBg,
+            backgroundSize: '200% 100%',
+            animation: 'geminiSkeletonSlide 1.5s ease-in-out infinite',
+          }}
+        />
+        <div
+          style={{
+            width: '78%',
+            height: '11px',
+            borderRadius: '6px',
+            background: barBg,
+            backgroundSize: '200% 100%',
+            animation: 'geminiSkeletonSlide 1.5s ease-in-out 0.2s infinite',
+          }}
+        />
+        <div
+          style={{
+            width: '54%',
+            height: '11px',
+            borderRadius: '6px',
+            background: barBg,
+            backgroundSize: '200% 100%',
+            animation: 'geminiSkeletonSlide 1.5s ease-in-out 0.4s infinite',
+          }}
+        />
+      </div>
+    </div>
+  );
+};
 
 /* ══════════════════════════════════════════════════════════════════════════════
-   WORD SPAN — cinematic zoom-pop on entry
+   WORD SPAN (Pop-in animation for streamed words)
 ══════════════════════════════════════════════════════════════════════════════ */
-const WordSpan = React.memo(({ token, isNew, isDark }: {
-  token: WordToken; isNew: boolean; isDark: boolean;
-}) => {
+const WordSpan = React.memo(({ token, isNew, isDark }: { token: WordToken; isNew: boolean; isDark: boolean }) => {
   const base: React.CSSProperties = {
     display: 'inline-block',
     whiteSpace: 'pre-wrap',
     animation: isNew ? 'wordPop 0.18s cubic-bezier(0.34,1.56,0.64,1) forwards' : 'none',
   };
   if (token.amber) {
-    return (
-      <span style={{ ...base, color: isDark ? '#fbbf24' : '#d97706', fontWeight: 600 }}>
-        {token.text}
-      </span>
-    );
+    return <span style={{ ...base, color: isDark ? '#fbbf24' : '#d97706', fontWeight: 600 }}>{token.text}</span>;
   }
   return <span style={base}>{token.text}</span>;
 });
 WordSpan.displayName = 'WordSpan';
 
 /* ══════════════════════════════════════════════════════════════════════════════
-   SEND BUTTON ICON
+   SEND ICON
 ══════════════════════════════════════════════════════════════════════════════ */
 const SendIcon = () => (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-    strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
     <line x1="22" y1="2" x2="11" y2="13" />
     <polygon points="22 2 15 22 11 13 2 9 22 2" />
   </svg>
 );
 
 /* ══════════════════════════════════════════════════════════════════════════════
-   MAIN COMPONENT
+   PHASES
+   - zoomTyping: Card zooms in slightly on input bar, query auto-types char by char
+   - zoomSend: Zooms back to normal, send button triggers burst, message moves up
+   - thinking: Famous Gemini shimmer loader displays
+   - streaming: Word-by-word streaming answer
+   - hold: Full answer displayed for viewing
+   - clearing: Clean reset for next query
 ══════════════════════════════════════════════════════════════════════════════ */
-interface AIChatHeroProps { isDark?: boolean; onLoad?: () => void; }
+type Phase = 'zoomTyping' | 'zoomSend' | 'thinking' | 'streaming' | 'hold' | 'clearing';
 
-export const AIChatHero: React.FC<AIChatHeroProps> = ({ isDark = true, onLoad }) => {
+interface ChatMessage {
+  role: 'user' | 'ai';
+  text?: string;
+  tokens?: WordToken[];
+  visibleTokens?: number;
+}
+
+export const AIChatHero: React.FC<{ isDark?: boolean; onLoad?: () => void }> = ({ isDark = true, onLoad }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const pausedRef = useRef<boolean>(false);
-  const reducedMotion = typeof window !== 'undefined'
-    ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false;
-
   const [messages, setMessages] = useState<ChatMessage[]>([]);
-  const [phase, setPhase] = useState<Phase>('userTyping');
+  const [phase, setPhase] = useState<Phase>('zoomTyping');
   const [currentExchange, setCurrentExchange] = useState(0);
-  const [activeChip, setActiveChip] = useState<number | null>(null);
-  /* Input bar state */
   const [inputText, setInputText] = useState('');
-  const [inputFocused, setInputFocused] = useState(false);
   const [sendBurst, setSendBurst] = useState(false);
 
-  useEffect(() => { onLoad?.(); }, [onLoad]);
-
-  /* IntersectionObserver — pause off-screen */
   useEffect(() => {
-    const el = containerRef.current;
-    if (!el || typeof IntersectionObserver === 'undefined') return;
-    const obs = new IntersectionObserver(
-      ([entry]) => { pausedRef.current = !entry.isIntersecting; },
-      { threshold: 0.1 }
-    );
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, []);
-
-  const clearTimer = useCallback(() => {
-    if (timerRef.current !== null) { clearTimeout(timerRef.current); timerRef.current = null; }
-  }, []);
+    onLoad?.();
+  }, [onLoad]);
 
   const scrollToBottom = useCallback(() => {
-    const el = scrollRef.current;
-    if (el) el.scrollTop = el.scrollHeight;
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
   }, []);
 
-  const schedule = useCallback((fn: () => void, ms: number) => {
-    clearTimer();
-    const start = Date.now();
-    const tick = () => {
-      if (pausedRef.current) { timerRef.current = setTimeout(tick, 100); return; }
-      const remaining = ms - (Date.now() - start);
-      if (remaining <= 0) fn();
-      else timerRef.current = setTimeout(fn, remaining);
-    };
-    timerRef.current = setTimeout(tick, 0);
-  }, [clearTimer]);
-
-  /* Cleanup on unmount */
-  useEffect(() => () => clearTimer(), [clearTimer]);
-
-  /* ── reduced-motion path ─────────────────────────────────────────────────── */
+  /* ────────────────────────────────────────────────────────────────────────────
+     CORE CINEMATIC STATE MACHINE
+  ──────────────────────────────────────────────────────────────────────────── */
   useEffect(() => {
-    if (!reducedMotion) return;
-    let idx = 0;
-    const show = () => {
-      const ex = EXCHANGES[idx % EXCHANGES.length];
-      setMessages([
-        { role: 'user', text: ex.question, visible: true },
-        { role: 'ai', tokens: tokenizeAnswer(ex.answer), visibleTokens: 9999, visible: true },
-      ]);
-      setInputText('');
-      idx++;
-    };
-    show();
-    const id = setInterval(show, 6000);
-    return () => clearInterval(id);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  /* ── main state machine ──────────────────────────────────────────────────── */
-  useEffect(() => {
-    if (reducedMotion) return;
-
     const ex = EXCHANGES[currentExchange];
     const question = ex.question;
-    const typo = TYPOS[currentExchange];
     const tokens = tokenizeAnswer(ex.answer);
+    let isCancelled = false;
 
-    /* ── userTyping: type into input bar char by char ─────────────────────── */
-    if (phase === 'userTyping') {
+    // Phase 1: zoomTyping
+    if (phase === 'zoomTyping') {
       setInputText('');
-      setInputFocused(true);
       setSendBurst(false);
 
       let charIdx = 0;
-      let typoInserted = false;
-      let typoDeleting = false;
-      let wrongCharAdded = false;
-      let currentVal = '';
+      let curr = '';
 
-      const typeNextChar = () => {
-        if (pausedRef.current) { schedule(typeNextChar, 80); return; }
-
-        /* Typo logic */
-        if (typo && !typoInserted && charIdx === typo.afterIdx + 1) {
-          if (!wrongCharAdded) {
-            currentVal += typo.wrongChar;
-            setInputText(currentVal);
-            wrongCharAdded = true;
-            schedule(() => { typoDeleting = true; typeNextChar(); }, 300);
-            return;
-          }
-          if (typoDeleting) {
-            currentVal = currentVal.slice(0, -1);
-            setInputText(currentVal);
-            typoInserted = true;
-            typoDeleting = false;
-          }
+      const typeTimer = setInterval(() => {
+        if (isCancelled) return;
+        if (charIdx < question.length) {
+          curr += question[charIdx];
+          setInputText(curr);
+          charIdx++;
+        } else {
+          clearInterval(typeTimer);
+          // Wait 350ms after typing finishes, then trigger send
+          setTimeout(() => {
+            if (!isCancelled) setPhase('zoomSend');
+          }, 350);
         }
+      }, 40);
 
-        if (charIdx >= question.length) {
-          /* Done typing — trigger send */
-          schedule(() => setPhase('sending'), 350);
-          return;
-        }
-
-        const ch = question[charIdx];
-        currentVal += ch;
-        setInputText(currentVal);
-        charIdx++;
-
-        const isPunct = '.!?,;:'.includes(ch);
-        schedule(typeNextChar, isPunct ? 140 : 38 + Math.random() * 28);
+      return () => {
+        isCancelled = true;
+        clearInterval(typeTimer);
       };
-
-      schedule(typeNextChar, 400);
     }
 
-    /* ── sending: burst animation → message bubble ────────────────────────── */
-    if (phase === 'sending') {
+    // Phase 2: zoomSend
+    if (phase === 'zoomSend') {
       setSendBurst(true);
-      schedule(() => {
-        /* Move text from input to bubble */
-        setMessages(prev => [...prev, { role: 'user', text: question, visible: true }]);
-        setInputText('');
-        setInputFocused(false);
+
+      const t1 = setTimeout(() => {
+        if (isCancelled) return;
         setSendBurst(false);
+        setMessages([{ role: 'user', text: question }]);
+        setInputText('');
         scrollToBottom();
-        schedule(() => setPhase('thinking'), 120);
-      }, 220);
+
+        const t2 = setTimeout(() => {
+          if (!isCancelled) setPhase('thinking');
+        }, 180);
+
+        return () => clearTimeout(t2);
+      }, 260);
+
+      return () => {
+        isCancelled = true;
+        clearTimeout(t1);
+      };
     }
 
-    /* ── thinking ──────────────────────────────────────────────────────────── */
+    // Phase 3: thinking (Gemini Loader)
     if (phase === 'thinking') {
-      setMessages(prev => [...prev, { role: 'ai', tokens, visibleTokens: 0, visible: true }]);
-      scrollToBottom();
-      schedule(() => setPhase('streaming'), 600 + Math.random() * 300);
+      setMessages(prev => [...prev, { role: 'ai', tokens, visibleTokens: 0 }]);
+      setTimeout(scrollToBottom, 50);
+
+      const t = setTimeout(() => {
+        if (!isCancelled) setPhase('streaming');
+      }, 1400);
+
+      return () => {
+        isCancelled = true;
+        clearTimeout(t);
+      };
     }
 
-    /* ── streaming: word by word ───────────────────────────────────────────── */
+    // Phase 4: streaming (Word-by-word)
     if (phase === 'streaming') {
       let tokenIdx = 0;
-      const streamNext = () => {
-        if (pausedRef.current) { schedule(streamNext, 80); return; }
-        if (tokenIdx >= tokens.length) { schedule(() => setPhase('hold'), 500); return; }
-        tokenIdx++;
-        setMessages(prev => {
-          const next = [...prev];
-          const last = next[next.length - 1];
-          return [...next.slice(0, -1), { ...last, visibleTokens: tokenIdx }];
-        });
-        scrollToBottom();
-        schedule(streamNext, 38 + Math.random() * 22);
+
+      const streamInterval = setInterval(() => {
+        if (isCancelled) return;
+        if (tokenIdx < tokens.length) {
+          tokenIdx++;
+          setMessages(prev => {
+            const next = [...prev];
+            const last = next[next.length - 1];
+            if (last && last.role === 'ai') {
+              next[next.length - 1] = { ...last, visibleTokens: tokenIdx };
+            }
+            return next;
+          });
+          scrollToBottom();
+        } else {
+          clearInterval(streamInterval);
+          setTimeout(() => {
+            if (!isCancelled) setPhase('hold');
+          }, 400);
+        }
+      }, 44);
+
+      return () => {
+        isCancelled = true;
+        clearInterval(streamInterval);
       };
-      schedule(streamNext, 0);
     }
 
-    /* ── hold 4s ───────────────────────────────────────────────────────────── */
+    // Phase 5: hold (Keep answer visible for viewing)
     if (phase === 'hold') {
-      schedule(() => setPhase('clearing'), 4000);
+      const t = setTimeout(() => {
+        if (!isCancelled) setPhase('clearing');
+      }, 4800);
+
+      return () => {
+        isCancelled = true;
+        clearTimeout(t);
+      };
     }
 
-    /* ── clearing: fade out ────────────────────────────────────────────────── */
+    // Phase 6: clearing (Graceful reset and next question)
     if (phase === 'clearing') {
-      setMessages(prev => prev.map(m => ({ ...m, visible: false })));
-      schedule(() => {
+      const t = setTimeout(() => {
+        if (isCancelled) return;
         setMessages([]);
         setCurrentExchange(prev => (prev + 1) % EXCHANGES.length);
-        setActiveChip(null);
-        setPhase('userTyping');
-      }, 480);
+        setPhase('zoomTyping');
+      }, 450);
+
+      return () => {
+        isCancelled = true;
+        clearTimeout(t);
+      };
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [phase, currentExchange]);
+  }, [phase, currentExchange, scrollToBottom]);
 
-  /* ── Chip handler ─────────────────────────────────────────────────────────── */
-  const handleChipClick = (idx: number) => {
-    if (phase === 'thinking' || phase === 'streaming' || phase === 'sending') return;
-    clearTimer();
-    setMessages([]);
-    setInputText('');
-    setCurrentExchange(idx);
-    setActiveChip(idx);
-    setPhase('userTyping');
-  };
-
-  const isRunning = phase === 'userTyping' || phase === 'thinking' || phase === 'streaming' || phase === 'sending';
-
-  /* ══════════════════════════════════════════════════════════════════════════
-     THEME TOKENS
-  ══════════════════════════════════════════════════════════════════════════ */
+  /* ────────────────────────────────────────────────────────────────────────────
+     THEME CONFIGURATION
+  ──────────────────────────────────────────────────────────────────────────── */
+  const D = isDark;
   const T = {
-    cardBg:         isDark ? 'rgba(11,11,14,0.93)'         : 'rgba(255,255,255,0.97)',
-    border:         isDark ? 'rgba(255,255,255,0.09)'       : 'rgba(15,23,42,0.10)',
-    headerBg:       isDark ? 'rgba(255,255,255,0.02)'       : 'rgba(248,250,252,0.95)',
-    text:           isDark ? 'rgba(255,255,255,0.88)'       : 'rgba(15,23,42,0.90)',
-    textMuted:      isDark ? 'rgba(255,255,255,0.35)'       : 'rgba(15,23,42,0.40)',
-    userBubbleBg:   isDark ? 'rgba(255,255,255,0.07)'       : 'rgba(99,102,241,0.08)',
-    userBubbleBdr:  isDark ? 'rgba(255,255,255,0.10)'       : 'rgba(99,102,241,0.18)',
-    aiBubbleBg:     isDark ? 'rgba(34,211,238,0.05)'        : 'rgba(34,211,238,0.06)',
-    aiBubbleBdr:    isDark ? 'rgba(34,211,238,0.18)'        : 'rgba(6,182,212,0.25)',
-    inputBg:        isDark ? 'rgba(255,255,255,0.04)'       : 'rgba(248,250,252,1)',
-    inputBdr:       isDark ? 'rgba(255,255,255,0.12)'       : 'rgba(15,23,42,0.15)',
-    inputFocusBdr:  isDark ? 'rgba(34,211,238,0.5)'         : 'rgba(99,102,241,0.55)',
-    inputText:      isDark ? 'rgba(255,255,255,0.82)'       : 'rgba(15,23,42,0.85)',
-    chipBg:         isDark ? 'rgba(255,255,255,0.04)'       : 'rgba(248,250,252,0.90)',
-    chipBdr:        isDark ? 'rgba(255,255,255,0.11)'       : 'rgba(15,23,42,0.14)',
-    chipActiveBg:   isDark ? 'rgba(251,191,36,0.10)'        : 'rgba(251,191,36,0.12)',
-    chipActiveBdr:  isDark ? 'rgba(251,191,36,0.55)'        : 'rgba(217,119,6,0.50)',
-    chipActiveText: isDark ? '#fbbf24'                      : '#b45309',
-    chipText:       isDark ? 'rgba(255,255,255,0.58)'       : 'rgba(15,23,42,0.60)',
-    glow:           isDark
-      ? 'radial-gradient(ellipse 75% 65% at 50% 50%, rgba(34,211,238,0.12) 0%, rgba(99,102,241,0.07) 45%, transparent 70%)'
-      : 'radial-gradient(ellipse 75% 65% at 50% 50%, rgba(99,102,241,0.10) 0%, rgba(59,130,246,0.06) 45%, transparent 70%)',
-    shadow: isDark
-      ? '0 32px 80px -16px rgba(0,0,0,0.96), 0 0 0 1px rgba(255,255,255,0.05), inset 0 1px 0 rgba(255,255,255,0.06)'
-      : '0 24px 60px -12px rgba(15,23,42,0.18), 0 0 0 1px rgba(15,23,42,0.08)',
-    sendBg: sendBurst
-      ? 'linear-gradient(135deg, #06b6d4, #6366f1)'
-      : (inputText.length > 0
-        ? 'linear-gradient(135deg, #06b6d4, #6366f1)'
-        : (isDark ? 'rgba(255,255,255,0.08)' : 'rgba(15,23,42,0.08)')),
-    sendColor: inputText.length > 0 ? '#fff' : (isDark ? 'rgba(255,255,255,0.3)' : 'rgba(15,23,42,0.3)'),
-    cursorColor: isDark ? 'rgba(255,255,255,0.7)' : 'rgba(15,23,42,0.7)',
-    aiCursorColor: isDark ? 'rgba(34,211,238,0.8)' : 'rgba(6,182,212,0.9)',
-    dotColor: isDark ? 'rgba(34,211,238,0.65)' : 'rgba(6,182,212,0.75)',
-    liveBdr: isDark ? 'rgba(52,211,153,0.3)' : 'rgba(16,185,129,0.3)',
-    liveBg: isDark ? 'rgba(52,211,153,0.08)' : 'rgba(16,185,129,0.08)',
-    liveText: isDark ? '#34d399' : '#059669',
-    topLine: isDark
-      ? 'linear-gradient(90deg, transparent, rgba(34,211,238,0.85) 40%, rgba(99,102,241,0.65) 60%, transparent)'
-      : 'linear-gradient(90deg, transparent, rgba(99,102,241,0.70) 40%, rgba(59,130,246,0.50) 60%, transparent)',
+    cardBg: D ? 'rgba(10, 11, 15, 0.94)' : 'rgba(255, 255, 255, 0.96)',
+    border: D ? 'rgba(255, 255, 255, 0.10)' : 'rgba(15, 23, 42, 0.12)',
+    headerBg: D ? 'rgba(255, 255, 255, 0.02)' : 'rgba(248, 250, 252, 0.95)',
+    text: D ? 'rgba(255, 255, 255, 0.90)' : 'rgba(15, 23, 42, 0.90)',
+    textMuted: D ? 'rgba(255, 255, 255, 0.40)' : 'rgba(15, 23, 42, 0.45)',
+    userBubbleBg: D ? 'rgba(66, 133, 244, 0.15)' : 'rgba(99, 102, 241, 0.09)',
+    userBubbleBdr: D ? 'rgba(66, 133, 244, 0.30)' : 'rgba(99, 102, 241, 0.22)',
+    aiBubbleBg: D ? 'rgba(255, 255, 255, 0.04)' : 'rgba(248, 250, 252, 0.90)',
+    aiBubbleBdr: D ? 'rgba(255, 255, 255, 0.08)' : 'rgba(15, 23, 42, 0.08)',
+    inputBg: D ? 'rgba(255, 255, 255, 0.04)' : 'rgba(255, 255, 255, 1)',
+    inputBdr: D ? 'rgba(255, 255, 255, 0.13)' : 'rgba(15, 23, 42, 0.14)',
+    inputActiveBdr: '#4285F4',
+    inputText: D ? 'rgba(255, 255, 255, 0.92)' : 'rgba(15, 23, 42, 0.92)',
+    shadow: D
+      ? '0 30px 80px -15px rgba(0,0,0,0.95), 0 0 0 1px rgba(255,255,255,0.06)'
+      : '0 25px 65px -12px rgba(15,23,42,0.14), 0 0 0 1px rgba(15,23,42,0.08)',
   };
 
-  /* ══════════════════════════════════════════════════════════════════════════
-     RENDER
-  ══════════════════════════════════════════════════════════════════════════ */
+  const isTyping = phase === 'zoomTyping';
+
+  // Dynamic Video Caption Text
+  const captionText =
+    phase === 'zoomTyping'
+      ? '✍️ Auto-Typing Question...'
+      : phase === 'zoomSend'
+      ? '⚡ Submitting to Master AI...'
+      : phase === 'thinking'
+      ? '✨ Gemini Neural Engine Thinking...'
+      : phase === 'streaming'
+      ? '🟢 Streaming Live Verified Answer...'
+      : phase === 'hold'
+      ? '✅ Live Verified Proof • Next demo loading...'
+      : '🔄 Next Question Loading...';
+
   return (
-    <div ref={containerRef} style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
-      {/* Ambient glow */}
-      <div style={{ position: 'absolute', inset: '-20px', background: T.glow, pointerEvents: 'none', zIndex: 0 }} />
+    <div
+      style={{
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        position: 'relative',
+        userSelect: 'none',
+      }}
+    >
+      {/* Dynamic Background Glow */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: '-25px',
+          background: D
+            ? 'radial-gradient(ellipse 75% 65% at 50% 50%, rgba(66,133,244,0.14) 0%, rgba(155,114,207,0.08) 50%, transparent 75%)'
+            : 'radial-gradient(ellipse 75% 65% at 50% 50%, rgba(66,133,244,0.10) 0%, rgba(155,114,207,0.05) 50%, transparent 75%)',
+          pointerEvents: 'none',
+          zIndex: 0,
+        }}
+      />
 
-      {/* ── Card ──────────────────────────────────────────────────────────── */}
-      <div style={{
-        position: 'relative', zIndex: 1, width: '100%', maxWidth: '420px',
-        borderRadius: '20px', border: '1px solid ' + T.border, background: T.cardBg,
-        backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)',
-        display: 'flex', flexDirection: 'column', overflow: 'hidden',
-        boxShadow: T.shadow, maxHeight: '560px',
-      }}>
-        {/* Chromatic top line */}
-        <div style={{ position: 'absolute', top: 0, left: '8%', right: '8%', height: '1px', background: T.topLine, pointerEvents: 'none' }} />
+      {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+          CHAT WINDOW CARD (VIDEO-LIKE FEEL)
+          - Zooms in smoothly during typing for that authentic video/camera feel!
+      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+      <div
+        style={{
+          position: 'relative',
+          zIndex: 1,
+          width: '100%',
+          maxWidth: '430px',
+          borderRadius: '22px',
+          border: `1px solid ${T.border}`,
+          background: T.cardBg,
+          backdropFilter: 'blur(28px)',
+          WebkitBackdropFilter: 'blur(28px)',
+          display: 'flex',
+          flexDirection: 'column',
+          overflow: 'hidden',
+          boxShadow: T.shadow,
+          maxHeight: '560px',
+          transform: isTyping ? 'scale(1.03) translateY(-4px)' : 'scale(1) translateY(0)',
+          transition: 'transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.45s ease',
+          willChange: 'transform',
+        }}
+      >
+        {/* Top Chromatic Line */}
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: '10%',
+            right: '10%',
+            height: '1px',
+            background: 'linear-gradient(90deg, transparent, #4285F4 35%, #9B72CF 65%, transparent)',
+            pointerEvents: 'none',
+          }}
+        />
 
-        {/* ── Header with Master AI logo ──────────────────────────────────── */}
-        <div style={{
-          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          padding: '11px 15px 10px', borderBottom: '1px solid ' + T.border,
-          background: T.headerBg, flexShrink: 0,
-        }}>
+        {/* ── HEADER ──────────────────────────────────────────────────────── */}
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            padding: '12px 16px 11px',
+            borderBottom: `1px solid ${T.border}`,
+            background: T.headerBg,
+            flexShrink: 0,
+          }}
+        >
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            {/* Traffic lights */}
             <div style={{ display: 'flex', gap: '5px' }}>
               {['#ef4444', '#f59e0b', '#22c55e'].map((c, i) => (
-                <div key={i} style={{ width: 8, height: 8, borderRadius: '50%', background: c, opacity: 0.8 }} />
+                <div key={i} style={{ width: 8, height: 8, borderRadius: '50%', background: c, opacity: 0.85 }} />
               ))}
             </div>
-            {/* Master AI Logo + title */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginLeft: '2px' }}>
               <MasterAILogo size={17} />
-              <span style={{
-                fontFamily: 'var(--font-mono, monospace)', fontSize: '11px',
-                color: T.textMuted, letterSpacing: '0.04em', fontWeight: 500,
-              }}>
+              <span
+                style={{
+                  fontFamily: 'var(--font-mono, monospace)',
+                  fontSize: '11px',
+                  color: T.textMuted,
+                  letterSpacing: '0.04em',
+                  fontWeight: 600,
+                }}
+              >
                 MASTER AI · Live Assistant
               </span>
             </div>
           </div>
-          {/* LIVE pill */}
-          <div style={{
-            display: 'flex', alignItems: 'center', gap: '5px',
-            padding: '3px 9px', borderRadius: '9999px',
-            border: '1px solid ' + T.liveBdr, background: T.liveBg,
-          }}>
-            <span style={{ width: 5, height: 5, borderRadius: '50%', background: T.liveText, display: 'inline-block', animation: 'pulse 2s ease-in-out infinite' }} />
-            <span style={{ fontFamily: 'var(--font-mono, monospace)', fontSize: '10px', color: T.liveText, letterSpacing: '0.08em' }}>LIVE</span>
+
+          {/* Live indicator badge */}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '5px',
+              padding: '3px 8px',
+              borderRadius: '9999px',
+              border: '1px solid rgba(52, 211, 153, 0.35)',
+              background: 'rgba(52, 211, 153, 0.08)',
+            }}
+          >
+            <span
+              style={{
+                width: 5,
+                height: 5,
+                borderRadius: '50%',
+                background: '#34d399',
+                display: 'inline-block',
+                animation: 'chatPulse 2s ease-in-out infinite',
+              }}
+            />
+            <span
+              style={{
+                fontFamily: 'var(--font-mono, monospace)',
+                fontSize: '10px',
+                color: '#34d399',
+                letterSpacing: '0.08em',
+                fontWeight: 600,
+              }}
+            >
+              LIVE
+            </span>
           </div>
         </div>
 
-        {/* ── Conversation scroll area ────────────────────────────────────── */}
-        <div ref={scrollRef} style={{
-          flex: 1, overflowY: 'auto', overflowX: 'hidden',
-          padding: '14px 14px 10px', display: 'flex', flexDirection: 'column',
-          gap: '10px', scrollbarWidth: 'none', minHeight: '240px', maxHeight: '310px',
-        }}>
+        {/* ── CONVERSATION STREAMING AREA ─────────────────────────────────── */}
+        <div
+          ref={scrollRef}
+          style={{
+            flex: 1,
+            overflowY: 'auto',
+            overflowX: 'hidden',
+            padding: '14px 14px 10px',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '12px',
+            scrollbarWidth: 'none',
+            minHeight: '235px',
+            maxHeight: '305px',
+          }}
+        >
           {messages.map((msg, msgIdx) => (
-            <div key={msgIdx} style={{
-              opacity: msg.visible ? 1 : 0,
-              transform: msg.visible ? 'translateY(0)' : 'translateY(4px)',
-              transition: 'opacity 0.3s ease ' + (msgIdx * 38) + 'ms, transform 0.3s ease ' + (msgIdx * 38) + 'ms',
-              display: 'flex', flexDirection: msg.role === 'user' ? 'row-reverse' : 'row',
-              alignItems: 'flex-end', gap: '7px',
-            }}>
-              {/* AI avatar */}
+            <div
+              key={msgIdx}
+              style={{
+                display: 'flex',
+                flexDirection: msg.role === 'user' ? 'row-reverse' : 'row',
+                alignItems: 'flex-start',
+                gap: '8px',
+                animation: 'messageEnter 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+              }}
+            >
               {msg.role === 'ai' && (
-                <div style={{
-                  width: 26, height: 26, borderRadius: '50%', flexShrink: 0,
-                  background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(99,102,241,0.08)',
-                  border: '1px solid ' + (isDark ? 'rgba(255,255,255,0.10)' : 'rgba(99,102,241,0.15)'),
-                  display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '2px',
-                }}>
-                  <MasterAILogo size={13} />
+                <div
+                  style={{
+                    width: 28,
+                    height: 28,
+                    borderRadius: '50%',
+                    flexShrink: 0,
+                    background: D ? 'rgba(255,255,255,0.06)' : 'rgba(66,133,244,0.08)',
+                    border: `1px solid ${D ? 'rgba(255,255,255,0.12)' : 'rgba(66,133,244,0.18)'}`,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginTop: '2px',
+                  }}
+                >
+                  <MasterAILogo size={14} />
                 </div>
               )}
 
-              {/* Bubble */}
-              <div style={{
-                maxWidth: '82%',
-                padding: msg.role === 'user' ? '9px 13px' : '11px 13px',
-                borderRadius: msg.role === 'user' ? '16px 16px 4px 16px' : '4px 16px 16px 16px',
-                background: msg.role === 'user' ? T.userBubbleBg : T.aiBubbleBg,
-                border: '1px solid ' + (msg.role === 'user' ? T.userBubbleBdr : T.aiBubbleBdr),
-                fontFamily: 'var(--font-body, system-ui, sans-serif)',
-                fontSize: '13px', lineHeight: 1.55, color: T.text,
-                wordBreak: 'break-word', position: 'relative',
-              }}>
+              <div
+                style={{
+                  maxWidth: '84%',
+                  padding: msg.role === 'user' ? '9px 13px' : '11px 14px',
+                  borderRadius: msg.role === 'user' ? '16px 16px 4px 16px' : '4px 16px 16px 16px',
+                  background: msg.role === 'user' ? T.userBubbleBg : T.aiBubbleBg,
+                  border: `1px solid ${msg.role === 'user' ? T.userBubbleBdr : T.aiBubbleBdr}`,
+                  fontFamily: 'var(--font-body, system-ui, sans-serif)',
+                  fontSize: '13px',
+                  lineHeight: 1.55,
+                  color: T.text,
+                  wordBreak: 'break-word',
+                  boxShadow: msg.role === 'user' ? '0 4px 12px rgba(66,133,244,0.12)' : 'none',
+                }}
+              >
                 {msg.role === 'user' ? (
-                  <span>{msg.text}</span>
+                  <span style={{ fontWeight: 500 }}>{msg.text}</span>
                 ) : msg.visibleTokens === 0 ? (
-                  /* Thinking dots */
-                  <span style={{ display: 'flex', alignItems: 'center', gap: '5px', minHeight: '18px' }}>
-                    {[0, 1, 2].map(i => (
-                      <span key={i} style={{
-                        width: '6px', height: '6px', borderRadius: '50%',
-                        background: T.dotColor, display: 'inline-block',
-                        animation: 'aiThinkBounce 0.9s ease-in-out ' + (i * 150) + 'ms infinite',
-                      }} />
-                    ))}
-                  </span>
+                  /* Famous Gemini Loader */
+                  <GeminiLoader isDark={isDark} />
                 ) : (
-                  /* Streamed tokens with zoom-pop */
+                  /* Streamed answer with highlights and blinking cursor */
                   <span>
                     {(msg.tokens || []).slice(0, msg.visibleTokens).map((tok, tIdx) => (
                       <WordSpan key={tIdx} token={tok} isNew={tIdx === (msg.visibleTokens ?? 0) - 1} isDark={isDark} />
                     ))}
                     {phase === 'streaming' && msgIdx === messages.length - 1 && (
-                      <span style={{ display: 'inline-block', width: '2px', height: '1em', background: T.aiCursorColor, marginLeft: '2px', verticalAlign: 'middle', animation: 'blink 0.7s step-end infinite' }} />
+                      <span
+                        style={{
+                          display: 'inline-block',
+                          width: '2px',
+                          height: '1em',
+                          background: '#4285F4',
+                          marginLeft: '2px',
+                          verticalAlign: 'middle',
+                          animation: 'chatBlink 0.7s step-end infinite',
+                        }}
+                      />
                     )}
                   </span>
                 )}
@@ -502,105 +655,187 @@ export const AIChatHero: React.FC<AIChatHeroProps> = ({ isDark = true, onLoad })
             </div>
           ))}
 
-          {/* Empty state */}
+          {/* Empty placeholder state */}
           {messages.length === 0 && (
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '10px', opacity: 0.35, paddingTop: '24px' }}>
-              <MasterAILogo size={30} />
-              <span style={{ fontFamily: 'var(--font-mono, monospace)', fontSize: '11px', color: T.textMuted, letterSpacing: '0.06em' }}>Ask anything about MASTER AI…</span>
+            <div
+              style={{
+                flex: 1,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '10px',
+                opacity: 0.35,
+                paddingTop: '32px',
+              }}
+            >
+              <MasterAILogo size={32} />
+              <span style={{ fontFamily: 'var(--font-mono, monospace)', fontSize: '11px', color: T.textMuted }}>
+                Ask anything about MASTER AI...
+              </span>
             </div>
           )}
         </div>
 
-        {/* ── ChatGPT-style input bar ─────────────────────────────────────── */}
-        <div style={{ padding: '10px 12px 10px', borderTop: '1px solid ' + T.border, flexShrink: 0 }}>
-          <div style={{
-            display: 'flex', alignItems: 'center', gap: '8px',
-            padding: '8px 12px 8px 14px',
-            borderRadius: '14px',
-            border: '1.5px solid ' + (inputFocused ? T.inputFocusBdr : T.inputBdr),
-            background: T.inputBg,
-            transition: 'border-color 0.2s ease',
-          }}>
-            {/* Fake input text */}
-            <div style={{
-              flex: 1, fontFamily: 'var(--font-body, system-ui, sans-serif)',
-              fontSize: '13px', color: T.inputText,
-              minHeight: '20px', lineHeight: '20px',
-              overflow: 'hidden', whiteSpace: 'nowrap', textOverflow: 'ellipsis',
-            }}>
-              {inputText || (
-                <span style={{ color: T.textMuted }}>Ask about MASTER AI…</span>
-              )}
-              {/* Blinking cursor in input */}
-              {(phase === 'userTyping') && (
-                <span style={{
-                  display: 'inline-block', width: '2px', height: '13px',
-                  background: T.cursorColor, marginLeft: '1px',
-                  verticalAlign: 'middle', animation: 'blink 1s step-end infinite',
-                }} />
+        {/* ── INPUT BAR (AGENT AUTO-TYPES HERE WITH ZOOM IN) ────────────────── */}
+        <div style={{ padding: '10px 12px 10px', borderTop: `1px solid ${T.border}`, flexShrink: 0 }}>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              padding: '8px 12px 8px 14px',
+              borderRadius: '14px',
+              border: `1.5px solid ${isTyping ? T.inputActiveBdr : T.inputBdr}`,
+              background: T.inputBg,
+              boxShadow: isTyping ? '0 0 16px rgba(66, 133, 244, 0.22)' : 'none',
+              transform: isTyping ? 'scale(1.02)' : 'scale(1)',
+              transition: 'border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease',
+            }}
+          >
+            <div
+              style={{
+                flex: 1,
+                fontFamily: 'var(--font-body, system-ui, sans-serif)',
+                fontSize: '13px',
+                color: T.inputText,
+                minHeight: '22px',
+                lineHeight: '22px',
+                overflow: 'hidden',
+                whiteSpace: 'nowrap',
+                textOverflow: 'ellipsis',
+              }}
+            >
+              {inputText ? (
+                <span>
+                  {inputText}
+                  {isTyping && (
+                    <span
+                      style={{
+                        display: 'inline-block',
+                        width: '2px',
+                        height: '14px',
+                        background: '#4285F4',
+                        marginLeft: '2px',
+                        verticalAlign: 'middle',
+                        animation: 'chatBlink 0.9s step-end infinite',
+                      }}
+                    />
+                  )}
+                </span>
+              ) : (
+                <span style={{ color: T.textMuted }}>Ask about MASTER AI...</span>
               )}
             </div>
 
-            {/* Send button */}
-            <button
+            {/* Send button with Squish + Burst Effect on Enter */}
+            <div
               style={{
-                width: 30, height: 30, borderRadius: '9px',
-                background: T.sendBg,
-                border: 'none', cursor: 'pointer', flexShrink: 0,
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                color: T.sendColor,
-                transform: sendBurst ? 'scale(0.85)' : 'scale(1)',
-                transition: 'transform 0.15s ease, background 0.2s ease',
-                outline: 'none',
+                width: 32,
+                height: 32,
+                borderRadius: '10px',
+                flexShrink: 0,
+                background: sendBurst || inputText.length > 0 ? 'linear-gradient(135deg, #4285F4, #9B72CF)' : D ? 'rgba(255,255,255,0.08)' : 'rgba(15,23,42,0.08)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: sendBurst || inputText.length > 0 ? '#fff' : D ? 'rgba(255,255,255,0.30)' : 'rgba(15,23,42,0.30)',
+                transform: sendBurst ? 'scale(0.78)' : 'scale(1)',
+                boxShadow: sendBurst ? '0 0 0 6px rgba(66, 133, 244, 0.35)' : 'none',
+                transition: 'transform 0.16s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease, background 0.2s ease',
               }}
             >
               <SendIcon />
-            </button>
+            </div>
           </div>
         </div>
 
-        {/* ── Preset chips ────────────────────────────────────────────────── */}
-        <div style={{ padding: '2px 12px 13px', display: 'flex', flexWrap: 'wrap', gap: '6px', flexShrink: 0 }}>
-          {EXCHANGES.map((ex, idx) => {
-            const isActive = activeChip === idx;
-            const isDisabled = isRunning && activeChip !== idx;
-            return (
-              <button key={idx} onClick={() => handleChipClick(idx)} disabled={isDisabled}
-                onMouseEnter={e => { if (!isDisabled) (e.currentTarget as HTMLButtonElement).style.transform = 'translateY(-1px)'; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.transform = 'translateY(0)'; }}
+        {/* ── CINEMATIC CAPTION / VIDEO STATUS BAR (NO CLICKABLE CHIPS) ──────── */}
+        <div
+          style={{
+            padding: '7px 14px 11px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            borderTop: `1px solid ${T.border}`,
+            background: D ? 'rgba(255,255,255,0.02)' : 'rgba(248,250,252,0.85)',
+            flexShrink: 0,
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '7px' }}>
+            <span
+              style={{
+                width: 6,
+                height: 6,
+                borderRadius: '50%',
+                background: '#4285F4',
+                boxShadow: '0 0 8px #4285F4',
+                display: 'inline-block',
+                animation: 'chatPulse 1.6s ease-in-out infinite',
+              }}
+            />
+            <span
+              style={{
+                fontFamily: 'var(--font-mono, monospace)',
+                fontSize: '11px',
+                color: T.textMuted,
+                letterSpacing: '0.02em',
+                fontWeight: 500,
+              }}
+            >
+              {captionText}
+            </span>
+          </div>
+
+          {/* Video Topic Indicator Dots */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+            {EXCHANGES.map((_, idx) => (
+              <div
+                key={idx}
+                title={EXCHANGES[idx].topic}
                 style={{
-                  padding: '5px 11px', borderRadius: '9999px',
-                  border: '1px solid ' + (isActive ? T.chipActiveBdr : T.chipBdr),
-                  background: isActive ? T.chipActiveBg : T.chipBg,
-                  color: isActive ? T.chipActiveText : T.chipText,
-                  fontFamily: 'var(--font-mono, monospace)', fontSize: '11px',
-                  cursor: isDisabled ? 'default' : 'pointer',
-                  opacity: isDisabled ? 0.4 : 1,
-                  transition: 'transform 0.15s ease, opacity 0.15s ease, border-color 0.15s ease',
-                  transform: 'translateY(0)', outline: 'none',
+                  width: currentExchange === idx ? 16 : 5,
+                  height: 5,
+                  borderRadius: '9999px',
+                  background: currentExchange === idx ? '#4285F4' : D ? 'rgba(255,255,255,0.20)' : 'rgba(15,23,42,0.20)',
+                  transition: 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)',
                 }}
-              >
-                {ex.chipLabel}
-              </button>
-            );
-          })}
+              />
+            ))}
+          </div>
         </div>
       </div>
 
-      {/* ── Global keyframes ──────────────────────────────────────────────── */}
+      {/* ── KEYFRAME ANIMATIONS ──────────────────────────────────────────── */}
       <style>{`
-        @keyframes aiThinkBounce {
-          0%, 80%, 100% { transform: translateY(0); opacity: 0.45; }
-          40%            { transform: translateY(-5px); opacity: 1; }
+        @keyframes messageEnter {
+          0% { opacity: 0; transform: translateY(6px); }
+          100% { opacity: 1; transform: translateY(0); }
         }
         @keyframes wordPop {
-          0%   { opacity: 0; transform: scale(1.35) translateY(3px); }
+          0%   { opacity: 0; transform: scale(1.35) translateY(2px); }
           60%  { opacity: 1; transform: scale(1.04) translateY(0); }
           100% { opacity: 1; transform: scale(1) translateY(0); }
         }
-        @keyframes blink {
+        @keyframes chatBlink {
           0%, 100% { opacity: 1; }
-          50%       { opacity: 0; }
+          50% { opacity: 0; }
+        }
+        @keyframes chatPulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.35; }
+        }
+        @keyframes geminiPulse {
+          0%, 100% { transform: scale(1) rotate(0deg); }
+          50% { transform: scale(1.2) rotate(180deg); }
+        }
+        @keyframes geminiShimmer {
+          0% { background-position: 0% center; }
+          100% { background-position: 200% center; }
+        }
+        @keyframes geminiSkeletonSlide {
+          0% { background-position: -200% 0; }
+          100% { background-position: 200% 0; }
         }
       `}</style>
     </div>
