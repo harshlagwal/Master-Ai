@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useTypewriter } from '../hooks/useTypewriter';
 import { HERO_DATA } from '../data';
 import { Zap, ArrowRight, ShieldCheck, Users } from 'lucide-react';
-import { AiProvingGround } from '@/components/ui/AiProvingGround';
+import { AIChatHero } from '@/components/ui/AIChatHero';
 
 
 
@@ -232,7 +232,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             <div className="w-5 h-5 rounded border border-white/10 bg-white/[0.02] flex items-center justify-center shrink-0">
               <Zap className="w-3 h-3 text-neutral-400" />
             </div>
-            <span>Live AI Studio • Hover to interact</span>
+            <span>Live AI Assistant · Watch it answer real questions</span>
           </div>
         </div>
 
@@ -258,7 +258,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               transform: dashboardVisible ? 'translateY(0) scale(1)' : 'translateY(20px) scale(0.97)',
             }}
           >
-            <AiProvingGround
+            <AIChatHero
               isDark={isDark}
               onLoad={() => onRobotLoaded?.()}
             />

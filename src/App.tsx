@@ -27,7 +27,7 @@ export default function App() {
   const [selectedTrackId, setSelectedTrackId] = useState<string>('master-pass');
   const lenisRef = useRef<Lenis | null>(null);
 
-  const MIN_LOADER_DURATION = 1000; // Fast 1.0s preloader
+  const MIN_LOADER_DURATION = 800; // Fast preloader — no WebGL wait
 
   // Dismiss preloader independently of heavy 3D scene loading
   const handleRobotReady = useCallback(() => {
@@ -39,10 +39,10 @@ export default function App() {
       setIsLoading(false);
     }, MIN_LOADER_DURATION);
 
-    // Safety fallback: reveal page after 1.5s max even on slow network
+    // Safety fallback: reveal page after 1.2s max
     const fallbackTimer = setTimeout(() => {
       setIsLoading(false);
-    }, 1500);
+    }, 1200);
 
     return () => {
       clearTimeout(mainTimer);
