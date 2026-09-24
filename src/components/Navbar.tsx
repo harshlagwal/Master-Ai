@@ -284,7 +284,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             </svg>
 
             <span
-              className={`text-sm sm:text-[15px] font-normal sm:font-medium tracking-tight transition-colors ${
+              className={`text-sm sm:text-[15px] font-normal sm:font-medium tracking-tight whitespace-nowrap transition-colors ${
                 isDark ? 'text-white' : 'text-slate-900'
               }`}
               style={{ fontFamily: 'var(--font-heading)' }}
@@ -451,7 +451,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           </nav>
 
           {/* Right: Rocket, Black Pill CTA & Controls */}
-          <div className="flex items-center gap-2 sm:gap-2.5">
+          <div className="flex items-center gap-1.5 sm:gap-2.5">
             {/* Rocket Action Button (Google Antigravity Quick Launch with Spring Tilt) */}
             <motion.button
               whileHover={{ scale: 1.25, rotate: -15, y: -2 }}
@@ -460,19 +460,19 @@ export const Navbar: React.FC<NavbarProps> = ({
               type="button"
               onClick={() => onJoinClick('demo-free')}
               title="Launch Free Live Demo (Only 2 Days)"
-              className="text-base cursor-pointer select-none px-1"
+              className="hidden sm:inline-flex text-base cursor-pointer select-none px-1"
             >
               🚀
             </motion.button>
 
-            {/* Google Antigravity Style Black Pill Action Button */}
+            {/* Google Antigravity Style Black Pill Action Button - Hidden on mobile for sleek clean view */}
             <motion.button
               whileHover={{ scale: 1.04 }}
               whileTap={{ scale: 0.96 }}
               transition={{ type: "spring", stiffness: 450, damping: 25 }}
               type="button"
               onClick={() => onJoinClick('master-pass')}
-              className={`group h-8 sm:h-9 px-3.5 sm:px-4 rounded-full font-medium text-xs transition-colors duration-200 cursor-pointer shadow-sm whitespace-nowrap flex items-center gap-1.5 ${
+              className={`hidden sm:flex group h-8 sm:h-9 px-3.5 sm:px-4 rounded-full font-medium text-xs transition-colors duration-200 cursor-pointer shadow-sm whitespace-nowrap items-center gap-1.5 ${
                 isDark
                   ? 'bg-white text-black hover:bg-neutral-100'
                   : 'bg-slate-950 text-white hover:bg-slate-800'
@@ -493,7 +493,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               onClick={toggleTheme}
               aria-label="Toggle theme mode"
               title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
-              className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors duration-200 cursor-pointer ${
+              className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors duration-200 cursor-pointer shrink-0 ${
                 isDark
                   ? 'bg-white/10 hover:bg-white/20 text-neutral-300 hover:text-white'
                   : 'bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-black'
@@ -511,7 +511,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               type="button"
               onClick={toggleMenu}
               aria-label="Toggle navigation menu"
-              className={`md:hidden w-8 h-8 rounded-full flex items-center justify-center transition-colors cursor-pointer ${
+              className={`md:hidden w-8 h-8 rounded-full flex items-center justify-center transition-colors cursor-pointer shrink-0 ${
                 isDark
                   ? 'bg-white/10 text-white/80 hover:text-white'
                   : 'bg-slate-100 text-slate-800 hover:text-black border border-slate-200'
