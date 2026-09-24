@@ -13,21 +13,34 @@ export const CurriculumModal: React.FC<CurriculumModalProps> = ({
   onClose,
   onEnrollClick,
 }) => {
+  // Lock body scroll while modal is open
+  React.useEffect(() => {
+    if (isOpen) {
+      const originalOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.style.overflow = originalOverflow;
+      };
+    }
+  }, [isOpen]);
+
   if (!isOpen) return null;
 
   return (
     <div
       role="dialog"
       aria-modal="true"
+      data-lenis-prevent="true"
       className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 md:p-6 bg-black/80 backdrop-blur-md animate-in fade-in duration-200"
       onClick={onClose}
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="w-full max-w-4xl max-h-[90vh] bg-[#0E0E0E] text-white rounded-3xl p-6 sm:p-8 shadow-2xl border border-white/15 relative overflow-hidden flex flex-col animate-in zoom-in-95 duration-200"
+        data-lenis-prevent="true"
+        className="w-full max-w-4xl max-h-[90dvh] sm:max-h-[90vh] bg-[#0E0E0E] text-white rounded-3xl p-5 sm:p-8 shadow-2xl border border-white/15 relative overflow-hidden flex flex-col animate-in zoom-in-95 duration-200"
       >
         {/* Header */}
-        <div className="flex items-start justify-between pb-5 border-b border-white/10 shrink-0">
+        <div className="flex items-start justify-between pb-4 sm:pb-5 border-b border-white/10 shrink-0">
           <div>
             <div className="inline-flex items-center gap-2 px-2.5 py-0.5 rounded-full bg-amber-400/10 border border-amber-400/30 text-amber-300 text-[10px] sm:text-xs font-mono uppercase tracking-wider mb-2">
               <Sparkles className="w-3 h-3" />
@@ -51,7 +64,16 @@ export const CurriculumModal: React.FC<CurriculumModalProps> = ({
         </div>
 
         {/* Scrollable list of 9 topics */}
-        <div className="overflow-y-auto py-5 space-y-3.5 pr-1 sm:pr-2 custom-scrollbar">
+        <div
+          data-lenis-prevent="true"
+          className="flex-1 overflow-y-auto py-5 space-y-3.5 pr-1 sm:pr-2 custom-scrollbar overscroll-contain"
+          style={{
+            overscrollBehavior: 'contain',
+            WebkitOverflowScrolling: 'touch',
+            touchAction: 'pan-y',
+            transform: 'translateZ(0)',
+          }}
+        >
           {WORKSHOP_TOPICS.map((topic, idx) => (
             <div
               key={topic.id || idx}

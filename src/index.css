@@ -230,6 +230,11 @@ a, button, [role="button"] {
 }
 
 /* Sleek Modern Custom Scrollbar */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(140, 140, 140, 0.3) transparent;
+  -webkit-overflow-scrolling: touch;
+}
 .custom-scrollbar::-webkit-scrollbar {
   width: 6px;
   height: 6px;

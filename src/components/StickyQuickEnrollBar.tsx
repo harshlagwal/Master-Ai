@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, X } from 'lucide-react';
 import { BRAND } from '../data';
 
@@ -42,7 +42,7 @@ export const StickyQuickEnrollBar: React.FC<StickyQuickEnrollBarProps> = ({ onJo
           aria-label="Quick registration bar"
           className="fixed bottom-4 sm:bottom-6 left-0 right-0 z-40 px-3 sm:px-6 pointer-events-none flex justify-center"
         >
-          <div className="pointer-events-auto w-full max-w-2xl rounded-2xl sm:rounded-full bg-[#0A0A0A]/90 backdrop-blur-xl border border-white/20 px-4 sm:px-6 py-3 sm:py-3.5 shadow-2xl flex items-center justify-between gap-3 sm:gap-4 relative overflow-hidden">
+          <div className="pointer-events-auto w-full max-w-2xl rounded-2xl sm:rounded-full bg-[#0A0A0A]/95 md:bg-[#0A0A0A]/90 max-md:backdrop-blur-none md:backdrop-blur-md border border-white/20 px-4 sm:px-6 py-3 sm:py-3.5 shadow-2xl flex items-center justify-between gap-3 sm:gap-4 relative overflow-hidden">
             {/* Ambient Shimmer Beam Background */}
             <div className="absolute inset-0 animate-shimmer pointer-events-none" />
 

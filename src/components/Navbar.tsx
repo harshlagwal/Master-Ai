@@ -45,6 +45,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(true);
   const [activeDropdown, setActiveDropdown] = useState<'products' | 'usecases' | 'resources' | null>(null);
   const [hoveredNav, setHoveredNav] = useState<string | null>(null);
   const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -59,8 +60,16 @@ export const Navbar: React.FC<NavbarProps> = ({
       // Close dropdown on scroll
       setActiveDropdown(null);
     };
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth >= 768);
+    };
+    handleResize();
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('resize', handleResize, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
   const handleMouseEnter = (menuKey: 'products' | 'usecases' | 'resources') => {
@@ -234,15 +243,15 @@ export const Navbar: React.FC<NavbarProps> = ({
           className={`flex items-center justify-between px-3.5 sm:px-6 h-12 sm:h-14 rounded-full border transition-all duration-500 relative ${
             isDark
               ? scrolled
-                ? 'bg-[#09090C]/92 shadow-[0_20px_45px_rgba(0,0,0,0.75),inset_0_1px_1px_rgba(255,255,255,0.18)] border-white/20 text-white'
-                : 'bg-[#09090C]/80 shadow-[0_8px_30px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.1)] border-white/12 text-white'
+                ? 'bg-[#050506]/95 md:bg-[#09090C]/92 shadow-[0_20px_45px_rgba(0,0,0,0.75),inset_0_1px_1px_rgba(255,255,255,0.18)] border-white/20 text-white'
+                : 'bg-[#050506]/95 md:bg-[#09090C]/80 shadow-[0_8px_30px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.1)] border-white/12 text-white'
               : scrolled
-                ? 'bg-white/95 shadow-[0_16px_40px_-6px_rgba(0,0,0,0.12),inset_0_1px_1px_rgba(255,255,255,0.95)] border-slate-300 text-slate-900'
-                : 'bg-white/90 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05),inset_0_1px_1px_rgba(255,255,255,0.8)] border-slate-200/80 text-slate-900'
+                ? 'bg-white/98 md:bg-white/95 shadow-[0_16px_40px_-6px_rgba(0,0,0,0.12),inset_0_1px_1px_rgba(255,255,255,0.95)] border-slate-300 text-slate-900'
+                : 'bg-white/98 md:bg-white/90 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05),inset_0_1px_1px_rgba(255,255,255,0.8)] border-slate-200/80 text-slate-900'
           }`}
           style={{
-            backdropFilter: 'blur(28px)',
-            WebkitBackdropFilter: 'blur(28px)',
+            backdropFilter: isDesktop ? 'blur(16px)' : undefined,
+            WebkitBackdropFilter: isDesktop ? 'blur(16px)' : undefined,
           }}
         >
           {/* Left: Google Antigravity Brand Logo with Spring Hover */}

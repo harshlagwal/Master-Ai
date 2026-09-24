@@ -24,7 +24,7 @@ export const SectionStatsBar: React.FC<SectionStatsBarProps> = ({ isDark = true 
         transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
         className={`max-w-7xl mx-auto rounded-2xl border p-4 sm:p-5 transition-all duration-300 ${
           isDark
-            ? 'bg-[#0A0A0C]/80 border-white/[0.08] text-white backdrop-blur-xl shadow-[0_4px_24px_rgba(0,0,0,0.6)]'
+            ? 'bg-[#0A0A0C]/80 border-white/[0.08] text-white backdrop-blur-md shadow-[0_4px_24px_rgba(0,0,0,0.6)]'
             : 'bg-white border-slate-200/90 shadow-sm text-slate-950'
         }`}
       >

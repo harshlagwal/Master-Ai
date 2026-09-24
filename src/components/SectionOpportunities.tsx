@@ -34,13 +34,19 @@ export const SectionOpportunities: React.FC<SectionOpportunitiesProps> = ({ onJo
       id="opportunities"
       className="relative z-10 w-full py-16 sm:py-20 md:py-24 px-5 sm:px-8 md:px-14 lg:px-20 bg-[#0C0C0E] text-white border-t border-white/10 overflow-hidden"
     >
-      {/* Background Ambient Glows */}
+      {/* Background Ambient Glows - zero blur cost */}
       <div
-        className="absolute top-1/4 -left-32 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"
+        className="absolute top-1/4 -left-32 w-96 h-96 rounded-full pointer-events-none"
+        style={{
+          background: 'radial-gradient(circle, rgba(16,185,129,0.12) 0%, transparent 70%)',
+        }}
         aria-hidden="true"
       />
       <div
-        className="absolute bottom-1/4 -right-32 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"
+        className="absolute bottom-1/4 -right-32 w-96 h-96 rounded-full pointer-events-none"
+        style={{
+          background: 'radial-gradient(circle, rgba(245,158,11,0.12) 0%, transparent 70%)',
+        }}
         aria-hidden="true"
       />
 

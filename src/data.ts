@@ -620,7 +620,7 @@ export const AUDIENCE_PROFILES: AudienceProfile[] = [
 export const MENTOR_DATA = {
   name: "Harsh Lagwal",
   role: "IIT Patna (MBA in Gen AI & Data Science) • AI Systems Architect • Educator",
-  image: "/assets/mentor-harsh.png",
+  image: "/assets/mentor-harsh.webp",
   tagline: "Translating cutting-edge Generative AI & Data Science from IIT Patna into real-world student leverage",
   quoteBadge: "IIT Patna • Gen AI & Data Science",
   highlights: [

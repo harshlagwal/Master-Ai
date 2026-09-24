@@ -78,11 +78,14 @@ export const MultilingualWelcome: React.FC = () => {
         willChange: 'transform',
       }}
     >
-      {/* Center Subtle Ambient Glow */}
+      {/* Center Subtle Ambient Glow - zero blur cost */}
       <div
-        className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 sm:w-80 h-64 sm:h-80 rounded-full blur-[100px] pointer-events-none transition-all duration-300 ${
-          isHindiFinal ? 'bg-amber-400/25 scale-125' : 'bg-amber-400/10 scale-100'
+        className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 sm:w-80 h-64 sm:h-80 rounded-full pointer-events-none transition-all duration-300 ${
+          isHindiFinal ? 'scale-125 opacity-100' : 'scale-100 opacity-60'
         }`}
+        style={{
+          background: 'radial-gradient(circle, rgba(251,191,36,0.2) 0%, rgba(251,191,36,0.06) 45%, transparent 70%)',
+        }}
       />
 
       {/* Center Multilingual Word Showcase (Sleek, Compact Size) */}

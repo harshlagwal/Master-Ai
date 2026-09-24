@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { JOURNEY_DAYS } from '../data';
 import { ChevronLeft, ChevronRight, ListOrdered, Calendar } from 'lucide-react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export const Section7DayJourney: React.FC = () => {
   const [selectedDayIndex, setSelectedDayIndex] = useState(0);

@@ -119,7 +119,7 @@ export const SectionBuildProof: React.FC<SectionBuildProofProps> = ({
           onMouseLeave={() => setIsHovered(false)}
           className={`rounded-3xl p-5 sm:p-10 md:p-12 border transition-all duration-300 relative overflow-hidden ${
             isDark
-              ? 'bg-[#0A0A0C]/85 border-white/[0.08] backdrop-blur-xl text-white shadow-[0_8px_32px_rgba(0,0,0,0.6)]'
+              ? 'bg-[#0A0A0C]/85 border-white/[0.08] backdrop-blur-md text-white shadow-[0_8px_32px_rgba(0,0,0,0.6)]'
               : 'bg-white border-slate-200/90 text-slate-950 shadow-xl'
           }`}
         >

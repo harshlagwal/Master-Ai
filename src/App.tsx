@@ -27,30 +27,36 @@ export default function App() {
   const [selectedTrackId, setSelectedTrackId] = useState<string>('master-pass');
   const lenisRef = useRef<Lenis | null>(null);
 
-  const mountTimeRef = useRef(Date.now());
-  const MIN_LOADER_DURATION = 3200; // 3.2 seconds minimum so users experience the full glowing portal
+  const MIN_LOADER_DURATION = 1000; // Fast 1.0s preloader
 
-  // Smoothly dismiss preloader once 3D robot scene compiles and minimum time has passed
+  // Dismiss preloader independently of heavy 3D scene loading
   const handleRobotReady = useCallback(() => {
-    const elapsed = Date.now() - mountTimeRef.current;
-    const remainingTime = Math.max(0, MIN_LOADER_DURATION - elapsed);
-
-    setTimeout(() => {
-      setIsLoading(false);
-    }, remainingTime);
+    setIsLoading(false);
   }, []);
 
   useEffect(() => {
-    // Safety fallback: reveal page after 3.8s max even on slow network
+    const mainTimer = setTimeout(() => {
+      setIsLoading(false);
+    }, MIN_LOADER_DURATION);
+
+    // Safety fallback: reveal page after 1.5s max even on slow network
     const fallbackTimer = setTimeout(() => {
       setIsLoading(false);
-    }, 3800);
+    }, 1500);
 
-    return () => clearTimeout(fallbackTimer);
+    return () => {
+      clearTimeout(mainTimer);
+      clearTimeout(fallbackTimer);
+    };
   }, []);
 
-  // Initialize Google Antigravity buttery smooth 60-120fps momentum scrolling
+  // Initialize Google Antigravity momentum scrolling ONLY on desktop with mouse/trackpad (pointer: fine)
+  // On mobile/touch devices, native browser scrolling is 100% used, eliminating mobile scroll lag
   useEffect(() => {
+    if (typeof window === 'undefined' || !window.matchMedia('(pointer: fine)').matches) {
+      return;
+    }
+
     const lenis = new Lenis({
       duration: 1.0,
       easing: (t) => 1 - Math.pow(1 - t, 3), // Signature Google Antigravity cubic ease-out curve
@@ -78,7 +84,7 @@ export default function App() {
     };
   }, []);
 
-  // Lock background momentum scroll during initial load or modal overlay
+  // Lock background momentum scroll during initial load or modal overlay (on desktop Lenis)
   useEffect(() => {
     if (lenisRef.current) {
       if (isLoading || isRegistrationOpen || isWhatsAppOpen) {
@@ -122,8 +128,13 @@ export default function App() {
             style={{ overscrollBehavior: 'contain' }}
           >
             <div className="relative flex flex-col items-center justify-center p-6 text-center">
-              {/* Radial ambient glow behind portal */}
-              <div className="absolute w-[360px] h-[360px] rounded-full bg-gradient-to-tr from-purple-600/25 via-indigo-500/15 to-transparent blur-[80px] pointer-events-none" />
+              {/* Radial ambient glow behind portal - zero blur paint cost */}
+              <div
+                className="absolute w-[360px] h-[360px] rounded-full pointer-events-none"
+                style={{
+                  background: 'radial-gradient(circle, rgba(147,51,234,0.25) 0%, rgba(99,102,241,0.12) 45%, transparent 70%)',
+                }}
+              />
 
               {/* Glowing Open Master AI circular ring loader */}
               <AiLoader text="Open Master AI" size={195} />

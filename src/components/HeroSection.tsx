@@ -139,13 +139,13 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       ref={heroRef}
       className="relative z-10 w-full min-h-[calc(100vh-60px)] flex items-center justify-center pt-24 sm:pt-28 pb-12 sm:pb-16 px-4 sm:px-6 md:px-10 lg:px-14 overflow-hidden"
     >
-      {/* Ambient background glow - smooth zero-lag radial lighting */}
+      {/* Ambient background glow - smooth zero-lag radial lighting (0 GPU blur cost) */}
       <div
-        className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] sm:w-[900px] h-[380px] sm:h-[550px] rounded-full blur-[130px] pointer-events-none -z-10 transition-opacity duration-500"
+        className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] sm:w-[900px] h-[380px] sm:h-[550px] rounded-full pointer-events-none -z-10 transition-opacity duration-500"
         style={{
           background: isDark
-            ? 'radial-gradient(circle, rgba(251,191,36,0.12) 0%, rgba(59,130,246,0.10) 45%, rgba(168,85,247,0.05) 100%)'
-            : 'radial-gradient(circle, rgba(251,191,36,0.18) 0%, rgba(59,130,246,0.14) 45%, rgba(168,85,247,0.07) 100%)',
+            ? 'radial-gradient(ellipse at center, rgba(251,191,36,0.12) 0%, rgba(59,130,246,0.08) 40%, rgba(168,85,247,0.04) 60%, transparent 75%)'
+            : 'radial-gradient(ellipse at center, rgba(251,191,36,0.18) 0%, rgba(59,130,246,0.12) 40%, rgba(168,85,247,0.06) 60%, transparent 75%)',
         }}
       />
 
@@ -298,11 +298,14 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
         {/* Right Column: 3D Spline Scene with Entrance Animation for Both Mobile & Desktop UI */}
         <div className="lg:col-span-5 relative w-full h-[360px] sm:h-[440px] md:h-[500px] lg:h-[580px] flex items-center justify-center">
-          {/* Futuristic entrance glow behind robot on arrival */}
+          {/* Futuristic entrance glow behind robot on arrival - zero blur cost */}
           <div
-            className={`absolute w-48 h-48 sm:w-64 sm:h-64 rounded-full bg-cyan-400/20 blur-3xl pointer-events-none transition-all duration-1000 ${
+            className={`absolute w-48 h-48 sm:w-64 sm:h-64 rounded-full pointer-events-none transition-all duration-1000 ${
               robotEntered ? 'scale-100 opacity-60' : 'scale-50 opacity-0'
             }`}
+            style={{
+              background: 'radial-gradient(circle, rgba(34,211,238,0.25) 0%, rgba(34,211,238,0.08) 45%, transparent 70%)',
+            }}
           />
 
           {/* 3D Robot Container with Entrance Animation and Antigravity Smooth Floating */}

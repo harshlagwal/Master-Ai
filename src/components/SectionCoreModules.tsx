@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { motion } from 'motion/react';
+import { motion } from 'framer-motion';
 import {
   Zap,
   Code2,

@@ -248,24 +248,23 @@ const ROW_3_TOOLS: AiToolItem[] = [
 ];
 
 export const SectionAiToolsMarquee: React.FC<SectionAiToolsMarqueeProps> = ({ isDark = true }) => {
-  // 4 repeats per 50% half (8 total sets) ensures mathematically pixel-perfect, seamless infinite loop
-  const row1Repeated = [
-    ...ROW_1_TOOLS, ...ROW_1_TOOLS, ...ROW_1_TOOLS, ...ROW_1_TOOLS,
-    ...ROW_1_TOOLS, ...ROW_1_TOOLS, ...ROW_1_TOOLS, ...ROW_1_TOOLS
-  ];
-  const row2Repeated = [
-    ...ROW_2_TOOLS, ...ROW_2_TOOLS, ...ROW_2_TOOLS, ...ROW_2_TOOLS,
-    ...ROW_2_TOOLS, ...ROW_2_TOOLS, ...ROW_2_TOOLS, ...ROW_2_TOOLS
-  ];
-  const row3Repeated = [
-    ...ROW_3_TOOLS, ...ROW_3_TOOLS, ...ROW_3_TOOLS, ...ROW_3_TOOLS,
-    ...ROW_3_TOOLS, ...ROW_3_TOOLS, ...ROW_3_TOOLS, ...ROW_3_TOOLS
-  ];
+  // 2 sets per half (4 total sets) ensures full width coverage across wide monitors
+  // and a mathematically seamless translateX(-50%) loop
+  const row1Repeated = [...ROW_1_TOOLS, ...ROW_1_TOOLS, ...ROW_1_TOOLS, ...ROW_1_TOOLS];
+  const row2Repeated = [...ROW_2_TOOLS, ...ROW_2_TOOLS, ...ROW_2_TOOLS, ...ROW_2_TOOLS];
+  const row3Repeated = [...ROW_3_TOOLS, ...ROW_3_TOOLS, ...ROW_3_TOOLS, ...ROW_3_TOOLS];
 
   return (
     <section className="relative z-10 w-full py-12 sm:py-16 overflow-hidden select-none">
-      {/* Background Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[300px] bg-amber-400/[0.03] dark:bg-white/[0.015] blur-[100px] pointer-events-none rounded-full" />
+      {/* Background Glow - GPU-friendly Radial Gradient (0 blur cost) */}
+      <div
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[300px] pointer-events-none rounded-full"
+        style={{
+          background: isDark
+            ? 'radial-gradient(circle, rgba(255,255,255,0.02) 0%, rgba(251,191,36,0.015) 45%, transparent 70%)'
+            : 'radial-gradient(circle, rgba(251,191,36,0.05) 0%, rgba(251,191,36,0.02) 45%, transparent 70%)',
+        }}
+      />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-10 lg:px-14 mb-8 sm:mb-10 text-center">
         {/* Header Pill with Agent Wave Signal */}
@@ -329,10 +328,6 @@ export const SectionAiToolsMarquee: React.FC<SectionAiToolsMarqueeProps> = ({ is
                     ? 'bg-[#0E0E12]/90 border-white/10 hover:border-white/30 text-white shadow-[0_4px_16px_rgba(0,0,0,0.4)]'
                     : 'bg-white border-slate-200/90 hover:border-slate-400 text-slate-900 shadow-sm'
                 }`}
-                style={{
-                  transform: 'translate3d(0, 0, 0)',
-                  willChange: 'transform',
-                }}
               >
                 <div className="transition-transform duration-300 group-hover/item:scale-110 flex items-center justify-center">
                   {tool.svg}
@@ -356,10 +351,6 @@ export const SectionAiToolsMarquee: React.FC<SectionAiToolsMarqueeProps> = ({ is
                     ? 'bg-[#0E0E12]/90 border-white/10 hover:border-white/30 text-white shadow-[0_4px_16px_rgba(0,0,0,0.4)]'
                     : 'bg-white border-slate-200/90 hover:border-slate-400 text-slate-900 shadow-sm'
                 }`}
-                style={{
-                  transform: 'translate3d(0, 0, 0)',
-                  willChange: 'transform',
-                }}
               >
                 <div className="transition-transform duration-300 group-hover/item:scale-110 flex items-center justify-center">
                   {tool.svg}
@@ -383,10 +374,6 @@ export const SectionAiToolsMarquee: React.FC<SectionAiToolsMarqueeProps> = ({ is
                     ? 'bg-[#0E0E12]/90 border-white/10 hover:border-white/30 text-white shadow-[0_4px_16px_rgba(0,0,0,0.4)]'
                     : 'bg-white border-slate-200/90 hover:border-slate-400 text-slate-900 shadow-sm'
                 }`}
-                style={{
-                  transform: 'translate3d(0, 0, 0)',
-                  willChange: 'transform',
-                }}
               >
                 <div className="transition-transform duration-300 group-hover/item:scale-110 flex items-center justify-center">
                   {tool.svg}

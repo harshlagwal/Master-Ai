@@ -75,6 +75,17 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
     }
   }, [initialTrackId, isOpen]);
 
+  // Lock body scroll while modal is open to prevent background scrolling & touch leaks
+  useEffect(() => {
+    if (isOpen) {
+      const originalOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.style.overflow = originalOverflow;
+      };
+    }
+  }, [isOpen]);
+
   // Handle ESC key to close modal
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -183,12 +194,9 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
     <div
       role="dialog"
       aria-modal="true"
+      data-lenis-prevent="true"
       onClick={onClose}
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/75 backdrop-blur-xl animate-in fade-in duration-200 overflow-y-auto"
-      style={{
-        overscrollBehavior: 'contain',
-        WebkitOverflowScrolling: 'touch',
-      }}
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-200"
     >
       <motion.div
         initial={{ opacity: 0, scale: 0.96, y: 14 }}
@@ -196,15 +204,12 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
         exit={{ opacity: 0, scale: 0.96, y: 14 }}
         transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
         onClick={(e) => e.stopPropagation()}
-        className={`w-full max-w-lg rounded-[28px] border shadow-2xl relative my-auto max-h-[92vh] flex flex-col overflow-hidden transition-colors ${
+        data-lenis-prevent="true"
+        className={`w-full max-w-lg rounded-[28px] border shadow-2xl relative max-h-[92dvh] sm:max-h-[88vh] flex flex-col overflow-hidden transition-colors ${
           isDark
-            ? 'bg-[#0A0A0D]/95 border-white/15 text-white shadow-[0_30px_90px_rgba(0,0,0,0.9)]'
-            : 'bg-white/98 border-slate-200/90 text-slate-900 shadow-[0_30px_90px_rgba(15,23,42,0.18)]'
+            ? 'bg-[#0E0E12] border-white/15 text-white shadow-[0_25px_80px_rgba(0,0,0,0.95)]'
+            : 'bg-white border-slate-200 text-slate-900 shadow-[0_25px_80px_rgba(15,23,42,0.18)]'
         }`}
-        style={{
-          backdropFilter: 'blur(32px)',
-          WebkitBackdropFilter: 'blur(32px)',
-        }}
       >
         {/* ========================================================================= */}
         {/* GOOGLE PAY / APPLE CHECKOUT HEADER BAR */}
@@ -271,10 +276,14 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
         {/* SCROLLABLE MODAL BODY WITH APPLE/GOOGLE MOMENTUM SMOOTHNESS */}
         {/* ========================================================================= */}
         <div
-          className="flex-1 overflow-y-auto px-5 sm:px-7 py-5 custom-scrollbar"
+          data-lenis-prevent="true"
+          className="flex-1 overflow-y-auto px-4 sm:px-7 pt-4 pb-8 sm:pb-6 custom-scrollbar overscroll-contain"
           style={{
             overscrollBehavior: 'contain',
             WebkitOverflowScrolling: 'touch',
+            touchAction: 'pan-y',
+            transform: 'translateZ(0)',
+            willChange: 'scroll-position',
           }}
         >
           <AnimatePresence mode="wait">
@@ -535,8 +544,8 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
                 </button>
 
                 {/* Google Pay Style Order Header */}
-                <div className="text-center mb-5">
-                  <div className={`text-xs font-mono uppercase tracking-wider mb-1 ${
+                <div className="text-center mb-4 sm:mb-5">
+                  <div className={`text-[11px] sm:text-xs font-mono uppercase tracking-wider mb-1 ${
                     isDark ? 'text-neutral-400' : 'text-slate-500'
                   }`}>
                     Scan & Pay with Any UPI App
@@ -550,7 +559,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
                 </div>
 
                 {/* Google Pay Card: QR Code & UPI Pill */}
-                <div className={`p-5 rounded-2xl border mb-5 flex flex-col items-center text-center ${
+                <div className={`p-4 sm:p-5 rounded-2xl border mb-4 sm:mb-5 flex flex-col items-center text-center ${
                   isDark ? 'bg-white/[0.02] border-white/10' : 'bg-slate-50 border-slate-200'
                 }`}>
                   {/* Clean Framed QR Code */}
@@ -558,7 +567,8 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
                     <img
                       src={qrCodeUrl}
                       alt={`UPI QR Code for ₹${amountStr}`}
-                      className="w-40 h-40 sm:w-44 sm:h-44 object-contain rounded-xl"
+                      className="w-36 h-36 sm:w-44 sm:h-44 object-contain rounded-xl"
+                      loading="eager"
                     />
                     <div className="absolute -bottom-2.5 left-1/2 -translate-x-1/2 bg-black text-white text-[10px] font-mono px-2.5 py-0.5 rounded-full whitespace-nowrap shadow-sm">
                       Amount: ₹{amountStr}
@@ -607,7 +617,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
                 </div>
 
                 {/* UTR Reference Input & Confirmation */}
-                <form onSubmit={handleConfirmPayment} className="space-y-3.5">
+                <form onSubmit={handleConfirmPayment} className="space-y-3.5 pb-4">
                   <div>
                     <label className={`block text-xs font-medium mb-1.5 ${isDark ? 'text-neutral-300' : 'text-slate-700'}`}>
                       12-Digit UTR / UPI Transaction ID (Optional)

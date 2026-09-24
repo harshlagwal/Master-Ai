@@ -63,11 +63,17 @@ export const WorkshopOfferPopup: React.FC<WorkshopOfferPopupProps> = ({
       >
         {/* Subtle Ambient Glowing Backdrops */}
         <div
-          className="absolute -top-24 -left-24 w-52 h-52 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"
+          className="absolute -top-24 -left-24 w-52 h-52 rounded-full pointer-events-none"
+          style={{
+            background: 'radial-gradient(circle, rgba(245,158,11,0.15) 0%, transparent 70%)',
+          }}
           aria-hidden="true"
         />
         <div
-          className="absolute -bottom-24 -right-24 w-52 h-52 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"
+          className="absolute -bottom-24 -right-24 w-52 h-52 rounded-full pointer-events-none"
+          style={{
+            background: 'radial-gradient(circle, rgba(16,185,129,0.15) 0%, transparent 70%)',
+          }}
           aria-hidden="true"
         />
 

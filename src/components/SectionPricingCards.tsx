@@ -73,8 +73,15 @@ export const SectionPricingCards: React.FC<SectionPricingCardsProps> = ({
 
   return (
     <section id="pricing" className="relative z-10 w-full px-4 sm:px-6 md:px-10 lg:px-14 py-20 sm:py-24">
-      {/* Subtle Background Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-5xl h-96 bg-black/5 dark:bg-white/[0.02] blur-[120px] pointer-events-none rounded-full" />
+      {/* Subtle Background Glow - zero blur cost */}
+      <div
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-5xl h-96 pointer-events-none rounded-full"
+        style={{
+          background: isDark
+            ? 'radial-gradient(ellipse at center, rgba(255,255,255,0.02) 0%, transparent 70%)'
+            : 'radial-gradient(ellipse at center, rgba(0,0,0,0.04) 0%, transparent 70%)',
+        }}
+      />
 
       <div className="max-w-7xl mx-auto relative">
         {/* Header with Google Antigravity scroll entrance */}
@@ -116,7 +123,7 @@ export const SectionPricingCards: React.FC<SectionPricingCardsProps> = ({
                 className={`rounded-3xl p-6 sm:p-8 transition-colors duration-300 flex flex-col justify-between relative group will-change-transform ${
                   isMaster
                     ? isDark
-                      ? 'bg-[#0E0E12] border-2 border-white/20 shadow-2xl lg:scale-105 z-20 backdrop-blur-xl'
+                      ? 'bg-[#0E0E12] border-2 border-white/20 shadow-2xl lg:scale-105 z-20 backdrop-blur-md'
                       : 'bg-white border-2 border-slate-900 shadow-2xl lg:scale-105 z-20'
                     : isDark
                       ? 'bg-[#0A0A0C]/80 border border-white/[0.08] hover:border-white/20 shadow-xl backdrop-blur-md text-white'
